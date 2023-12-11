@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://bi6yt2brbqtb5"]
+
+[ext_resource type="Script" path="res://teams/team.gd" id="1_vmr1q"]
+[ext_resource type="PackedScene" uid="uid://cwav44svuxn5l" path="res://teams/SkavenTeam/players/line_rat_player.tscn" id="2_krwkt"]
+
+[node name="team" type="Node2D"]
+script = ExtResource("1_vmr1q")
+is_opponent = true
+
+[node name="line_rat_1" parent="." instance=ExtResource("2_krwkt")]
+
+[node name="line_rat_2" parent="." instance=ExtResource("2_krwkt")]
+
+[node name="line_rat_3" parent="." instance=ExtResource("2_krwkt")]
+
+[node name="line_rat_4" parent="." instance=ExtResource("2_krwkt")]
+
+[node name="line_rat_5" parent="." instance=ExtResource("2_krwkt")]
+
+[node name="line_rat_6" parent="." instance=ExtResource("2_krwkt")]
+
+[node name="line_rat_7" parent="." instance=ExtResource("2_krwkt")]
+
+[node name="line_rat_8" parent="." instance=ExtResource("2_krwkt")]
+
+[node name="line_rat_9" parent="." instance=ExtResource("2_krwkt")]
+
+[node name="line_rat_10" parent="." instance=ExtResource("2_krwkt")]
+
+[node name="line_rat_11" parent="." instance=ExtResource("2_krwkt")]

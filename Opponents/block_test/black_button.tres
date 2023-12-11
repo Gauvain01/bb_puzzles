@@ -1,0 +1,18 @@
+[gd_resource type="Theme" load_steps=4 format=3 uid="uid://od6jsot0866o"]
+
+[ext_resource type="StyleBox" uid="uid://6nxmq83pgbix" path="res://ui/themes/black_s_box.tres" id="1_tukx5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2on5t"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0upg0"]
+
+[resource]
+/colors/sad = Color(0.87451, 0, 0, 1)
+/styles/asd = SubResource("StyleBoxFlat_2on5t")
+Button/constants/h_separation = 1
+Button/styles/focus = ExtResource("1_tukx5")
+Button/styles/normal = ExtResource("1_tukx5")
+Label/colors/font_color = Color(0.0705882, 0.94902, 0.219608, 1)
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/constants/outline_size = 7
+Label/styles/normal = SubResource("StyleBoxFlat_0upg0")

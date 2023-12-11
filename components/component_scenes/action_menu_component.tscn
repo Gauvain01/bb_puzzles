@@ -1,0 +1,48 @@
+[gd_scene load_steps=3 format=3 uid="uid://cf8g2s2n6iifl"]
+
+[ext_resource type="Script" path="res://components/component_scripts/action_menu_component.gd" id="1_7kh0q"]
+[ext_resource type="Theme" uid="uid://od6jsot0866o" path="res://Opponents/block_test/black_button.tres" id="2_h4xas"]
+
+[node name="ActionMenuComponent" type="VBoxContainer" node_paths=PackedStringArray("blitz_button", "move_button", "block_button", "end_player_action_button")]
+z_index = 1
+offset_right = 86.0
+offset_bottom = 104.0
+scale = Vector2(1.36876, 1.41597)
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 2
+script = ExtResource("1_7kh0q")
+blitz_button = NodePath("Blitz_Button")
+move_button = NodePath("Move_Button")
+block_button = NodePath("Block_Button")
+end_player_action_button = NodePath("End_Player_Action_Button")
+
+[node name="Move_Button" type="Button" parent="."]
+z_index = 1
+layout_mode = 2
+toggle_mode = true
+action_mode = 0
+text = "Move"
+
+[node name="Blitz_Button" type="Button" parent="."]
+z_index = 1
+layout_mode = 2
+toggle_mode = true
+action_mode = 0
+text = "Blitz"
+
+[node name="Block_Button" type="Button" parent="."]
+z_index = 1
+layout_mode = 2
+theme = ExtResource("2_h4xas")
+toggle_mode = true
+action_mode = 0
+text = "Block"
+
+[node name="End_Player_Action_Button" type="Button" parent="."]
+z_index = 1
+layout_mode = 2
+theme = ExtResource("2_h4xas")
+action_mode = 0
+text = "End Action"
+
+[connection signal="pressed" from="Blitz_Button" to="." method="_on_blitz_button_pressed"]

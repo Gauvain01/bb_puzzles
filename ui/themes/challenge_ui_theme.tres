@@ -1,0 +1,25 @@
+[gd_resource type="Theme" load_steps=4 format=3 uid="uid://btrn53r4bnl4p"]
+
+[ext_resource type="Texture2D" uid="uid://blvp6yaif34by" path="res://assets/textures/ui/panel_border.png" id="1_0mkxt"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gj81c"]
+texture = ExtResource("1_0mkxt")
+texture_margin_left = 32.0
+texture_margin_top = 32.0
+texture_margin_right = 64.0
+texture_margin_bottom = 32.0
+region_rect = Rect2(32, 64, 960, 928)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ovbv7"]
+texture = ExtResource("1_0mkxt")
+texture_margin_left = 32.0896
+texture_margin_top = 31.9026
+texture_margin_right = 31.813
+texture_margin_bottom = 32.106
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(31.8756, 63.8979, 959.88, 928.166)
+
+[resource]
+HBoxContainer/styles/panel = SubResource("StyleBoxTexture_gj81c")
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_ovbv7")

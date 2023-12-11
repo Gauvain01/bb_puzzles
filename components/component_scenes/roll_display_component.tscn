@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://cep8alvi20l2y"]
+
+[ext_resource type="Script" path="res://components/component_scripts/roll_display_component.gd" id="1_7spp5"]
+[ext_resource type="Theme" uid="uid://m23e5cg5apra" path="res://ui/themes/dice_label_theme.tres" id="2_pw0db"]
+
+[node name="RollDisplayComponent" type="Control" node_paths=PackedStringArray("label")]
+visible = false
+z_index = 3
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+script = ExtResource("1_7spp5")
+label = NodePath("Label")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_top = -33.0
+offset_right = 55.0
+offset_bottom = -2.0
+rotation = -0.0822208
+theme = ExtResource("2_pw0db")
+horizontal_alignment = 1

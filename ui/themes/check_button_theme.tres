@@ -1,0 +1,20 @@
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://bkr6lis8hc3cq"]
+
+[ext_resource type="Texture2D" uid="uid://cnxh8w5fi6cs4" path="res://assets/textures/toggle_button_atlas.png" id="1_cydnl"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_38b6c"]
+atlas = ExtResource("1_cydnl")
+region = Rect2(35, 3203, 801, 707)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1oq6o"]
+atlas = ExtResource("1_cydnl")
+region = Rect2(5, 2, 800, 703)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6omsk"]
+
+[resource]
+default_font_size = 98
+CheckButton/icons/checked = SubResource("AtlasTexture_38b6c")
+CheckButton/icons/unchecked = SubResource("AtlasTexture_1oq6o")
+CheckButton/styles/focus = SubResource("StyleBoxEmpty_6omsk")

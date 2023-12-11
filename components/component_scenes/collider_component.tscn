@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://blr437bq866w7"]
+
+[ext_resource type="Script" path="res://components/component_scripts/collider_component.gd" id="1_bkgby"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pebrc"]
+
+[node name="ColliderComponent" type="Area2D"]
+script = ExtResource("1_bkgby")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_pebrc")

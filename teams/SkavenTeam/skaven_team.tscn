@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3 uid="uid://cjc0wmuq7nhnp"]
+
+[ext_resource type="Script" path="res://teams/team.gd" id="1_hdgkj"]
+[ext_resource type="PackedScene" uid="uid://cwav44svuxn5l" path="res://teams/SkavenTeam/players/line_rat_player.tscn" id="2_0k3jj"]
+[ext_resource type="PackedScene" uid="uid://cicenimchkmv1" path="res://teams/SkavenTeam/players/gutter_runner.tscn" id="3_ujdvi"]
+
+[node name="skaven_team" type="Node2D"]
+script = ExtResource("1_hdgkj")
+
+[node name="line_rat" parent="." instance=ExtResource("2_0k3jj")]
+isOpponent = false
+
+[node name="line_rat2" parent="." instance=ExtResource("2_0k3jj")]
+isOpponent = false
+
+[node name="line_rat3" parent="." instance=ExtResource("2_0k3jj")]
+isOpponent = false
+
+[node name="line_rat4" parent="." instance=ExtResource("2_0k3jj")]
+isOpponent = false
+
+[node name="line_rat5" parent="." instance=ExtResource("2_0k3jj")]
+isOpponent = false
+
+[node name="line_rat6" parent="." instance=ExtResource("2_0k3jj")]
+isOpponent = false
+
+[node name="line_rat7" parent="." instance=ExtResource("2_0k3jj")]
+isOpponent = false
+
+[node name="gutter_runner1" parent="." instance=ExtResource("3_ujdvi")]
+isOpponent = false
+has_ball = true
+
+[node name="gutter_runner2" parent="." instance=ExtResource("3_ujdvi")]
+isOpponent = false
+
+[node name="line_rat8" parent="." instance=ExtResource("2_0k3jj")]
+isOpponent = false
+
+[node name="line_rat9" parent="." instance=ExtResource("2_0k3jj")]
+isOpponent = false

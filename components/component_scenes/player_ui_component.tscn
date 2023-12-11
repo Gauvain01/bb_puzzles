@@ -1,0 +1,46 @@
+[gd_scene load_steps=7 format=3 uid="uid://dmj4qqjic80ht"]
+
+[ext_resource type="PackedScene" uid="uid://bt2mw8oodeso2" path="res://components/component_scenes/block_menu_component.tscn" id="1_abpfa"]
+[ext_resource type="Script" path="res://components/component_scripts/player_ui_component.gd" id="1_up8bg"]
+[ext_resource type="PackedScene" uid="uid://0cph3lncr4c8" path="res://components/component_scenes/follow_stay_menu_component.tscn" id="2_5t0yq"]
+[ext_resource type="PackedScene" uid="uid://bmtdo3dyib0l3" path="res://components/component_scenes/input_component.tscn" id="4_42m3m"]
+[ext_resource type="PackedScene" uid="uid://cf8g2s2n6iifl" path="res://components/component_scenes/action_menu_component.tscn" id="4_peeul"]
+[ext_resource type="PackedScene" uid="uid://blr437bq866w7" path="res://components/component_scenes/collider_component.tscn" id="7_6p5cj"]
+
+[node name="PlayerUiComponent" type="Node2D"]
+top_level = true
+z_index = 1
+script = ExtResource("1_up8bg")
+
+[node name="ActionMenuComponent" parent="." instance=ExtResource("4_peeul")]
+visible = false
+z_index = 72
+offset_left = 20.0
+offset_top = -38.0
+offset_right = 106.0
+offset_bottom = 76.0
+
+[node name="BlockMenuComponent" parent="." instance=ExtResource("1_abpfa")]
+visible = false
+z_index = 1
+z_as_relative = true
+offset_left = 20.0
+offset_top = -38.0
+offset_right = 106.0
+offset_bottom = 85.0
+
+[node name="FollowStayMenuComponent" parent="." instance=ExtResource("2_5t0yq")]
+visible = false
+z_index = 1
+z_as_relative = true
+offset_left = 20.0
+offset_top = -38.0
+offset_right = 106.0
+offset_bottom = 11.0
+
+[node name="InputComponent" parent="." instance=ExtResource("4_42m3m")]
+position = Vector2(20, -38)
+
+[node name="ColliderComponent" parent="." instance=ExtResource("7_6p5cj")]
+position = Vector2(78, 31)
+scale = Vector2(5.56, 6.96)

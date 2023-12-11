@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://bt2mw8oodeso2"]
+
+[ext_resource type="Script" path="res://components/component_scripts/block_menu_component.gd" id="1_yc5x2"]
+[ext_resource type="Theme" uid="uid://od6jsot0866o" path="res://Opponents/block_test/black_button.tres" id="2_unquc"]
+
+[node name="BlockMenuComponent" type="VBoxContainer" node_paths=PackedStringArray("push_button", "pow_button", "move_button", "both_down_button")]
+z_as_relative = false
+offset_right = 86.0
+offset_bottom = 104.0
+scale = Vector2(1.36876, 1.41597)
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 2
+script = ExtResource("1_yc5x2")
+push_button = NodePath("Push_Button")
+pow_button = NodePath("Pow_Button")
+move_button = NodePath("Move_Button")
+both_down_button = NodePath("Both_Down_Button")
+
+[node name="Push_Button" type="Button" parent="."]
+layout_mode = 2
+theme = ExtResource("2_unquc")
+text = "Push"
+
+[node name="Pow_Button" type="Button" parent="."]
+layout_mode = 2
+theme = ExtResource("2_unquc")
+text = "Pow"
+
+[node name="Move_Button" type="Button" parent="."]
+layout_mode = 2
+theme = ExtResource("2_unquc")
+text = "Move"
+
+[node name="Both_Down_Button" type="Button" parent="."]
+layout_mode = 2
+theme = ExtResource("2_unquc")
+theme_override_font_sizes/font_size = 16
+text = "Both Down"

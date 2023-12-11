@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://300b3qc7olh4"]
+
+[ext_resource type="Script" path="res://components/component_scripts/roll_display_component.gd" id="1_yprti"]
+[ext_resource type="Theme" uid="uid://m23e5cg5apra" path="res://ui/themes/dice_label_theme.tres" id="2_pbqhl"]
+
+[node name="roll_display_component" type="Control"]
+visible = false
+z_index = 3
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+script = ExtResource("1_yprti")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_top = -33.0
+offset_right = 55.0
+offset_bottom = -2.0
+rotation = -0.0822208
+theme = ExtResource("2_pbqhl")
+horizontal_alignment = 1
