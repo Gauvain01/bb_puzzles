@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://0cph3lncr4c8"]
 
 [ext_resource type="Script" path="res://components/component_scripts/follow_stay_menu_component.gd" id="1_2urra"]
-[ext_resource type="Theme" uid="uid://od6jsot0866o" path="res://opponents/block_test/black_button.tres" id="2_ohwjt"]
+[ext_resource type="Theme" uid="uid://od6jsot0866o" path="res://opponents/block_test/black_button.tres" id="2_8yow6"]
 
 [node name="FollowStayMenuComponent" type="VBoxContainer" node_paths=PackedStringArray("stay_button", "follow_button")]
 z_as_relative = false
@@ -16,10 +16,10 @@ follow_button = NodePath("Follow_Button")
 
 [node name="Follow_Button" type="Button" parent="."]
 layout_mode = 2
-theme = ExtResource("2_ohwjt")
+theme = ExtResource("2_8yow6")
 text = "Follow"
 
 [node name="Stay_Button" type="Button" parent="."]
 layout_mode = 2
-theme = ExtResource("2_ohwjt")
+theme = ExtResource("2_8yow6")
 text = "Stay"

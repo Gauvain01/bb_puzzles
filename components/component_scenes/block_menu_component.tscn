@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bt2mw8oodeso2"]
 
 [ext_resource type="Script" path="res://components/component_scripts/block_menu_component.gd" id="1_yc5x2"]
-[ext_resource type="Theme" uid="uid://od6jsot0866o" path="res://opponents/block_test/black_button.tres" id="2_unquc"]
+[ext_resource type="Theme" uid="uid://od6jsot0866o" path="res://opponents/block_test/black_button.tres" id="2_q1ebg"]
 
 [node name="BlockMenuComponent" type="VBoxContainer" node_paths=PackedStringArray("push_button", "pow_button", "move_button", "both_down_button")]
 z_as_relative = false
@@ -18,21 +18,21 @@ both_down_button = NodePath("Both_Down_Button")
 
 [node name="Push_Button" type="Button" parent="."]
 layout_mode = 2
-theme = ExtResource("2_unquc")
+theme = ExtResource("2_q1ebg")
 text = "Push"
 
 [node name="Pow_Button" type="Button" parent="."]
 layout_mode = 2
-theme = ExtResource("2_unquc")
+theme = ExtResource("2_q1ebg")
 text = "Pow"
 
 [node name="Move_Button" type="Button" parent="."]
 layout_mode = 2
-theme = ExtResource("2_unquc")
+theme = ExtResource("2_q1ebg")
 text = "Move"
 
 [node name="Both_Down_Button" type="Button" parent="."]
 layout_mode = 2
-theme = ExtResource("2_unquc")
+theme = ExtResource("2_q1ebg")
 theme_override_font_sizes/font_size = 16
 text = "Both Down"
