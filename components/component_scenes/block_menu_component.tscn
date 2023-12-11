@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bt2mw8oodeso2"]
 
 [ext_resource type="Script" path="res://components/component_scripts/block_menu_component.gd" id="1_yc5x2"]
-[ext_resource type="Theme" uid="uid://od6jsot0866o" path="res://Opponents/block_test/black_button.tres" id="2_unquc"]
+[ext_resource type="Theme" uid="uid://od6jsot0866o" path="res://opponents/block_test/black_button.tres" id="2_unquc"]
 
 [node name="BlockMenuComponent" type="VBoxContainer" node_paths=PackedStringArray("push_button", "pow_button", "move_button", "both_down_button")]
 z_as_relative = false
