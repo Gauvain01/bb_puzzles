@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cf8g2s2n6iifl"]
 
 [ext_resource type="Script" path="res://components/component_scripts/action_menu_component.gd" id="1_7kh0q"]
-[ext_resource type="Theme" uid="uid://od6jsot0866o" path="res://opponents/block_test/black_button.tres" id="2_1xx77"]
+[ext_resource type="Theme" uid="uid://od6jsot0866o" path="res://opponents_test/block_test/black_button.tres" id="2_1xx77"]
 
 [node name="ActionMenuComponent" type="VBoxContainer" node_paths=PackedStringArray("blitz_button", "move_button", "block_button", "end_player_action_button")]
 z_index = 1
