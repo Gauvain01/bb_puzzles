@@ -24,7 +24,7 @@
 [ext_resource type="PackedScene" uid="uid://cggqb75a8w8r" path="res://addons/debug_menu/debug_menu.tscn" id="21_lvlip"]
 [ext_resource type="Texture2D" uid="uid://bgupcleo51cf" path="res://assets/textures/player_sprites/line_rat.png" id="22_7xqtp"]
 [ext_resource type="Theme" uid="uid://1bp88i58bhgo" path="res://ui/themes/victory_screen.tres" id="23_ygf7f"]
-[ext_resource type="Script" path="res://VictoryConditions/one_turn_victory_observer.gd" id="25_63uh4"]
+[ext_resource type="Script" path="res://victory_conditions/one_turn_victory_observer.gd" id="25_63uh4"]
 
 [node name="GameController" type="Control" node_paths=PackedStringArray("field", "ui_controller", "victory_observer", "selection_observer")]
 layout_mode = 3
