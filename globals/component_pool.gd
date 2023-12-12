@@ -42,4 +42,3 @@ func get_component(component_type:int) -> Node:
 	comp = ComponentFactory.build_component_by_component_type(component_type)
 	comp.enable()
 	return comp
-				

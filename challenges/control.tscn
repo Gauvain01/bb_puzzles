@@ -140,10 +140,10 @@ theme = ExtResource("2_t88x4")
 script = ExtResource("3_a5yym")
 end_game_screen = NodePath("EndGameScreen")
 sideboard = NodePath("SideBoard")
-move_popup = NodePath("move_popup")
-end_setup_button = NodePath("end_setup_button")
-player_team_tackle_check_button = NodePath("tackle_zone_check_button")
-opponent_tackle_check_button = NodePath("opponent_tackle_check")
+move_popup = NodePath("MovePopup")
+end_setup_button = NodePath("EndSetupButton")
+player_team_tackle_check_button = NodePath("TackleZoneCheckButton")
+opponent_tackle_check_button = NodePath("OpponentTackleCheck")
 
 [node name="SideBoard" type="PanelContainer" parent="Ui"]
 layout_mode = 0
@@ -231,7 +231,7 @@ layout_mode = 2
 [node name="AV_label" type="Label" parent="Ui/PlayerCard/VBoxContainer"]
 layout_mode = 2
 
-[node name="end_setup_button" type="Button" parent="Ui"]
+[node name="EndSetupButton" type="Button" parent="Ui"]
 layout_mode = 0
 offset_left = 679.0
 offset_top = 400.0
@@ -239,7 +239,7 @@ offset_right = 990.0
 offset_bottom = 514.0
 theme = ExtResource("5_6h72s")
 
-[node name="Label" type="Label" parent="Ui/end_setup_button"]
+[node name="Label" type="Label" parent="Ui/EndSetupButton"]
 layout_mode = 0
 offset_left = 1.0
 offset_top = 3.0
@@ -284,7 +284,7 @@ text = "LOG"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="tackle_zone_check_button" type="CheckButton" parent="Ui"]
+[node name="TackleZoneCheckButton" type="CheckButton" parent="Ui"]
 z_index = 5
 layout_mode = 0
 offset_left = 5.0
@@ -294,7 +294,7 @@ offset_bottom = 952.0
 scale = Vector2(0.122, 0.122)
 theme = ExtResource("7_lj0gm")
 
-[node name="opponent_tackle_check" type="CheckButton" parent="Ui"]
+[node name="OpponentTackleCheck" type="CheckButton" parent="Ui"]
 layout_mode = 0
 offset_left = 5.0
 offset_top = 447.0
@@ -303,7 +303,7 @@ offset_bottom = 1154.0
 scale = Vector2(0.122, 0.122)
 theme = ExtResource("7_lj0gm")
 
-[node name="move_popup" type="Label" parent="Ui"]
+[node name="MovePopup" type="Label" parent="Ui"]
 visible = false
 layout_mode = 0
 offset_left = 661.0
@@ -318,7 +318,7 @@ Press RMB to reset the path"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="save_button" type="Button" parent="Ui"]
+[node name="SaveButton" type="Button" parent="Ui"]
 visible = false
 layout_mode = 0
 offset_left = 1389.0
@@ -347,7 +347,7 @@ text = "Tackle Zones
 opponent"
 horizontal_alignment = 1
 
-[node name="action_box" type="PanelContainer" parent="Ui"]
+[node name="ActionBox" type="PanelContainer" parent="Ui"]
 visible = false
 layout_mode = 0
 offset_left = 1029.0
@@ -356,84 +356,84 @@ offset_right = 1858.9
 offset_bottom = 543.009
 theme = ExtResource("2_t88x4")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Ui/action_box"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Ui/ActionBox"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Ui/action_box/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Ui/ActionBox/HBoxContainer"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="TextureRect" type="TextureRect" parent="Ui/action_box/HBoxContainer/VBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="Ui/ActionBox/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 texture = ExtResource("22_7xqtp")
 expand_mode = 5
 
-[node name="Label" type="Label" parent="Ui/action_box/HBoxContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="Ui/ActionBox/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 60
 text = "0"
 horizontal_alignment = 1
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="Ui/action_box/HBoxContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="Ui/ActionBox/HBoxContainer"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="TextureRect" type="TextureRect" parent="Ui/action_box/HBoxContainer/VBoxContainer2"]
+[node name="TextureRect" type="TextureRect" parent="Ui/ActionBox/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
 texture = ExtResource("22_7xqtp")
 expand_mode = 5
 
-[node name="Label" type="Label" parent="Ui/action_box/HBoxContainer/VBoxContainer2"]
+[node name="Label" type="Label" parent="Ui/ActionBox/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 60
 text = "0"
 horizontal_alignment = 1
 
-[node name="VBoxContainer3" type="VBoxContainer" parent="Ui/action_box/HBoxContainer"]
+[node name="VBoxContainer3" type="VBoxContainer" parent="Ui/ActionBox/HBoxContainer"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="TextureRect" type="TextureRect" parent="Ui/action_box/HBoxContainer/VBoxContainer3"]
+[node name="TextureRect" type="TextureRect" parent="Ui/ActionBox/HBoxContainer/VBoxContainer3"]
 layout_mode = 2
 texture = ExtResource("22_7xqtp")
 expand_mode = 5
 
-[node name="Label" type="Label" parent="Ui/action_box/HBoxContainer/VBoxContainer3"]
+[node name="Label" type="Label" parent="Ui/ActionBox/HBoxContainer/VBoxContainer3"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 60
 text = "0"
 horizontal_alignment = 1
 
-[node name="VBoxContainer4" type="VBoxContainer" parent="Ui/action_box/HBoxContainer"]
+[node name="VBoxContainer4" type="VBoxContainer" parent="Ui/ActionBox/HBoxContainer"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="TextureRect" type="TextureRect" parent="Ui/action_box/HBoxContainer/VBoxContainer4"]
+[node name="TextureRect" type="TextureRect" parent="Ui/ActionBox/HBoxContainer/VBoxContainer4"]
 layout_mode = 2
 texture = ExtResource("22_7xqtp")
 expand_mode = 5
 
-[node name="Label" type="Label" parent="Ui/action_box/HBoxContainer/VBoxContainer4"]
+[node name="Label" type="Label" parent="Ui/ActionBox/HBoxContainer/VBoxContainer4"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 60
 text = "0"
 horizontal_alignment = 1
 
-[node name="VBoxContainer5" type="VBoxContainer" parent="Ui/action_box/HBoxContainer"]
+[node name="VBoxContainer5" type="VBoxContainer" parent="Ui/ActionBox/HBoxContainer"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="TextureRect" type="TextureRect" parent="Ui/action_box/HBoxContainer/VBoxContainer5"]
+[node name="TextureRect" type="TextureRect" parent="Ui/ActionBox/HBoxContainer/VBoxContainer5"]
 layout_mode = 2
 texture = ExtResource("22_7xqtp")
 expand_mode = 5
 
-[node name="Label" type="Label" parent="Ui/action_box/HBoxContainer/VBoxContainer5"]
+[node name="Label" type="Label" parent="Ui/ActionBox/HBoxContainer/VBoxContainer5"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 60
 text = "0"
@@ -516,8 +516,8 @@ horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("6_jq8gn")
 
-[connection signal="button_down" from="Ui/end_setup_button" to="Ui/end_setup_button/Label" method="_on_end_setup_button_button_down"]
-[connection signal="button_up" from="Ui/end_setup_button" to="Ui/end_setup_button/Label" method="_on_end_setup_button_button_up"]
-[connection signal="toggled" from="Ui/tackle_zone_check_button" to="Field/TackleZoneComponent" method="_on_tackle_zone_check_button_toggled"]
-[connection signal="toggled" from="Ui/opponent_tackle_check" to="Field/TackleZoneComponent" method="_on_check_button_toggled"]
-[connection signal="toggled" from="Ui/save_button" to="Field" method="_on_save_button_toggled"]
+[connection signal="button_down" from="Ui/EndSetupButton" to="Ui/EndSetupButton/Label" method="_on_end_setup_button_button_down"]
+[connection signal="button_up" from="Ui/EndSetupButton" to="Ui/EndSetupButton/Label" method="_on_end_setup_button_button_up"]
+[connection signal="toggled" from="Ui/TackleZoneCheckButton" to="Field/TackleZoneComponent" method="_on_tackle_zone_check_button_toggled"]
+[connection signal="toggled" from="Ui/OpponentTackleCheck" to="Field/TackleZoneComponent" method="_on_check_button_toggled"]
+[connection signal="toggled" from="Ui/SaveButton" to="Field" method="_on_save_button_toggled"]
