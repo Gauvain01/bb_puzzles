@@ -8,7 +8,7 @@
 [ext_resource type="Script" path="res://ui/scripts/Log.gd" id="4_rm3be"]
 [ext_resource type="Theme" uid="uid://m23e5cg5apra" path="res://ui/themes/dice_label_theme.tres" id="5_4p6mk"]
 [ext_resource type="Theme" uid="uid://cv3jyrorne2a8" path="res://ui/themes/pixel_button.tres" id="5_6h72s"]
-[ext_resource type="Script" path="res://field_scripts/field_test.gd" id="6_f67iy"]
+[ext_resource type="Script" path="res://field_scripts/field.gd" id="6_f67iy"]
 [ext_resource type="Script" path="res://ui/scripts/end_setup_button_label.gd" id="6_jq8gn"]
 [ext_resource type="Script" path="res://field_scripts/grid.gd" id="7_krdq3"]
 [ext_resource type="Theme" uid="uid://bkr6lis8hc3cq" path="res://ui/themes/check_button_theme.tres" id="7_lj0gm"]
