@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://teams/Player.gd" id="1_fecep"]
 [ext_resource type="Texture2D" uid="uid://ntigctv0fom6" path="res://assets/textures/ball.png" id="2_q7h3g"]
 [ext_resource type="Texture2D" uid="uid://cfdqp1hvoh4j" path="res://assets/textures/player_sprites/rat-1.png(3).png" id="2_txfvi"]
-[ext_resource type="Script" path="res://ui/scripts/BoardSprite.gd" id="3_v1k74"]
+[ext_resource type="Script" path="res://ui/scripts/board_sprite.gd" id="3_v1k74"]
 [ext_resource type="Script" path="res://teams/stats.gd" id="4_r4dla"]
 [ext_resource type="PackedScene" uid="uid://bnw5a3jcwwnh5" path="res://components/component_scenes/select_component.tscn" id="5_7y36t"]
 [ext_resource type="Script" path="res://teams/skills.gd" id="5_ip3vd"]
