@@ -5,7 +5,7 @@
 [ext_resource type="Theme" uid="uid://btrn53r4bnl4p" path="res://ui/themes/challenge_ui_theme.tres" id="2_t88x4"]
 [ext_resource type="Script" path="res://ui/scripts/ui_controller.gd" id="3_a5yym"]
 [ext_resource type="Script" path="res://ui/scripts/player_card.gd" id="3_a32k4"]
-[ext_resource type="Script" path="res://ui/scripts/log_test.gd" id="4_rm3be"]
+[ext_resource type="Script" path="res://ui/scripts/log.gd" id="4_rm3be"]
 [ext_resource type="Theme" uid="uid://m23e5cg5apra" path="res://ui/themes/dice_label_theme.tres" id="5_4p6mk"]
 [ext_resource type="Theme" uid="uid://cv3jyrorne2a8" path="res://ui/themes/pixel_button.tres" id="5_6h72s"]
 [ext_resource type="Script" path="res://field_scripts/field.gd" id="6_f67iy"]
