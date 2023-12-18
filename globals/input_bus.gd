@@ -5,7 +5,7 @@ signal mouseClick
 signal mouseRelease
 signal rightMouseClick
 
-var SUBSCRIBED_NODES = {}; #{node_ref: [{"signal":signal_ref, "callable":callable_ref}]}
+var SUBSCRIBED_NODES = {}; #{node_ref: [{"signal":signal_ref, "callable":callable_ref},...]}
 
 
 
