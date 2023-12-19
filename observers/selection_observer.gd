@@ -2,7 +2,6 @@ class_name SelectionObserver
 extends Node2D
 
 @export var field: Field
-@export var input_component: InputComponent
 @export var game_controller: GameController
 @export var ui_controller: UiController
 
