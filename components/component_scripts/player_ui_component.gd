@@ -3,7 +3,6 @@ class_name PlayerUiComponent
 var block_menu_component:BlockMenuComponent
 var follow_stay_menu_component:FollowStayMenuComponent
 var collider_component:ColliderComponent
-var input_component:InputComponent
 var action_menu_component:ActionMenuComponent
 var active_menu = null
 var timer
@@ -31,7 +30,6 @@ func _ready():
 	block_menu_component = get_node("BlockMenuComponent")
 	follow_stay_menu_component = get_node("FollowStayMenuComponent")
 	collider_component = get_node("ColliderComponent")
-	input_component = get_node("InputComponent")
 	action_menu_component = get_node("ActionMenuComponent")
 
 func _process(delta):
@@ -64,10 +62,7 @@ func activate_follow_stay_menu(isActive:bool):
 	_change_menu(follow_stay_menu_component, isActive)
 
 func activate_action_menu(isActive:bool):
-	print("activated action menu")
-	print(action_menu_component.visible)
 	action_menu_component.show()
-	print(action_menu_component.visible)
 	_change_menu(action_menu_component, isActive)
 	
 func on_mouse_click(_redundant):
@@ -78,17 +73,17 @@ func on_mouse_click(_redundant):
 			active_menu.deactivate()
 			is_deactivated.emit()
 			active_menu = null
-			input_component.mouseClick.disconnect(on_mouse_click)
+			InputBus.unsubscribe_from_signal(self, InputBus.mouseClick)
 			is_listen_for_mouse_click_active = false
 		
 func listen_for_mouse_click(isActive:bool):
 	if isActive:
 		if !is_listen_for_mouse_click_active:
-			input_component.mouseClick.connect(on_mouse_click)
+			InputBus.subscribe_to_mouse_click_event(self, on_mouse_click)
 			is_listen_for_mouse_click_active = true
 
 	else:
 		if is_listen_for_mouse_click_active:
-			input_component.mouseClick.disconnect(on_mouse_click)
+			InputBus.unsubscribe_from_signal(self, InputBus.mouseClick)
 			is_listen_for_mouse_click_active = false
 

@@ -1,14 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://bnw5a3jcwwnh5"]
+[gd_scene load_steps=3 format=3 uid="uid://bnw5a3jcwwnh5"]
 
 [ext_resource type="Script" path="res://components/component_scripts/select_component.gd" id="1_l13r6"]
-[ext_resource type="PackedScene" uid="uid://bmtdo3dyib0l3" path="res://components/component_scenes/input_component.tscn" id="2_4r1i8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ouabo"]
 
 [node name="SelectComponent" type="Area2D"]
 script = ExtResource("1_l13r6")
-
-[node name="InputComponent" parent="." instance=ExtResource("2_4r1i8")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ouabo")
