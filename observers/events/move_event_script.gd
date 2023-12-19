@@ -14,15 +14,12 @@ class MoveEvent extends Node2D:
 	var temp_path = []
 	var gfi = 2
 	var current_selected_square
-	var input_component:InputComponent
 	var _movement_count_for_dice_log_evaluation
 	var not_obstacle_map
 	var total_movement
 	
 	func _init(field:Field, player:Player, selection_observer:SelectionObserver):
 		field.player_team.activate_ui_component_all_players(false, player)
-		add_child(ComponentFactory.build_input_component())
-		self.input_component = NodeInspector.get_input_component(self)
 		self.field = field
 		self.player = player
 		self.instantiated.emit()
@@ -94,25 +91,23 @@ class MoveEvent extends Node2D:
 			
 		lock_in_temp_path()
 		current_selected_square = square
+		if InputBus.is_signal_connected_to_callable(self, InputBus.spacePressed, on_space_pressed):
+			InputBus.unsubscribe_from_signal(self, InputBus.spacePressed)
 		
-		if input_component.spacePressed.is_connected(on_space_pressed):
-			input_component.spacePressed.disconnect(on_space_pressed)
+		if InputBus.is_signal_connected_to_callable(self, InputBus.rightMouseClick, on_right_mouse_clicked):
+			InputBus.unsubscribe_from_signal(self, InputBus.rightMouseClick)
 		
-		if input_component.rightMouseClick.is_connected(on_right_mouse_clicked):
-			input_component.rightMouseClick.disconnect(on_right_mouse_clicked)
-		
-		input_component.rightMouseClick.connect(on_right_mouse_clicked)
-		
-		input_component.spacePressed.connect(on_space_pressed)
+		InputBus.subscribe_to_right_mouse_click_event(self, on_right_mouse_clicked)
+		InputBus.subscribe_to_space_pressed_event(self, on_space_pressed)
 		
 		
 	func on_right_mouse_clicked():
-		input_component.rightMouseClick.disconnect(on_right_mouse_clicked)
+		InputBus.unsubscribe_from_signal(self, InputBus.rightMouseClick)
 		reset()
 		
 	func on_space_pressed():
-		input_component.rightMouseClick.disconnect(on_right_mouse_clicked)
-		input_component.spacePressed.disconnect(on_space_pressed)
+		InputBus.unsubscribe_from_signal(self, InputBus.spacePressed)
+		InputBus.unsubscribe_from_signal(self, InputBus.rightMouseClick)
 		self.selection_observer.hover_square.disconnect(on_hover_square)
 		
 		_move_player_and_add_dice_rolls_to_log()

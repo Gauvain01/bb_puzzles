@@ -87,14 +87,11 @@ ui_controller = NodePath("../../Ui")
 gameController = NodePath("../..")
 grid = NodePath("../grid")
 
-[node name="SelectionObserver" type="Node2D" parent="." node_paths=PackedStringArray("field", "input_component", "game_controller", "ui_controller")]
+[node name="SelectionObserver" type="Node2D" parent="." node_paths=PackedStringArray("field", "game_controller", "ui_controller")]
 script = ExtResource("11_biix8")
 field = NodePath("../Field")
-input_component = NodePath("InputComponent")
 game_controller = NodePath("..")
 ui_controller = NodePath("../Ui")
-
-[node name="InputComponent" parent="SelectionObserver" instance=ExtResource("12_qshoy")]
 
 [node name="BlockActionObserver" type="Node2D" parent="." node_paths=PackedStringArray("blockDieCalculator", "field")]
 position = Vector2(65, 46)

@@ -29,7 +29,17 @@ func unsubscribe_from_all(callable:Callable):
 	_unsubscribe_from_signal_array(mouseRelease.get_connections(),callable)
 	_unsubscribe_from_signal_array(rightMouseClick.get_connections(),callable)
 		
-
+func is_signal_connected_to_callable(node_to_observe:Node, signal_ref:Signal, callable:Callable) -> bool:
+	if !SUBSCRIBED_NODES.has(node_to_observe):
+		return false
+	if len(SUBSCRIBED_NODES[node_to_observe]) == 0:
+		return false
+	
+	for signal_callable_map in SUBSCRIBED_NODES[node_to_observe]:
+		if signal_callable_map["signal"] == signal_ref:
+			if signal_callable_map["callable"] == callable:
+				return true
+	return false
 func _unsubscribe_from_signal_array(signal_array:Array, callable:Callable)->void:
 
 	for sig_dic:Dictionary in signal_array:
