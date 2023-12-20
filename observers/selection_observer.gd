@@ -160,3 +160,4 @@ func on_player_select(player: Player):
 
 func on_player_select_during_play(player: Player):
 	player_team.activate_action_menu_for_player(player)
+

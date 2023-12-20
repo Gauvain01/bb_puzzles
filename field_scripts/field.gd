@@ -19,7 +19,8 @@ var players_on_field = 0
 
 var field_map = null
 
-signal moved_player_during_play(player:Player)
+signal moved_player_during_play(player_ref:Player)
+signal moved_player(player_ref:Player, coord_from:Vector2, coord_to:Vector2)
 signal mouse_release_on_field_square
 	
 func on_mouse_release_square_select(square):
@@ -59,6 +60,7 @@ func get_not_obstacle_map() -> Dictionary:
 func move_player_to_coordinate(player:Player, coordinate:Vector2):
 	var player_square = player.my_field_square
 	var new_square = get_field_square_by_grid_position(coordinate)
+	var old_square = player_square.gridCoordinate
 	
 	if new_square.occupied != null:
 		assert(false, "cannot move player to occupied square, deal with occupied square first")
@@ -68,8 +70,11 @@ func move_player_to_coordinate(player:Player, coordinate:Vector2):
 	
 	new_square.occupied = player
 	
+	
 	player.my_field_square = new_square
 	player.global_position = new_square.global_position
+	moved_player.emit(player, old_square, new_square.gridCoordinate)
+	
 	if game_controller.game_state == GAME_STATE.PLAY:
 		moved_player_during_play.emit(player)
 
@@ -296,5 +301,14 @@ func get_dodge_information(player_ag_value:int, from_coord:Vector2, target_coord
 		return output
 	
 	return 0
+
+func disable_field():
+	#disable teams
+	player_team.disable()
+	opponent.disable()
+	#disable field_squares
+	for field_square in grid.field_squares:
+		field_square.disable()
 	
+
 	

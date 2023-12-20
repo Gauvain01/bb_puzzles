@@ -125,3 +125,6 @@ func get_position_data_from_file_node_name_pos_format() -> Dictionary:
 	return output
 
 		
+func disable():
+	for player:Player in get_players():
+		player.disable()

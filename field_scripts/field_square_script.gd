@@ -115,6 +115,17 @@ class FieldSquare:
 			return
 		if !isActive and !force_label:
 			self.label.visible = false
+	
+	func disable():
+		#disable select_component
+		self.select_component.disable()
+		#disable roll_display_component
+		self.rollDisplayComponent.disable()
+		#clear occupied state
+		self.occupied = null
+		
+
+
 
 		#var rigidbody = RigidBody2D.new()
 		#rigidbody.add_child(colliderShapeObj)
