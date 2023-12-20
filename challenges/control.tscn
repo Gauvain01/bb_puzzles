@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://b5a50ahjellh2"]
+[gd_scene load_steps=25 format=3 uid="uid://b5a50ahjellh2"]
 
 [ext_resource type="Script" path="res://challenges/game_controller.gd" id="1_c3gfw"]
 [ext_resource type="Script" path="res://ui/scripts/side_board.gd" id="2_p6hff"]
@@ -23,7 +23,6 @@
 [ext_resource type="Script" path="res://observers/blitz_action_observer.gd" id="17_rv30j"]
 [ext_resource type="PackedScene" uid="uid://cggqb75a8w8r" path="res://addons/debug_menu/debug_menu.tscn" id="21_lvlip"]
 [ext_resource type="Texture2D" uid="uid://bgupcleo51cf" path="res://assets/textures/player_sprites/line_rat.png" id="22_7xqtp"]
-[ext_resource type="Theme" uid="uid://1bp88i58bhgo" path="res://ui/themes/victory_screen.tres" id="23_ygf7f"]
 [ext_resource type="Script" path="res://victory_conditions/one_turn_victory_observer.gd" id="25_63uh4"]
 
 [node name="GameController" type="Control" node_paths=PackedStringArray("field", "ui_controller", "victory_observer", "selection_observer")]
@@ -52,6 +51,7 @@ anchor_mode = 0
 editor_draw_limits = true
 
 [node name="Field" type="Node2D" parent="." node_paths=PackedStringArray("sideboard", "grid", "selection_observer", "block_action_observer", "player_team", "tackle_zone_component", "opponent", "game_controller")]
+unique_name_in_owner = true
 z_index = 1
 position = Vector2(65, 46)
 script = ExtResource("6_f67iy")
@@ -89,6 +89,7 @@ gameController = NodePath("../..")
 grid = NodePath("../grid")
 
 [node name="SelectionObserver" type="Node2D" parent="." node_paths=PackedStringArray("field", "game_controller", "ui_controller")]
+unique_name_in_owner = true
 script = ExtResource("11_biix8")
 field = NodePath("../Field")
 game_controller = NodePath("..")
@@ -128,7 +129,7 @@ field = NodePath("../Field")
 
 [node name="CanvasLayer" parent="." instance=ExtResource("21_lvlip")]
 
-[node name="Ui" type="Control" parent="." node_paths=PackedStringArray("end_game_screen", "sideboard", "move_popup", "end_setup_button", "player_team_tackle_check_button", "opponent_tackle_check_button")]
+[node name="Ui" type="Control" parent="." node_paths=PackedStringArray("sideboard", "move_popup", "end_setup_button", "player_team_tackle_check_button", "opponent_tackle_check_button")]
 z_index = 1
 anchors_preset = 0
 offset_top = 1.0
@@ -136,7 +137,6 @@ offset_right = 1920.0
 offset_bottom = 1085.0
 theme = ExtResource("2_t88x4")
 script = ExtResource("3_a5yym")
-end_game_screen = NodePath("EndGameScreen")
 sideboard = NodePath("SideBoard")
 move_popup = NodePath("MovePopup")
 end_setup_button = NodePath("EndSetupButton")
@@ -436,83 +436,6 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 60
 text = "0"
 horizontal_alignment = 1
-
-[node name="EndGameScreen" type="Panel" parent="Ui"]
-visible = false
-z_index = 7
-layout_mode = 0
-offset_top = -1.0
-offset_right = 1917.0
-offset_bottom = 1079.0
-theme = ExtResource("23_ygf7f")
-
-[node name="Label" type="Label" parent="Ui/EndGameScreen"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -290.5
-offset_top = 218.0
-offset_right = 290.5
-offset_bottom = 386.0
-grow_horizontal = 2
-theme_override_font_sizes/font_size = 94
-text = "VICTORY"
-horizontal_alignment = 1
-vertical_alignment = 1
-uppercase = true
-
-[node name="RestartButton" type="Button" parent="Ui/EndGameScreen"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 122.5
-offset_top = -57.0
-offset_right = 433.5
-offset_bottom = 57.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("5_6h72s")
-
-[node name="Label" type="Label" parent="Ui/EndGameScreen/RestartButton"]
-layout_mode = 0
-offset_left = 1.0
-offset_top = 3.0
-offset_right = 309.0
-offset_bottom = 75.0
-text = "Restart"
-horizontal_alignment = 1
-vertical_alignment = 1
-script = ExtResource("6_jq8gn")
-
-[node name="MainMenuButton" type="Button" parent="Ui/EndGameScreen"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -436.5
-offset_top = -57.0
-offset_right = -125.5
-offset_bottom = 57.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("5_6h72s")
-
-[node name="Label" type="Label" parent="Ui/EndGameScreen/MainMenuButton"]
-layout_mode = 0
-offset_left = 1.0
-offset_top = 3.0
-offset_right = 309.0
-offset_bottom = 75.0
-text = "Main Menu"
-horizontal_alignment = 1
-vertical_alignment = 1
-script = ExtResource("6_jq8gn")
 
 [connection signal="button_down" from="Ui/EndSetupButton" to="Ui/EndSetupButton/Label" method="_on_end_setup_button_button_down"]
 [connection signal="button_up" from="Ui/EndSetupButton" to="Ui/EndSetupButton/Label" method="_on_end_setup_button_button_up"]

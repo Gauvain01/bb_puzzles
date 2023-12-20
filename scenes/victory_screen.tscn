@@ -1,0 +1,98 @@
+[gd_scene load_steps=4 format=3 uid="uid://8j6exjhgteoa"]
+
+[ext_resource type="Theme" uid="uid://1bp88i58bhgo" path="res://ui/themes/victory_screen.tres" id="1_p60vx"]
+[ext_resource type="Theme" uid="uid://cv3jyrorne2a8" path="res://ui/themes/pixel_button.tres" id="2_hhlie"]
+[ext_resource type="Script" path="res://ui/scripts/end_setup_button_label.gd" id="3_m3xow"]
+
+[node name="VictoryScreen" type="Panel"]
+z_index = 7
+offset_top = -1.0
+offset_right = 1917.0
+offset_bottom = 1079.0
+theme = ExtResource("1_p60vx")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -270.5
+offset_top = 57.0
+offset_right = 310.5
+offset_bottom = 225.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 94
+text = "VICTORY"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="RestartButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 369.5
+offset_top = -291.0
+offset_right = 680.5
+offset_bottom = -177.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_hhlie")
+
+[node name="Label" type="Label" parent="RestartButton"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 3.0
+offset_right = 309.0
+offset_bottom = 75.0
+text = "Restart"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("3_m3xow")
+
+[node name="MainMenuButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 370.5
+offset_top = -107.0
+offset_right = 681.5
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_hhlie")
+
+[node name="Label" type="Label" parent="MainMenuButton"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 3.0
+offset_right = 309.0
+offset_bottom = 75.0
+text = "Main Menu"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("3_m3xow")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 96.0
+offset_top = 193.0
+offset_right = 736.0
+offset_bottom = 962.0
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 45
+text = "DICE LOG"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+layout_mode = 2
+horizontal_scroll_mode = 0
