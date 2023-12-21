@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://bhynuybw4tl5d"]
+[gd_scene load_steps=4 format=3 uid="uid://bhynuybw4tl5d"]
 
 [ext_resource type="Theme" uid="uid://1bp88i58bhgo" path="res://ui/themes/victory_screen.tres" id="1_1mrq3"]
+[ext_resource type="Script" path="res://ui/main_menu/team_select_observer.gd" id="2_2u1yd"]
+[ext_resource type="Script" path="res://ui/main_menu/skaven_puzzle_select_observer.gd" id="3_x8y2d"]
 
 [node name="MainMenu" type="Panel"]
 z_index = 7
@@ -18,62 +20,94 @@ offset_bottom = 172.0
 theme_override_font_sizes/font_size = 78
 text = "BB PUZZLES"
 
-[node name="ScrollContainer" type="ScrollContainer" parent="."]
-layout_mode = 0
-offset_left = 640.0
-offset_top = 193.0
-offset_right = 1344.0
-offset_bottom = 961.0
+[node name="ScrollContainerLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 215.0
+offset_top = -342.5
+offset_right = 575.0
+offset_bottom = -277.5
+grow_vertical = 2
+theme_override_font_sizes/font_size = 42
+text = "team select
+"
+horizontal_alignment = 1
+
+[node name="TeamSelector" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 60.0
+offset_top = -291.0
+offset_right = 764.0
+offset_bottom = 477.0
+grow_vertical = 2
 follow_focus = true
 horizontal_scroll_mode = 0
+script = ExtResource("2_2u1yd")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TeamSelector"]
 custom_minimum_size = Vector2(600, 150)
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 2
 
-[node name="Button" type="Button" parent="ScrollContainer/VBoxContainer"]
+[node name="Skaven" type="Button" parent="TeamSelector/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 100
-text = "test"
+text = "skaven
+"
 
-[node name="Button2" type="Button" parent="ScrollContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 100
-text = "test"
+[node name="SkavenPuzzleSelector" type="ScrollContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -837.0
+offset_top = -287.0
+offset_right = -58.0
+offset_bottom = 481.0
+grow_horizontal = 0
+grow_vertical = 2
+follow_focus = true
+horizontal_scroll_mode = 0
+script = ExtResource("3_x8y2d")
 
-[node name="Button3" type="Button" parent="ScrollContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="SkavenPuzzleSelector"]
+custom_minimum_size = Vector2(600, 150)
 layout_mode = 2
-theme_override_font_sizes/font_size = 100
-text = "test"
+size_flags_horizontal = 6
+size_flags_vertical = 2
 
-[node name="Button4" type="Button" parent="ScrollContainer/VBoxContainer"]
+[node name="SimpleOneTurn" type="Button" parent="SkavenPuzzleSelector/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 100
-text = "test"
+text = "simple one turn
 
-[node name="Button5" type="Button" parent="ScrollContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 100
-text = "test"
+"
 
-[node name="Button6" type="Button" parent="ScrollContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 100
-text = "test"
+[node name="puzzle_label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 1336.0
+offset_top = -350.0
+offset_right = 1696.0
+offset_bottom = -285.0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 42
+text = "puzzle select
+"
+horizontal_alignment = 1
 
-[node name="Button7" type="Button" parent="ScrollContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 100
-text = "test"
-
-[node name="Button8" type="Button" parent="ScrollContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 100
-text = "test"
-
-[node name="Button9" type="Button" parent="ScrollContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 100
-text = "test"
+[connection signal="pressed" from="TeamSelector/VBoxContainer/Skaven" to="TeamSelector" method="_on_skaven_pressed"]
+[connection signal="pressed" from="SkavenPuzzleSelector/VBoxContainer/SimpleOneTurn" to="SkavenPuzzleSelector" method="_on_simple_one_turn_pressed"]
