@@ -29,6 +29,7 @@ LogController="*res://globals/log_controller.gd"
 DebugMenu="*res://addons/debug_menu/debug_menu.tscn"
 ComponentPool="*res://globals/component_pool.gd"
 InputBus="*res://globals/input_bus.gd"
+SceneController="*res://globals/scene_controller.gd"
 
 [debug]
 

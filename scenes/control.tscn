@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://du24vv85nn2qv"]
+[gd_scene load_steps=25 format=3 uid="uid://b5a50ahjellh2"]
 
 [ext_resource type="Script" path="res://challenges/game_controller.gd" id="1_c3gfw"]
 [ext_resource type="Script" path="res://ui/scripts/side_board.gd" id="2_p6hff"]

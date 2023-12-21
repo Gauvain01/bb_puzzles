@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://8j6exjhgteoa"]
+[gd_scene load_steps=5 format=3 uid="uid://8j6exjhgteoa"]
 
 [ext_resource type="Theme" uid="uid://1bp88i58bhgo" path="res://ui/themes/victory_screen.tres" id="1_p60vx"]
+[ext_resource type="Script" path="res://ui/victory_screen/victory_screen.gd" id="2_dwqwv"]
 [ext_resource type="Theme" uid="uid://cv3jyrorne2a8" path="res://ui/themes/pixel_button.tres" id="2_hhlie"]
 [ext_resource type="Script" path="res://ui/scripts/end_setup_button_label.gd" id="3_m3xow"]
 
@@ -10,6 +11,7 @@ offset_top = -1.0
 offset_right = 1917.0
 offset_bottom = 1079.0
 theme = ExtResource("1_p60vx")
+script = ExtResource("2_dwqwv")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 1
@@ -94,5 +96,6 @@ theme_override_font_sizes/font_size = 45
 text = "DICE LOG"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 horizontal_scroll_mode = 0
