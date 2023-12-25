@@ -14,6 +14,7 @@ var select_component: SelectComponent
 @export var ui_component: PlayerUiComponent
 @export var actionMenu: MenuButton
 @export var blockDiceViewer: BlockDiceViewer
+@export var select_color = Color.ORANGE
 var player_state
 var my_field_square: field_square_script.FieldSquare
 var util
@@ -77,8 +78,10 @@ func _ready():
 	mySprite = get_node("BoardSprite")
 	select_component = get_node("Select_Component")
 	select_component.node_emit_on_select = self
+	select_component.is_listen_for_deselect = true
 	mySprite.is_opponent = isOpponent
 	mySprite.draw_team_overlay()
+
 	if has_ball:
 		ball_texture.visible = true
 
@@ -189,3 +192,17 @@ func activate_select_component():
 	if NodeInspector.has_select_component(self):
 		return
 	ComponentFactory.build_select_component()
+
+
+func on_game_state_setup():
+	select_component.selected.connect(on_player_selected_during_setup, CONNECT_ONE_SHOT)
+
+func on_player_selected_during_setup(_redundant):
+	change_color(select_color)
+	select_component.deselected.connect(on_deselect_during_setup)
+
+func on_deselect_during_setup(_redundant):
+	change_color(default_color)
+	select_component.selected.connect(on_player_selected_during_setup, CONNECT_ONE_SHOT)
+	;;
+	

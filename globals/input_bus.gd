@@ -66,14 +66,16 @@ func disconnect_all_from_node(node:Node):
 		signal_callable_map["signal"].disconnect(signal_callable_map["callable"])
 	SUBSCRIBED_NODES[node] = []
 
-func unsubscribe_from_signal(observing_node:Node, signal_ref:Signal):
+func unsubscribe_from_signal(observing_node:Node, signal_ref:Signal, callable = null):
 	if !SUBSCRIBED_NODES.has(observing_node):
 		return
 	if len(SUBSCRIBED_NODES[observing_node]) == 0:
 		return
 	for signal_callable_map in SUBSCRIBED_NODES[observing_node]:
-		if signal_callable_map["signal"] == signal_ref:
-			signal_callable_map["signal"].disconnect(signal_callable_map["callable"])
+		if !signal_callable_map["signal"] == signal_ref:
+			continue
+		if signal_callable_map["callable"] or callable == null:
+				signal_callable_map["signal"].disconnect(signal_callable_map["callable"])
 
 func subscribe_to_signal(observing_node:Node, signal_ref:Signal, callable:Callable):
 	_append_subscribed_node_to_signal(observing_node, signal_ref, callable)
