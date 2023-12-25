@@ -37,6 +37,7 @@ text = "team select
 horizontal_alignment = 1
 
 [node name="TeamSelector" type="ScrollContainer" parent="."]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -62,9 +63,8 @@ theme_override_font_sizes/font_size = 100
 text = "skaven
 "
 
-[node name="SkavenPuzzleSelector" type="ScrollContainer" parent="."]
+[node name="PuzzleSelector" type="ScrollContainer" parent="."]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -81,18 +81,11 @@ follow_focus = true
 horizontal_scroll_mode = 0
 script = ExtResource("3_x8y2d")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="SkavenPuzzleSelector"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PuzzleSelector"]
 custom_minimum_size = Vector2(600, 150)
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 2
-
-[node name="SimpleOneTurn" type="Button" parent="SkavenPuzzleSelector/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 100
-text = "simple one turn
-
-"
 
 [node name="puzzle_label" type="Label" parent="."]
 layout_mode = 1
@@ -110,4 +103,3 @@ text = "puzzle select
 horizontal_alignment = 1
 
 [connection signal="pressed" from="TeamSelector/VBoxContainer/Skaven" to="TeamSelector" method="_on_skaven_pressed"]
-[connection signal="pressed" from="SkavenPuzzleSelector/VBoxContainer/SimpleOneTurn" to="SkavenPuzzleSelector" method="_on_simple_one_turn_pressed"]

@@ -55,7 +55,7 @@ func _append_subscribed_node_to_signal(observing_node:Node, signal_ref:Signal, c
 		signal_arr.append({"signal":signal_ref, "callable":callable})
 		return
 
-	SUBSCRIBED_NODES[observing_node] = ({"signal":signal_ref, "callable":callable})
+	SUBSCRIBED_NODES[observing_node] = ([{"signal":signal_ref, "callable":callable}])
 	
 func disconnect_all_from_node(node:Node):
 	if !SUBSCRIBED_NODES.has(node):

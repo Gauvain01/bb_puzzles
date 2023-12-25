@@ -7,10 +7,12 @@ var _current_scene:int
 
 const _ONE_TURN_SKAVEN_SIMPLE_PATH = "res://scenes/control.tscn"
 const _VICTORY_SCREEN_PATH = "res://scenes/victory_screen.tscn"
+const _MAIN_MENU_SCENE = "res://scenes/main_menu.tscn"
 
 const SCENE_PATH_MAP = {
 	SCENE.ONE_TURN_SKAVEN_SIMPLE:_ONE_TURN_SKAVEN_SIMPLE_PATH,
-	SCENE.VICTORY_SCREEN:_VICTORY_SCREEN_PATH
+	SCENE.VICTORY_SCREEN:_VICTORY_SCREEN_PATH,
+	SCENE.MAIN_MENU:_MAIN_MENU_SCENE,
 }
 
 func change_scene(new_scene:int) -> void:

@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://bi6yt2brbqtb5" path="res://opponents/block_test/blockTest.tscn" id="9_0gwj4"]
 [ext_resource type="Script" path="res://observers/selection_observer.gd" id="11_biix8"]
 [ext_resource type="PackedScene" uid="uid://bmtdo3dyib0l3" path="res://components/component_scenes/input_component.tscn" id="12_qshoy"]
+[ext_resource type="Script" path="res://challenges/score_challenge.gd" id="13_mhipu"]
 [ext_resource type="Script" path="res://observers/block_action_observer.gd" id="13_n36xi"]
 [ext_resource type="PackedScene" uid="uid://cjc0wmuq7nhnp" path="res://teams/SkavenTeam/skaven_team.tscn" id="14_7r1po"]
 [ext_resource type="Script" path="res://field_scripts/block_die_calculator.gd" id="14_lhsrd"]
@@ -23,9 +24,8 @@
 [ext_resource type="Script" path="res://observers/blitz_action_observer.gd" id="17_rv30j"]
 [ext_resource type="PackedScene" uid="uid://cggqb75a8w8r" path="res://addons/debug_menu/debug_menu.tscn" id="21_lvlip"]
 [ext_resource type="Texture2D" uid="uid://bgupcleo51cf" path="res://assets/textures/player_sprites/line_rat.png" id="22_7xqtp"]
-[ext_resource type="Script" path="res://victory_conditions/one_turn_victory_observer.gd" id="25_63uh4"]
 
-[node name="GameController" type="Control" node_paths=PackedStringArray("field", "ui_controller", "victory_observer", "selection_observer")]
+[node name="GameController" type="Control" node_paths=PackedStringArray("field", "ui_controller", "selection_observer")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -42,7 +42,6 @@ level_name = "skaven one turn"
 opponent_placement_allowed = true
 field = NodePath("Field")
 ui_controller = NodePath("Ui")
-victory_observer = NodePath("VictoryObserver")
 selection_observer = NodePath("SelectionObserver")
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -123,9 +122,8 @@ field = NodePath("../../Field")
 
 [node name="InputComponent" parent="BlitzActionObserver" instance=ExtResource("12_qshoy")]
 
-[node name="VictoryObserver" type="Node2D" parent="." node_paths=PackedStringArray("field")]
-script = ExtResource("25_63uh4")
-field = NodePath("../Field")
+[node name="VictoryObserver" type="Node2D" parent="."]
+script = ExtResource("13_mhipu")
 
 [node name="CanvasLayer" parent="." instance=ExtResource("21_lvlip")]
 

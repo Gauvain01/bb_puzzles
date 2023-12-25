@@ -4,7 +4,6 @@ class_name GameController
 @export var opponent_placement_allowed:bool = false
 @export var field:Field
 @export var ui_controller:UiController
-@export var victory_observer:VictoryObserver
 @export var selection_observer:SelectionObserver
 
 @onready var end_setup_button:Button = ui_controller.end_setup_button
@@ -18,7 +17,6 @@ signal game_state_changed(game_state)
 func _ready():
 	total_players = player_team.get_players(); 
 	ui_controller.get_end_setup_button_signal().connect(on_end_setup_pressed)
-	victory_observer.victory_condition_achieved.connect(on_victory_achieved)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -31,11 +29,6 @@ func set_game_state(game_state:GAME_STATE):
 	self.game_state = game_state
 
 
-func on_victory_achieved():
-	ui_controller.activate_end_game_screen(true)
-	game_state = GAME_STATE.COMPLETE
-	game_state_changed.emit(GAME_STATE.COMPLETE)
-	remove_child(selection_observer)
 
 
 func on_end_setup_pressed():

@@ -1,6 +1,7 @@
+class_name TeamSelector
 extends ScrollContainer
 @onready var skaven_puzzle_selector:ScrollContainer = get_node("%SkavenPuzzleSelector")
-
+signal team_selected(team_path)
 var current_puzzle_container:ScrollContainer = null
 
 

@@ -60,7 +60,7 @@ func get_not_obstacle_map() -> Dictionary:
 func move_player_to_coordinate(player:Player, coordinate:Vector2):
 	var player_square = player.my_field_square
 	var new_square = get_field_square_by_grid_position(coordinate)
-	var old_square = player_square.gridCoordinate
+	var old_square = player.my_field_square
 	
 	if new_square.occupied != null:
 		assert(false, "cannot move player to occupied square, deal with occupied square first")
