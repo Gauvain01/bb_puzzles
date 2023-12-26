@@ -16,6 +16,8 @@ var select_component: SelectComponent
 @export var blockDiceViewer: BlockDiceViewer
 @export var select_color = Color.ORANGE
 @export var hover_color = Color.BLUE
+@export var blitz_color = Color.GREEN
+@export var block_color = Color.PURPLE
 var player_state
 var my_field_square: field_square_script.FieldSquare
 var util

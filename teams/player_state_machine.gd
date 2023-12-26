@@ -91,29 +91,31 @@ class IdleState extends PlayerState:
 class InActiveState extends PlayerState:
 
 	func enter():
-		_player.change_color(_player.inactive_color)
+		_player.change_color(Color.GRAY)
+		_player.deactivated_player.emit()
+		_player.isActive = false
 		#set color to inactive
 	func exit():
-		#set color to default
-		_player.change_color(_player.default_color)
+		#throw error(kinda thanks gdscript)
+		assert(false, "tried to exit the inactive state, when a player is inactive it is not supposed to be activated")
 
 class BlitzState extends PlayerState:
 	func enter():
 		#set color to blitz 
-		pass
+		_player.change_color(_player.blitz_color)
 	
 	func exit():
 		#set color to default
-		pass
+		_player.change_color(_player.default_color)
 
 class BlockState extends PlayerState:
 	func enter():
 		#set color to block
-		pass
+		_player.change_color(_player.block_color)
 
 	func exit():
 		#set color to default
-		pass
+		_player.change_color(_player.default_color)
 
 
 	
