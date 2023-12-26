@@ -153,8 +153,20 @@ func set_player_action_menu_signals():
 		)
 	else:
 		ui_component.action_menu_component.blitz_button.disabled = true
-	print(ui_component.action_menu_component.get_blitz_signal().get_connections())
-
+func unset_player_action_menu_signals():
+	var menu_comp = ui_component.action_menu_component
+	if menu_comp.get_move_signal().is_connected(on_move_action):
+		menu_comp.get_move_signal().disconnect(on_move_action)
+	if menu_comp.get_block_signal().is_connected(on_block_action):
+		menu_comp.get_block_signal().disconnect(on_block_action)
+	if menu_comp.get_end_action_signal().is_connected(on_end_action):
+		menu_comp.get_end_action_signal().disconnect(on_end_action)
+	if menu_comp.get_blitz_signal().is_connected(on_blitz_action):
+		menu_comp.get_blitz_signal().disconnect(on_blitz_action)
+	
+func deactivate_action_menu():
+	unset_player_action_menu_signals()
+	ui_component.activate_action_menu(false)
 
 func on_move_action():
 	request_move_event.emit(self)
@@ -230,7 +242,19 @@ func on_mouse_exited_for_hover():
 	setup_hover_color_activation()
 
 func stop_select_color_activation():
-	pass
+	if select_component.selected.is_connected(_on_player_selected):
+		select_component.selected.disconnect(_on_player_selected)
+	if select_component.deselected.is_connected(_on_player_deselected):
+		select_component.deselected.disconnect(_on_player_deselected)
+	
 
 func stop_hover_color_activation():
-	pass	
+	if select_component.mouse_entered.is_connected(on_mouse_entered_for_hover):
+		select_component.mouse_entered.disconnect(on_mouse_entered_for_hover)
+	if select_component.mouse_exited.is_connected(on_mouse_exited_for_hover):
+		select_component.mouse_exited.disconnect(on_mouse_exited_for_hover)
+
+
+func setup_action_menu_for_activation():
+	set_player_action_menu_signals()
+	ui_component.activate_action_menu(true)

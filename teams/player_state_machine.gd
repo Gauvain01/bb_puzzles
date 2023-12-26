@@ -26,6 +26,7 @@ func setup_state_machine(player:Player):
 
 ## [param new_state]:[enum PLAYER_STATE].[Br]
 ## make sure [code]setup_state_machine(Player)[/code] is called at least once before this.
+## for example: [code]switch_state(PLAYER_STATE.SETUP_STATE)[/code]
 func switch_state(new_state:int):
 	if current_state != null:
 		current_state.exit()
@@ -54,44 +55,48 @@ class SetupState extends PlayerState:
 	
 	func exit():
 		#stop select color
-		
+		_player.stop_select_color_activation()
 		#stop hover color
-		pass
+		_player.stop_hover_color_activation()
+
+		_player.change_color(_player.default_color)
 	
 class ActiveState extends PlayerState:
 
 	func enter():
 		#setup select color
+		_player.setup_select_color_activation()
 		#setup hover color
-		#setup stats on hover
+		_player.setup_hover_color_activation()
 		#setup player menu for active state
-		pass
+		_player.setup_action_menu_for_activation()
 	
 	func exit():
 		#stop select color
+		_player.stop_select_color_activation()
 		#stop hover color
-		#stop stats on hover
-		#stop player menu and dissasemble
-		pass
+		_player.stop_hover_color_activation()
+		#deactivate player menu
+		_player.deactivate_action_menu()
 
 class IdleState extends PlayerState:
 
 	func enter():
-		#setupt stats on hover
-		pass
+		#setup hover color
+		_player.setup_hover_color_activation()
 	func exit():
-		#stop stats on hover
-		pass
-
+		#stop hover color
+		_player.stop_hover_color_activation()
+	
 class InActiveState extends PlayerState:
 
 	func enter():
+		_player.change_color(_player.inactive_color)
 		#set color to inactive
-		pass
 	func exit():
 		#set color to default
-		pass
-	
+		_player.change_color(_player.default_color)
+
 class BlitzState extends PlayerState:
 	func enter():
 		#set color to blitz 
