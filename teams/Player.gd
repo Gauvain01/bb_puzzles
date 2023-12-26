@@ -15,6 +15,7 @@ var select_component: SelectComponent
 @export var actionMenu: MenuButton
 @export var blockDiceViewer: BlockDiceViewer
 @export var select_color = Color.ORANGE
+@export var hover_color = Color.BLUE
 var player_state
 var my_field_square: field_square_script.FieldSquare
 var util
@@ -206,3 +207,30 @@ func on_deselect_during_setup(_redundant):
 	select_component.selected.connect(on_player_selected_during_setup, CONNECT_ONE_SHOT)
 	;;
 	
+func setup_select_color_activation():
+	select_component.selected.connect(_on_player_selected, CONNECT_ONE_SHOT)
+
+func _on_player_selected(_redundant):
+	change_color(select_color)
+	select_component.deselected.connect(_on_player_deselected)
+
+func _on_player_deselected(_redundant):
+	change_color(default_color)
+	select_component.selected.connect(_on_player_selected, CONNECT_ONE_SHOT)
+
+func setup_hover_color_activation():
+	select_component.mouse_entered.connect(on_mouse_entered_for_hover, CONNECT_ONE_SHOT)
+
+func on_mouse_entered_for_hover():
+	change_color(hover_color)
+	select_component.mouse_exited.connect(on_mouse_exited_for_hover, CONNECT_ONE_SHOT)
+
+func on_mouse_exited_for_hover():
+	change_color(default_color)
+	setup_hover_color_activation()
+
+func stop_select_color_activation():
+	pass
+
+func stop_hover_color_activation():
+	pass	
