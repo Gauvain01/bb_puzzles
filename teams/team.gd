@@ -52,7 +52,7 @@ func activate_ui_component_all_players(isActive:bool, exception:Player = null):
 			disable_select_component_for_players(false)
 			if i.player_state == PLAYER_STATE.ACTIVE_STATE:
 				i.ui_component.activate_ui_component(isActive)
-			if i.player_state == PLAYER_STATE.INACTIVE_STATE:
+			if i.player_state == PLAYER_STATE.FINISHED_STATE:
 				continue
 
 		ComponentPool.store_select_component(i.select_component)

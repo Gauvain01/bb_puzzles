@@ -86,7 +86,7 @@ func on_block_event_completed():
 	remove_child(active_block_event)
 	active_block_event = null
 
-	currentBlocker.change_player_state(PLAYER_STATE.INACTIVE_STATE)
+	currentBlocker.change_player_state(PLAYER_STATE.FINISHED_STATE)
 	player_team.activate_ui_component_all_players(true)
 	completed_block_event.emit()
 	field.tackle_zone_component.refresh_tackle_zones()

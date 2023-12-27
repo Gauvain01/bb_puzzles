@@ -54,27 +54,39 @@ func _ready():
 		)
 	game_controller.game_state_changed.connect(on_game_state_changed)
 
-	for player in player_team.get_players():
-		PlayerList.append(player)
-		player.ui_component.action_menu_component.is_activated.connect(
-			on_action_menu_player_activated
-		)
-		player.ui_component.action_menu_component.is_deactivated.connect(
-			on_action_menu_player_deactivated
-		)
+	#for player in player_team.get_players():
+	#	PlayerList.append(player)
+	#	player.ui_component.action_menu_component.is_activated.connect(
+	#		on_action_menu_player_activated
+	#	)
+	#	player.ui_component.action_menu_component.is_deactivated.connect(
+	#		on_action_menu_player_deactivated
+	#	)
 
-	if game_state == GAME_STATE.SETUP:
-		for i in player_team.get_players():
-			i.select_component.selected.connect(on_player_select)
-			var j: Player = i
-			j.select_component.get_mouse_enter_signal().connect(on_mouse_enter_player)
-			j.select_component.get_mouse_exited_signal().connect(on_mouse_exit_player)
-		if game_controller.opponent_placement_allowed:
-			for i in opponent_team.get_players():
-				i.select_component.selected.connect(on_player_select)
-				var j: Player = i
-				j.select_component.get_mouse_enter_signal().connect(on_mouse_enter_player)
-				j.select_component.get_mouse_exited_signal().connect(on_mouse_exit_player)
+	#if game_state == GAME_STATE.SETUP:
+	#	for i in player_team.get_players():
+	#		i.select_component.selected.connect(on_player_select)
+	#		var j: Player = i
+	#		j.select_component.get_mouse_enter_signal().connect(on_mouse_enter_player)
+	#		j.select_component.get_mouse_exited_signal().connect(on_mouse_exit_player)
+	#	if game_controller.opponent_placement_allowed:
+	#		for i in opponent_team.get_players():
+	#			i.select_component.selected.connect(on_player_select)
+	#			var j: Player = i
+	#			j.select_component.get_mouse_enter_signal().connect(on_mouse_enter_player)
+	#			j.select_component.get_mouse_exited_signal().connect(on_mouse_exit_player)
+	for player:Player in player_team.get_players():
+		player.state_machine.switched_states.connect(on_player_state_changed)
+
+func on_player_state_changed(new_state):
+	match new_state:
+		PLAYER_STATE.SETUP_STATE:
+			pass	
+		PLAYER_STATE.ACTIVE_STATE:
+			pass
+		_:
+			pass
+		
 
 
 func on_action_menu_player_activated():

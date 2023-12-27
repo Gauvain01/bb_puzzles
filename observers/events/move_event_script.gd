@@ -231,7 +231,7 @@ class MoveEvent extends Node2D:
 		
 		field.reset_field_state()
 		
-		player.change_player_state(PLAYER_STATE.INACTIVE_STATE)
+		player.change_player_state(PLAYER_STATE.FINISHED_STATE)
 		selection_observer.activate_select_coloration(true)
 		is_completed.emit()
 		destroy()
@@ -288,7 +288,7 @@ class BlitzMoveEvent extends MoveEvent:
 			new_move_event.is_completed.connect(relay_completed_event)
 		
 		else:
-			self.player.change_player_state(PLAYER_STATE.INACTIVE_STATE)
+			self.player.change_player_state(PLAYER_STATE.FINISHED_STATE)
 			self.is_completed.emit()
 			destroy()
 		

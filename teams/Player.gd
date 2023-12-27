@@ -25,9 +25,7 @@ var util
 @export var has_ball = false
 @export var isMarked: bool = false
 
-signal selectionSignal(thisObject)
-signal on_mouse_entered(thisObject)
-signal on_mouse_exited(thisObject)
+var state_machine = PlayerStateMachine
 
 signal request_move_event
 signal request_block_event
@@ -47,9 +45,6 @@ var game_state = GAME_STATE.SETUP
 
 var default_color = "#ffffff"
 
-
-func relay_my_select_component_signal(_node):
-	selectionSignal.emit(self)
 
 
 func change_color(color: Color):
@@ -73,17 +68,18 @@ func show_menu():
 func get_my_field_square():
 	return my_field_square
 
-func disable():
-	select_component.disable()
 
 func _ready():
 	stats = get_node("Stats")
 	mySprite = get_node("BoardSprite")
-	select_component = get_node("Select_Component")
+	select_component = NodeInspector.get_select_component(self)
 	select_component.node_emit_on_select = self
 	select_component.is_listen_for_deselect = true
 	mySprite.is_opponent = isOpponent
 	mySprite.draw_team_overlay()
+	state_machine = PlayerStateMachine.new()
+	add_child(state_machine)
+	state_machine.setup_state_machine(self)
 
 	if has_ball:
 		ball_texture.visible = true
@@ -92,49 +88,6 @@ func _ready():
 func give_ball():
 	has_ball = true
 	ball_texture.visible = true
-
-
-func on_game_state_change(game_state_new):
-	self.game_state = game_state
-	if game_state_new == GAME_STATE.PLAY:
-		on_game_state_play()
-	return
-
-
-func on_game_state_play():
-	pass
-
-
-func change_player_state(player_state):
-	on_player_state_changed(player_state)
-
-
-func on_player_state_changed(player_state):
-	if self.player_state == PLAYER_STATE.INACTIVE_STATE:
-		return
-	if self.player_state == player_state:
-		return
-
-	self.player_state = player_state
-
-	if player_state == PLAYER_STATE.ACTIVE_STATE:
-		on_active_player_state()
-		return
-
-	if player_state == PLAYER_STATE.INACTIVE_STATE:
-		deactivate()
-		return
-
-
-func on_active_player_state():
-	listen_for_click_and_select()
-	set_player_action_menu_signals()
-	ui_component.activate_ui_component(true)
-
-
-func listen_for_click_and_select():
-	select_component.visible = true
-
 
 func activate_menu_for_player_state():
 	if player_state == PLAYER_STATE.ACTIVE_STATE:
@@ -155,6 +108,7 @@ func set_player_action_menu_signals():
 		)
 	else:
 		ui_component.action_menu_component.blitz_button.disabled = true
+
 func unset_player_action_menu_signals():
 	var menu_comp = ui_component.action_menu_component
 	if menu_comp.get_move_signal().is_connected(on_move_action):
@@ -171,29 +125,25 @@ func deactivate_action_menu():
 	ui_component.activate_action_menu(false)
 
 func on_move_action():
+	state_machine.switch_state(PLAYER_STATE.MOVE_STATE)
 	request_move_event.emit(self)
 	ui_component.action_menu_component.deactivate()
 
 
 func on_block_action():
+	state_machine.switch_state(PLAYER_STATE.BLOCK_STATE)
 	request_block_event.emit(self)
 	ui_component.action_menu_component.deactivate()
 
 
 func on_blitz_action():
-	print("blitz pressed")
+	state_machine.switch_state(PLAYER_STATE.BLITZ_STATE)
 	request_blitz_event.emit(self)
 	ui_component.action_menu_component.deactivate()
 
-
 func on_end_action():
-	change_player_state(PLAYER_STATE.INACTIVE_STATE)
-	deactivated_player.emit()
+	state_machine.switch_state(PLAYER_STATE.FINISHED_STATE)
 	ui_component.action_menu_component.deactivate()
-
-
-func on_disable_collision(is_disabled):
-	select_component.collision_component.disabled = is_disabled
 
 
 func deactivate():
@@ -201,13 +151,6 @@ func deactivate():
 	default_color = Color.GRAY
 	return_to_default_color()
 	ui_component.activate_ui_component(false)
-
-
-func activate_select_component():
-	if NodeInspector.has_select_component(self):
-		return
-	ComponentFactory.build_select_component()
-
 
 func on_game_state_setup():
 	select_component.selected.connect(on_player_selected_during_setup, CONNECT_ONE_SHOT)
