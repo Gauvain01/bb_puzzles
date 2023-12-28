@@ -12,12 +12,12 @@ z_index = 1
 script = ExtResource("1_up8bg")
 
 [node name="ActionMenuComponent" parent="." instance=ExtResource("4_peeul")]
-visible = false
 z_index = 72
 offset_left = 20.0
 offset_top = -38.0
 offset_right = 106.0
 offset_bottom = 76.0
+mouse_filter = 0
 
 [node name="BlockMenuComponent" parent="." instance=ExtResource("1_abpfa")]
 visible = false
@@ -27,6 +27,7 @@ offset_left = 20.0
 offset_top = -38.0
 offset_right = 106.0
 offset_bottom = 85.0
+mouse_filter = 0
 
 [node name="FollowStayMenuComponent" parent="." instance=ExtResource("2_5t0yq")]
 visible = false
@@ -36,6 +37,7 @@ offset_left = 20.0
 offset_top = -38.0
 offset_right = 106.0
 offset_bottom = 11.0
+mouse_filter = 0
 
 [node name="ColliderComponent" parent="." instance=ExtResource("7_6p5cj")]
 position = Vector2(78, 31)

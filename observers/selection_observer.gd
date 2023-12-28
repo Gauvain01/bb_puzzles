@@ -6,7 +6,7 @@ extends Node2D
 @export var ui_controller: UiController
 
 @onready var player_team: TeamComponent = field.player_team
-@onready var sideboard: PanelContainer = ui_controller.sideboard
+@onready var side_board:SideBoard = get_node("%SideBoard")
 @onready var grid: Node2D = field.grid
 @onready var opponent_team: TeamComponent = field.opponent
 
@@ -14,11 +14,12 @@ var PlayerList = []
 var selected_player: Player = null
 var game_state = GAME_STATE.SETUP
 var selected_field_square = null
-
+var is_player_drag_and_drop = false
 var is_select_coloration = true
 var is_hover_allowed = true
 var is_action_menu_active = false
 
+signal _player_selected
 signal hover_square(square)
 signal hover_left(square)
 signal selection_is_on
@@ -26,34 +27,16 @@ signal selection_is_off
 signal request_to_place_on_field(board_piece, fieldSquare)
 
 
-func on_game_state_changed(new_game_state):
-	if game_state == GAME_STATE.SETUP and new_game_state == GAME_STATE.PLAY:
-		for i in player_team.get_players():
-			var player: Player = i
-			player.change_player_state(PLAYER_STATE.ACTIVE_STATE)
-			player.select_component.selected.disconnect(on_player_select)
-			player.select_component.selected.connect(on_player_select_during_play)
-		for i in opponent_team.get_players():
-			i.select_component.selected.disconnect(on_player_select)
-		for square in field.get_field_squares():
-			NodeInspector.get_select_component(square).mouse_release.disconnect(on_mouse_release)
-	if new_game_state == GAME_STATE.COMPLETE:
-		pass
-	game_state = new_game_state
-
 
 func _ready():
 #	input_component.mouseClick.connect(on_mouse_click)
 	for square in field.get_field_squares():
-		NodeInspector.get_select_component(square).mouse_release.connect(on_mouse_release)
 		NodeInspector.get_select_component(square).get_mouse_enter_signal().connect(
 			on_mouse_enter_square
 		)
 		NodeInspector.get_select_component(square).get_mouse_exited_signal().connect(
 			on_mouse_exit_square
 		)
-	game_controller.game_state_changed.connect(on_game_state_changed)
-
 	#for player in player_team.get_players():
 	#	PlayerList.append(player)
 	#	player.ui_component.action_menu_component.is_activated.connect(
@@ -81,32 +64,52 @@ func _ready():
 func on_player_state_changed(new_state):
 	match new_state:
 		PLAYER_STATE.SETUP_STATE:
-			pass	
-		PLAYER_STATE.ACTIVE_STATE:
-			pass
-		_:
-			pass
-		
+			#on selected player follows mouse
+			listen_for_select_on_players()
+			#when deselected drops player on board and snaps on the correct field square
+			_player_selected.connect(on_selected_player_for_drag_and_drop)
+		PLAYER_STATE.IDLE_STATE:
+			stop_listen_for_select_on_players()
 
+func stop_listen_for_select_on_players():
+	for player:Player in player_team.get_players():
+		if player.select_component.selected.is_connected(on_player_select_for_setting_selected_player):
+			player.select_component.selected.disconnect(on_player_select_for_setting_selected_player)
+	
+func listen_for_select_on_players():
+	for player:Player in player_team.get_players():
+		if !player.select_component.selected.is_connected(on_player_select_for_setting_selected_player):
+			player.select_component.selected.connect(on_player_select_for_setting_selected_player)
 
-func on_action_menu_player_activated():
-	player_team.disable_select_component_for_players(true)
+func on_player_select_for_setting_selected_player(_player:Player):
+	selected_player = _player
+	for player:Player in player_team.get_players():
+		player.select_component.selected.disconnect(on_player_select_for_setting_selected_player)
+	
+	_player_selected.emit()
 
+func on_selected_player_for_drag_and_drop():
+	is_player_drag_and_drop = true
+	for player:Player in player_team.get_players():
+		if player != selected_player:
+			player.state_machine.switch_state(PLAYER_STATE.IDLE_STATE)
+	selected_player.select_component.emit_deselected_on_next_mouse_release = true
+	selected_player.select_component.deselected.connect(on_player_deselect_snap_player_to_field)
+	
 
-func on_action_menu_player_deactivated():
-	player_team.disable_select_component_for_players(false)
+func set_player_pos_to_mouse_pos(_player:Player):
+	var _mouse_position = get_viewport().get_mouse_position()
+	_player.global_position = _mouse_position
 
-
-func activate_select_coloration(isActive):
-	is_select_coloration = isActive
-
-
-func activate_hover_player(player: Player, isActive: bool):
-	if isActive:
-		player.change_color(Color.AQUA)
+func on_player_deselect_snap_player_to_field(_player:Player):
+	if selected_field_square == null:
+		LogController.add_text("ERROR: MUST PLACE PLAYER ON FIELD OR SIDEBOARD DURING SETUP")
+		side_board.request_to_place_on_sideBoard(_player)
 	else:
-		player.return_to_default_color()
-
+		field.request_to_place_on_field(_player, selected_field_square)
+	_player.select_component.deselected.disconnect(on_player_deselect_snap_player_to_field)
+	_player.select_component.emit_deselected_on_next_mouse_release = false
+	is_player_drag_and_drop = false
 
 func activate_hover_square(square: field_square_script.FieldSquare, isActive: bool):
 	if !is_select_coloration:
@@ -127,49 +130,8 @@ func on_mouse_exit_square(square):
 	activate_hover_square(square, false)
 
 
-func on_mouse_enter_player(player):
-	activate_hover_player(player, true)
-
-
-func on_mouse_exit_player(player):
-	activate_hover_player(player, false)
-
-
 func _process(_delta):
-	if selected_player != null:
-		selected_player.global_position = get_viewport().get_mouse_position()
-
-
-func on_mouse_release(field_square):
-	if selected_player != null:
-		selected_field_square = field_square
-		if field.isOnTheField(get_viewport().get_mouse_position()):
-			if selected_player.my_field_square.zone == "sideboard":
-				sideboard.players_on_sideboard -= 1
-
-			field.request_to_place_on_field(selected_player, selected_field_square)
-
-			#selectedPlayer[0].global_position = mouseInFieldSquare.global_position
-		#print(mouseInFieldSquare)
-		if selected_field_square.zone == "sideboard":
-			if selected_player.my_field_square.zone != "sideboard":
-				if selected_field_square.occupied == null:
-					sideboard.players_on_sideboard += 1
-			field.request_to_place_on_field(selected_player, selected_field_square)
-
-		selected_player.mySprite.change_to_unselect_color()
-		selected_player = null
-		selection_is_off.emit()
-
-
-func on_player_select(player: Player):
-	selected_player = player
-	selected_field_square = player.my_field_square
-	if game_state == GAME_STATE.SETUP:
-		player.mySprite.change_to_select_color()
-	selection_is_on.emit()
-
-
-func on_player_select_during_play(player: Player):
-	player_team.activate_action_menu_for_player(player)
+	if is_player_drag_and_drop:
+		set_player_pos_to_mouse_pos(selected_player)
+		
 

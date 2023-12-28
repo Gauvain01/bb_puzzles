@@ -25,7 +25,7 @@
 [ext_resource type="Texture2D" uid="uid://bgupcleo51cf" path="res://assets/textures/player_sprites/line_rat.png" id="22_7xqtp"]
 [ext_resource type="Script" path="res://victory_conditions/one_turn_victory_observer.gd" id="25_63uh4"]
 
-[node name="GameController" type="Control" node_paths=PackedStringArray("field", "ui_controller", "victory_observer", "selection_observer")]
+[node name="GameController" type="Control" node_paths=PackedStringArray("field", "ui_controller", "selection_observer")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -42,7 +42,6 @@ level_name = "skaven one turn"
 opponent_placement_allowed = true
 field = NodePath("Field")
 ui_controller = NodePath("Ui")
-victory_observer = NodePath("VictoryObserver")
 selection_observer = NodePath("SelectionObserver")
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -144,6 +143,7 @@ player_team_tackle_check_button = NodePath("TackleZoneCheckButton")
 opponent_tackle_check_button = NodePath("OpponentTackleCheck")
 
 [node name="SideBoard" type="PanelContainer" parent="Ui"]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 678.0
 offset_top = 92.0

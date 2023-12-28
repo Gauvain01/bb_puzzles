@@ -25,7 +25,7 @@ var util
 @export var has_ball = false
 @export var isMarked: bool = false
 
-var state_machine = PlayerStateMachine
+var state_machine:PlayerStateMachine = null
 
 signal request_move_event
 signal request_block_event

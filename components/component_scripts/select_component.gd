@@ -3,9 +3,9 @@ extends Area2D
 class_name SelectComponent
 @export var node_emit_on_select: Node2D
 var collision_component: CollisionShape2D
-@export var is_listen_for_deselect:bool = false
-@export var is_deselect_on_next_mouse_click:bool = false
-@export var is_deselect_on_next_mouse_release:bool = true
+@export var allow_emit_deselected:bool = false
+@export var emit_deselected_on_next_mouse_click:bool = false
+@export var emit_deselected_on_next_mouse_release:bool = true
 signal selected
 signal deselected
 signal mouse_release
@@ -13,7 +13,6 @@ signal _mouse_entered_release_selected
 signal _mouse_exited_release_selected
 
 var enabled_flag = true
-# Called when the node enters the scene tree for the first time.
 
 
 func disable():
@@ -70,11 +69,11 @@ func on_mouse_click_selector(_redundant):
 
 	if is_mouse_in_collider():
 		selected.emit(node_emit_on_select)
-		if is_listen_for_deselect:
+		if allow_emit_deselected:
 			listen_for_deselect()
 			
 func listen_for_deselect():
-	if is_deselect_on_next_mouse_click:
+	if emit_deselected_on_next_mouse_click:
 		InputBus.subscribe_to_mouse_click_event(self, _mouse_deselect)
 	#deselect_on_next_click?
 	#deselect_on_next_release?
