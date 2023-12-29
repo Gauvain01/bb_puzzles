@@ -1,0 +1,152 @@
+{
+	"challenge_name": "skaven one turn",
+	"creator_name": "gauvain",
+	"challenge_type":"one_turn",
+	"player_team":"skaven",
+	"opponent_team":"skaven",
+	"player_team_placement":[],
+	"opponent_team_placement":[
+		{
+			"player_type":"line_rat",
+			"extra_skills":[],
+			"board_position":{
+				"x":12,
+				"y":13
+			},
+			"has_ball":false
+
+		},
+		{
+			"player_type":"rat_ogre",
+			"extra_skills":[],
+			"board_position":{
+				"x":14,
+				"y":28
+			},
+			"has_ball":false
+
+		},
+		{
+			"player_type":"gutter_runner",
+			"extra_skills":["sprint"],
+			"board_position":{
+				"x":14,
+				"y":28
+			},
+			"has_ball":true
+
+
+		}
+	],
+	"is_ball_on_field":false,
+	"ball_position":{
+		"x": 0,
+		"y": 0
+	}
+}
+
+{
+	"challenge_name": "skaven_break_out",
+	"creator_name": "gauvain",
+	"challenge_type":"break_out",
+	"player_team":"skaven",
+	"opponent_team":"skaven",
+	"player_team_placement":[
+		{
+			"player_type":"line_rat",
+			"extra_skills":[],
+			"board_position":{
+				"x":12,
+				"y":13
+			},
+			"has_ball":true
+
+		}
+	],
+	"opponent_team_placement":[
+		{
+			"player_type":"line_rat",
+			"extra_skills":[],
+			"board_position":{
+				"x":12,
+				"y":13
+			},
+			"has_ball":false
+
+		},
+		{
+			"player_type":"rat_ogre",
+			"extra_skills":[],
+			"board_position":{
+				"x":14,
+				"y":28
+			},
+			"has_ball":false
+
+		},
+		{
+			"player_type":"gutter_runner",
+			"extra_skills":["sprint"],
+			"board_position":{
+				"x":14,
+				"y":28
+			},
+			"has_ball":true
+
+
+		}
+	],
+	"is_ball_on_field":false,
+	"ball_position":{
+		"x": 0,
+		"y": 0
+	}
+}
+
+
+{
+	"challenge_name": "skaven find the two die blocks",
+	"creator_name": "gauvain",
+	"challenge_type":"find_two_die_blocks",
+	"two_die_blocks": 5,
+	"player_team":"skaven",
+	"opponent_team":"skaven",
+	"opponent_team_placement":[
+		{
+			"player_type":"line_rat",
+			"extra_skills":[],
+			"board_position":{
+				"x":12,
+				"y":13
+			},
+			"has_ball":false
+
+		},
+		{
+			"player_type":"rat_ogre",
+			"extra_skills":[],
+			"board_position":{
+				"x":14,
+				"y":28
+			},
+			"has_ball":false
+
+		},
+		{
+			"player_type":"gutter_runner",
+			"extra_skills":["sprint"],
+			"board_position":{
+				"x":14,
+				"y":28
+			},
+			"has_ball":true
+
+
+		}
+	],
+	"is_ball_on_field":false,
+	"ball_position":{
+		"x": 0,
+		"y": 0
+	}
+}
