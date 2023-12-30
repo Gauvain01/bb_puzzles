@@ -61,25 +61,23 @@ func _ready():
 	for player:Player in player_team.get_players():
 		player.state_machine.switched_states.connect(on_player_state_changed)
 
-func on_player_state_changed(new_state):
+func on_player_state_changed(_player:Player, new_state):
 	match new_state:
 		PLAYER_STATE.SETUP_STATE:
 			#on selected player follows mouse
-			listen_for_select_on_players()
+			listen_for_select_on_player(_player)
 			#when deselected drops player on board and snaps on the correct field square
 			_player_selected.connect(on_selected_player_for_drag_and_drop)
 		PLAYER_STATE.IDLE_STATE:
-			stop_listen_for_select_on_players()
+			stop_listen_for_select_on_player(_player)
 
-func stop_listen_for_select_on_players():
-	for player:Player in player_team.get_players():
-		if player.select_component.selected.is_connected(on_player_select_for_setting_selected_player):
-			player.select_component.selected.disconnect(on_player_select_for_setting_selected_player)
+func stop_listen_for_select_on_player(_player):
+	if _player.select_component.selected.is_connected(on_player_select_for_setting_selected_player):
+		_player.select_component.selected.disconnect(on_player_select_for_setting_selected_player)
 	
-func listen_for_select_on_players():
-	for player:Player in player_team.get_players():
-		if !player.select_component.selected.is_connected(on_player_select_for_setting_selected_player):
-			player.select_component.selected.connect(on_player_select_for_setting_selected_player)
+func listen_for_select_on_player(_player:Player):
+	if !_player.select_component.selected.is_connected(on_player_select_for_setting_selected_player):
+		_player.select_component.selected.connect(on_player_select_for_setting_selected_player)
 
 func on_player_select_for_setting_selected_player(_player:Player):
 	selected_player = _player

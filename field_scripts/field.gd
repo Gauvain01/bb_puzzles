@@ -23,7 +23,7 @@ signal moved_player_during_play(player_ref: Player)
 signal moved_player(player_ref: Player, coord_from: Vector2, coord_to: Vector2)
 signal mouse_release_on_field_square
 
-
+	
 func on_mouse_release_square_select(square):
 	mouse_release_on_field_square.emit(square)
 
@@ -193,8 +193,6 @@ func _ready():
 	selection_observer.request_to_place_on_field.connect(request_to_place_on_field)
 	setup_field_square_mouse_release_signal()
 	queue_redraw()
-	place_opponent_team_on_field()
-	place_player_team_on_field()
 
 
 func _draw():
@@ -288,7 +286,9 @@ func place_opponent_team_on_field():
 
 	for i in players:
 		move_player_to_coordinate(i, position_data[i.name])
-
+func place_player_team_on_sideboard():
+	for player in player_team.get_players():
+		sideboard.request_to_place_on_sideBoard(player)
 
 func place_player_team_on_field():
 	if sideboard:

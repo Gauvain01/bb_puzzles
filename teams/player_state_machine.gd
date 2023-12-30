@@ -26,6 +26,8 @@ func setup_state_machine(player:Player):
 	add_child(blitz_state)
 	var move_state = MoveState.new(player)
 	add_child(move_state)
+	var downed_state = DownedState.new(player)
+	add_child(downed_state)
 
 	_state_map[PLAYER_STATE.MOVE_STATE] = move_state
 	_state_map[PLAYER_STATE.SETUP_STATE] = setup_state
@@ -34,6 +36,7 @@ func setup_state_machine(player:Player):
 	_state_map[PLAYER_STATE.IDLE_STATE] = idle_state
 	_state_map[PLAYER_STATE.BLOCK_STATE] = block_state
 	_state_map[PLAYER_STATE.BLITZ_STATE] = blitz_state
+	_state_map[PLAYER_STATE.DOWNED_STATE] = downed_state
 
 ## [param new_state]:[enum PLAYER_STATE].[Br]
 ## make sure [code]setup_state_machine(Player)[/code] is called at least once before this.
@@ -43,7 +46,7 @@ func switch_state(new_state:int):
 		current_state.exit()
 	current_state = _state_map[new_state]
 	current_state.enter()
-	switched_states.emit(new_state)
+	switched_states.emit(get_parent(),new_state)
 
 class PlayerState extends Node:
 	var _player:Player
@@ -136,7 +139,12 @@ class MoveState extends PlayerState:
 	func exit():
 		_player.stop_select_color_activation()
 	
-	
+class DownedState extends PlayerState:
+	func enter():
+		_player.change_color(Color.WHITE)
+
+	func exit():
+		_player.change_color(_player.default_color)
 
 	
 

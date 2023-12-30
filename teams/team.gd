@@ -13,49 +13,15 @@ var players:Array[Player] = []
 
 signal _disable_select_component_for_all_players(is_disabled:bool)
 
-
-
-func change_color_all_players(color:Color = Color.WHITE) -> void:
-	
-	for player in get_players():
-		player.default_color = color
-		player.change_color(color)
-
-
-func activate_action_menu_for_player(player:Player):
-	
-	
-	player.ui_component.activate_action_menu(true)
-	
-
-	
 func _ready():
 	
-	gameController.game_state_changed.connect(on_game_state_changed)
+	GameStateMachine.switched_game_state.connect(on_game_state_changed)
+	if is_opponent:
+		for player:Player in get_players():
+			player.state_machine.switch_state(PLAYER_STATE.IDLE_STATE)
 	
-	for i in get_children():
-		var player:Player = i
-		players.append(player)
-		_disable_select_component_for_all_players.connect(player.on_disable_collision)
-
 func disable_select_component_for_players(is_disable:bool):
 	_disable_select_component_for_all_players.emit(is_disable)
-
-func activate_ui_component_all_players(isActive:bool, exception:Player = null):
-	for player in get_children():
-		var i:Player = player
-
-		if player == exception:
-			continue
-
-		if isActive:
-			disable_select_component_for_players(false)
-			if i.player_state == PLAYER_STATE.ACTIVE_STATE:
-				i.ui_component.activate_ui_component(isActive)
-			if i.player_state == PLAYER_STATE.FINISHED_STATE:
-				continue
-
-		ComponentPool.store_select_component(i.select_component)
 
 
 func get_players() -> Array[Player]:
@@ -64,23 +30,24 @@ func get_players() -> Array[Player]:
 			players.append(i)
 	return players
 
-
-func clear_player_ui():
-	for i in get_players():
-		var player:Player = i
-		player.ui_component.clear_button_signals()
-
-
 func place_PlayerTeam_on_sideboard():
 	for player in get_children():
 		sideboard.request_to_place_on_sideBoard(player)
 
 
-func on_game_state_changed(new_game_state):
-	game_state = new_game_state
+func on_game_state_changed(new_game_state, old_game_state):
 	
-	for i in get_players():
-		i.game_state_change.emit(new_game_state)
+	if is_opponent:
+		return
+	
+	match new_game_state:
+		GAME_STATE.SETUP:
+			for player in get_players():
+				player.state_machine.switch_state(PLAYER_STATE.SETUP_STATE)
+		GAME_STATE.PLAY:
+			for player in get_players():
+				player.state_machine.switch_state(PLAYER_STATE.ACTIVE_STATE)
+				
 
 
 func store_position_data():
@@ -123,8 +90,3 @@ func get_position_data_from_file_node_name_pos_format() -> Dictionary:
 		output[node_name] = pos
 	acces_obj.close()
 	return output
-
-		
-func disable():
-	for player:Player in get_players():
-		player.disable()

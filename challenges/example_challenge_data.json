@@ -1,7 +1,8 @@
 {
-	"challenge_name": "skaven one turn",
+	"game_version":0.1,
+	"puzzle_name": "skaven one turn",
 	"creator_name": "gauvain",
-	"challenge_type":"one_turn",
+	"puzzle_type":"one_turn",
 	"player_team":"skaven",
 	"opponent_team":"skaven",
 	"player_team_placement":[],
@@ -46,6 +47,7 @@
 }
 
 {
+	"game_version": 0.1,
 	"challenge_name": "skaven_break_out",
 	"creator_name": "gauvain",
 	"challenge_type":"break_out",
@@ -105,6 +107,7 @@
 
 
 {
+	"game_version":0.1,
 	"challenge_name": "skaven find the two die blocks",
 	"creator_name": "gauvain",
 	"challenge_type":"find_two_die_blocks",
