@@ -17,7 +17,7 @@ mySprite = NodePath("BoardSprite")
 myGridPosition = Vector2(6, 11)
 isOpponent = true
 ball_texture = NodePath("BallTexture")
-ui_component = NodePath("Player_Ui_Component")
+ui_component = NodePath("PlayerUiComponent")
 blockDiceViewer = NodePath("BlockDiceViewer")
 
 [node name="BallTexture" type="TextureRect" parent="."]
@@ -53,7 +53,7 @@ AV = 8
 [node name="Skills" type="Node2D" parent="."]
 script = ExtResource("5_3dlth")
 
-[node name="Select_Component" parent="." node_paths=PackedStringArray("node_emit_on_select") instance=ExtResource("5_6d4g4")]
+[node name="SelectComponent" parent="." node_paths=PackedStringArray("node_emit_on_select") instance=ExtResource("5_6d4g4")]
 scale = Vector2(1.4, 1.44)
 node_emit_on_select = NodePath("..")
 
@@ -62,7 +62,8 @@ z_index = 1
 position = Vector2(-1, 0)
 script = ExtResource("7_tnamy")
 
-[node name="Player_Ui_Component" parent="." instance=ExtResource("6_qnm0n")]
+[node name="PlayerUiComponent" parent="." instance=ExtResource("6_qnm0n")]
+visible = false
 visibility_layer = 2
 z_index = 2
 position = Vector2(21, -28)

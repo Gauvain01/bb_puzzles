@@ -42,6 +42,8 @@ func setup_state_machine(player:Player):
 ## make sure [code]setup_state_machine(Player)[/code] is called at least once before this.
 ## for example: [code]switch_state(PLAYER_STATE.SETUP_STATE)[/code]
 func switch_state(new_state:int):
+	if current_state == _state_map[new_state]:
+		return
 	if current_state != null:
 		current_state.exit()
 	current_state = _state_map[new_state]
@@ -50,7 +52,7 @@ func switch_state(new_state:int):
 
 class PlayerState extends Node:
 	var _player:Player
-
+	var _debug_type:String = "base_player_state"
 	func enter():
 		pass
 	
@@ -61,7 +63,11 @@ class PlayerState extends Node:
 		_player = player
 
 class SetupState extends PlayerState:
-	
+
+	func _init(player:Player):
+		super._init(player)
+		_debug_type = "SetupState"
+
 	func enter():
 		#setup select color
 		_player.setup_select_color_activation()
@@ -77,6 +83,9 @@ class SetupState extends PlayerState:
 		_player.change_color(_player.default_color)
 	
 class ActiveState extends PlayerState:
+	func _init(player:Player):
+		super._init(player)
+		_debug_type = "ActiveState"
 
 	func enter():
 		#setup select color
@@ -95,6 +104,9 @@ class ActiveState extends PlayerState:
 		_player.deactivate_action_menu()
 
 class IdleState extends PlayerState:
+	func _init(player:Player):
+		super._init(player)
+		_debug_type = "IdleState"
 
 	func enter():
 		#setup hover color
@@ -104,6 +116,9 @@ class IdleState extends PlayerState:
 		_player.stop_hover_color_activation()
 	
 class FinishedState extends PlayerState:
+	func _init(player:Player):
+		super._init(player)
+		_debug_type = "FinishedState"
 
 	func enter():
 		_player.change_color(Color.GRAY)
@@ -115,6 +130,9 @@ class FinishedState extends PlayerState:
 		assert(false, "tried to exit the inactive state, when a player is inactive it is not supposed to be activated")
 
 class BlitzState extends PlayerState:
+	func _init(player:Player):
+		super._init(player)
+		_debug_type = "BlitzState"
 	func enter():
 		#set color to blitz 
 		_player.change_color(_player.blitz_color)
@@ -124,6 +142,9 @@ class BlitzState extends PlayerState:
 		_player.change_color(_player.default_color)
 
 class BlockState extends PlayerState:
+	func _init(player:Player):
+		super._init(player)
+		_debug_type = "BlockState"
 	func enter():
 		#set color to block
 		_player.change_color(_player.block_color)
@@ -133,6 +154,9 @@ class BlockState extends PlayerState:
 		_player.change_color(_player.default_color)
 
 class MoveState extends PlayerState:
+	func _init(player:Player):
+		super._init(player)
+		_debug_type = "MoveState"
 	func enter():
 		_player.setup_select_color_activation()
 	
@@ -140,6 +164,9 @@ class MoveState extends PlayerState:
 		_player.stop_select_color_activation()
 	
 class DownedState extends PlayerState:
+	func _init(player:Player):
+		super._init(player)
+		_debug_type = "DownedState"
 	func enter():
 		_player.change_color(Color.WHITE)
 

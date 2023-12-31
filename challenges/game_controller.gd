@@ -17,6 +17,9 @@ signal game_state_changed(game_state)
 func _ready():
 	total_players = player_team.get_players(); 
 	ui_controller.get_end_setup_button_signal().connect(on_end_setup_pressed)
+	field.place_opponent_team_on_field()
+	field.place_player_team_on_field()
+	GameStateMachine.switch_states(GAME_STATE.SETUP)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

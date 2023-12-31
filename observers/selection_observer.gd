@@ -60,6 +60,24 @@ func _ready():
 	#			j.select_component.get_mouse_exited_signal().connect(on_mouse_exit_player)
 	for player:Player in player_team.get_players():
 		player.state_machine.switched_states.connect(on_player_state_changed)
+	start_listening_for_selected_field_square()
+
+func start_listening_for_selected_field_square():
+	for field_square:field_square_script.FieldSquare in field.grid.field_squares:
+		if !field_square.select_component._mouse_entered_release_selected.is_connected(on_mouse_enter_square):
+			field_square.select_component._mouse_entered_release_selected.connect(on_mouse_enter_square)
+		if !field_square.select_component._mouse_exited_release_selected.is_connected(on_mouse_exit_square):
+			field_square.select_component._mouse_exited_release_selected.connect(on_mouse_exit_square)
+
+func stop_listening_for_selected_field_square():
+	for field_square:field_square_script.FieldSquare in field.grid.field_squares:
+		if field_square.select_component._mouse_entered_release_selected.is_connected(on_mouse_enter_square):
+			field_square.select_component._mouse_entered_release_selected.disconnect(on_mouse_enter_square)
+		if field_square.select_component._mouse_exited_release_selected.is_connected(on_mouse_exit_square):
+			field_square.select_component._mouse_exited_release_selected.disconnect(on_mouse_exit_square)
+
+
+
 
 func on_player_state_changed(_player:Player, new_state):
 	match new_state:
@@ -67,7 +85,8 @@ func on_player_state_changed(_player:Player, new_state):
 			#on selected player follows mouse
 			listen_for_select_on_player(_player)
 			#when deselected drops player on board and snaps on the correct field square
-			_player_selected.connect(on_selected_player_for_drag_and_drop)
+			if !_player_selected.is_connected(on_selected_player_for_drag_and_drop):
+				_player_selected.connect(on_selected_player_for_drag_and_drop)
 		PLAYER_STATE.IDLE_STATE:
 			stop_listen_for_select_on_player(_player)
 
@@ -87,11 +106,13 @@ func on_player_select_for_setting_selected_player(_player:Player):
 	_player_selected.emit()
 
 func on_selected_player_for_drag_and_drop():
+	print("got on selected_player for drag and drop")
 	is_player_drag_and_drop = true
 	for player:Player in player_team.get_players():
 		if player != selected_player:
 			player.state_machine.switch_state(PLAYER_STATE.IDLE_STATE)
 	selected_player.select_component.emit_deselected_on_next_mouse_release = true
+	selected_player.select_component.listen_for_deselect()
 	selected_player.select_component.deselected.connect(on_player_deselect_snap_player_to_field)
 	
 
@@ -121,6 +142,7 @@ func activate_hover_square(square: field_square_script.FieldSquare, isActive: bo
 func on_mouse_enter_square(square):
 	hover_square.emit(square)
 	activate_hover_square(square, true)
+	selected_field_square = square
 
 
 func on_mouse_exit_square(square):

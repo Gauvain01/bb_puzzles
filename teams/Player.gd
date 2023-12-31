@@ -74,7 +74,7 @@ func _ready():
 	mySprite = get_node("BoardSprite")
 	select_component = NodeInspector.get_select_component(self)
 	select_component.node_emit_on_select = self
-	select_component.is_listen_for_deselect = true
+	select_component.allow_emit_deselected = true
 	mySprite.is_opponent = isOpponent
 	mySprite.draw_team_overlay()
 	state_machine = PlayerStateMachine.new()
