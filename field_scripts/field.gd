@@ -129,10 +129,9 @@ func is_grid_coordinate_out_of_bounds(coordinate) -> bool:
 
 
 func request_to_place_on_field(board_piece: Player, field_square):
-	if field_square.occupied != null and get_parent().game_state == GAME_STATE.SETUP:
+	if field_square.occupied != null and GameStateMachine.get_game_state() == GAME_STATE.SETUP:
 		if (
 			field_square.player_team == "opponent"
-			and game_controller.opponent_placement_allowed == false
 		):
 			LogController.add_text(
 				"ERROR: you can't place your player on the opponents half of the pitch"
@@ -150,7 +149,7 @@ func request_to_place_on_field(board_piece: Player, field_square):
 		holdingPiece.my_field_square = field_square
 		holdingPiece.my_field_square.occupied = holdingPiece
 		holdingPiece.global_position = field_square.global_position
-
+		
 		onFieldPiece.my_field_square = holdingPieceTile
 		onFieldPiece.my_field_square.occupied = onFieldPiece
 		onFieldPiece.global_position = onFieldPiece.my_field_square.global_position
@@ -161,9 +160,7 @@ func request_to_place_on_field(board_piece: Player, field_square):
 	board_piece.my_field_square = null
 
 	if (
-		field_square.player_team == "opponent"
-		and game_controller.opponent_placement_allowed == false
-	):
+		field_square.player_team == "opponent") and GameStateMachine.get_game_state() == GAME_STATE.SETUP:
 		LogController.add_text(
 			"ERROR: you can't place your player on the opponents half of the pitch"
 		)

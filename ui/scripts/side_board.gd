@@ -7,6 +7,8 @@ const SQUARE_SIZE = 35
 const XFILL = 50
 const YFILL = 50
 var players_on_sideboard = 0
+var side_board_map = {} #{Player:Square}
+var available_field_squares = []
 
 @export var field_squares = []
 func _generate_field_squares():
@@ -27,24 +29,22 @@ func _generate_field_squares():
 
 			var field_square = await field_square_script.FieldSquare.new(square_position, team, zone, square_color, size, Vector2(x,y) )
 			field_squares.append(field_square)
-			
+			available_field_squares.append(field_square)
 			add_child(field_square)
 
 func request_to_place_on_sideBoard(board_piece):
 	if len(field_squares) == 0:
 		_generate_field_squares()
-	for field_square in field_squares:
-		#field_square.get_node("Select_Component").collision_Component.disabled = true
-		if field_square.occupied == null:
-			
-			board_piece.global_position = field_square.global_position
-			field_square.occupied = board_piece
-			board_piece.my_field_square = field_square
-			players_on_sideboard += 1
-			
-			break
 
+	if not side_board_map.has(board_piece):
+		side_board_map[board_piece] = available_field_squares.pop_back()
 	
+	var square = side_board_map[board_piece]
+	board_piece.global_position = square.global_position
+	square.occupied = board_piece
+	board_piece.my_field_square = square
+	players_on_sideboard += 1
+
 func _ready():
 	
 	_generate_field_squares()

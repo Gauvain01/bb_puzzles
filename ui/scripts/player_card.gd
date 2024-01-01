@@ -23,7 +23,7 @@ func on_board_piece_hover(board_piece):
 		AG_label.text = "AG:   %d+" % board_piece.get_node("Stats").AG
 		PA_label.text = "PA:   %d+" % board_piece.get_node("Stats").PA
 		AV_label.text = "AV:   %d+" % board_piece.get_node("Stats").AV
-		label.text = board_piece.name
+		label.text = board_piece.player_type_string
 
 func on_board_piece_exit_hover(_player:Player):
 	MA_label.text = "MA:"
