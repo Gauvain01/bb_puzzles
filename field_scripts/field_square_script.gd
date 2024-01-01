@@ -2,7 +2,7 @@ class_name field_square_script
 
 
 class FieldSquare:
-	extends Area2D
+	extends Node2D
 
 	var square_position
 	var player_team
@@ -14,8 +14,8 @@ class FieldSquare:
 	var label
 	var default_color = Color.OLIVE
 	var select_component: SelectComponent
-	var collider_component
 	var _field_color = Color.OLIVE
+	var collider_component:ColliderComponent
 	var force_label = false
 	var rollDisplayComponent: RollDisplayComponent
 	signal mouse_exited_field_square(fieldSquare)
@@ -52,16 +52,17 @@ class FieldSquare:
 		name = "field_square"
 		self.position = newPosition + Vector2(35 / 2, 35 / 2)
 
-		input_pickable = true
-		monitoring = true
+		#input_pickable = true
+		#monitoring = true
 		label = Label.new()
 		label.visible = false
 		#label.text = str(self.gridCoordinate)
+		self.collider_component = ComponentFactory.build_collider_component()
 		self.rollDisplayComponent = ComponentFactory.build_roll_display_component()
 		self.select_component = ComponentFactory.build_select_component()
 		
 		self.select_component.ready.connect(on_select_component_ready)
-
+		add_child(self.collider_component)
 		add_child(self.rollDisplayComponent)
 		add_child(self.select_component)
 
@@ -73,6 +74,11 @@ class FieldSquare:
 		colliderRectangle.set_size(Vector2(33, 33))
 		self.select_component.set_shape_collider(colliderRectangle)
 		self.select_component.node_emit_on_select = self
+
+		var circle_shape = CircleShape2D.new()
+		circle_shape.set_radius(1)
+		self.collider_component.collision_shape.shape = circle_shape
+		
 
 	func disable_collision(isDisable: bool):
 		self.select_component.collision_component.disabled = !isDisable

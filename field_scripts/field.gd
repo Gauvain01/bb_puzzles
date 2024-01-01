@@ -9,6 +9,7 @@ class_name Field
 @export var tackle_zone_component: TackleZoneComponent
 @export var opponent: TeamComponent
 @export var game_controller: GameController
+var field_rect:Rect2
 var player_coordinate_position_map = {}
 var field_squares_draw_array = []
 var isDrawBox = true
@@ -193,6 +194,13 @@ func _ready():
 	selection_observer.request_to_place_on_field.connect(request_to_place_on_field)
 	setup_field_square_mouse_release_signal()
 	queue_redraw()
+	field_rect = Rect2(
+				grid.X_FILL,
+				grid.Y_FILL,
+				grid.COLUMNS * grid.SQUARE_SIZE,
+				grid.ROWS * grid.SQUARE_SIZE
+			)
+
 
 
 func _draw():
@@ -209,20 +217,10 @@ func _draw():
 
 
 func isOnTheField(point: Vector2) -> bool:
-	var coordA
-	var coordB
-	var coordC
-	var coordD
-	var myPosition = global_position + Vector2(grid.X_FILL, grid.Y_FILL)
-	var eventPosition = point
+	return field_rect.has_point(point)
 
-	coordA = myPosition
-	coordB = coordA + Vector2(grid.COLUMNS * grid.SQUARE_SIZE, 0)
-	coordD = coordA + Vector2(0, grid.ROWS * grid.SQUARE_SIZE)
-	coordC = Vector2(coordB.x, coordD.y)
-
-	return Util.isInsideSquare(coordA, coordB, coordC, coordD, eventPosition)
-
+func is_mouse_inside_field() -> bool:
+	return isOnTheField(get_local_mouse_position())
 
 func get_player_gridPositions(player_team):
 	var squares = []

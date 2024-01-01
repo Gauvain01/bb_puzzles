@@ -10,6 +10,7 @@ var stats
 @export var myGridPosition: Vector2
 @export var isOpponent: bool = false
 @export var ball_texture: TextureRect
+@export var collider_component:ColliderComponent
 var select_component: SelectComponent
 @export var ui_component: PlayerUiComponent
 @export var actionMenu: MenuButton
@@ -18,6 +19,7 @@ var select_component: SelectComponent
 @export var hover_color = Color.BLUE
 @export var blitz_color = Color.GREEN
 @export var block_color = Color.PURPLE
+
 var player_state
 var my_field_square: field_square_script.FieldSquare
 var util
@@ -75,6 +77,9 @@ func _ready():
 	select_component = NodeInspector.get_select_component(self)
 	select_component.node_emit_on_select = self
 	select_component.allow_emit_deselected = true
+
+	collider_component = NodeInspector.get_collider_component(self)
+
 	mySprite.is_opponent = isOpponent
 	mySprite.draw_team_overlay()
 	state_machine = PlayerStateMachine.new()

@@ -13,6 +13,7 @@ signal _mouse_entered_release_selected
 signal _mouse_exited_release_selected
 
 var enabled_flag = true
+var is_mouse_entered = false
 
 
 func disable():
@@ -38,13 +39,17 @@ func _ready():
 func _on_mouse_entered():
 	if !enabled_flag:
 		return
-	_mouse_entered_release_selected.emit(node_emit_on_select)
+	if not is_mouse_entered:
+		_mouse_entered_release_selected.emit(node_emit_on_select)
+		is_mouse_entered = true
 
 
 func _on_mouse_exited():
 	if !enabled_flag:
 		return
-	_mouse_exited_release_selected.emit(node_emit_on_select)
+	if not collision_component.shape.get_rect().has_point(get_local_mouse_position()):
+		_mouse_exited_release_selected.emit(node_emit_on_select)
+		is_mouse_entered = false
 
 
 func is_mouse_in_collider() -> bool:

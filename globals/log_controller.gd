@@ -16,5 +16,7 @@ func _go_to_bottom() -> void:
 	scroll_container.scroll_vertical = _bar.max_value
 
 
-func add_text(text: String) -> void:
+func add_text(text: Variant) -> void:
+	if not text is String:
+		text = str(text)
 	label.text = label.text + "\n" + text

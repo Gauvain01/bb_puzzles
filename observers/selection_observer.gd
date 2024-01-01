@@ -18,14 +18,12 @@ var is_player_drag_and_drop = false
 var is_select_coloration = true
 var is_hover_allowed = true
 var is_action_menu_active = false
-
 signal _player_selected
 signal hover_square(square)
 signal hover_left(square)
 signal selection_is_on
 signal selection_is_off
 signal request_to_place_on_field(board_piece, fieldSquare)
-
 
 
 func _ready():
@@ -106,7 +104,6 @@ func on_player_select_for_setting_selected_player(_player:Player):
 	_player_selected.emit()
 
 func on_selected_player_for_drag_and_drop():
-	print("got on selected_player for drag and drop")
 	is_player_drag_and_drop = true
 	for player:Player in player_team.get_players():
 		if player != selected_player:
@@ -114,6 +111,13 @@ func on_selected_player_for_drag_and_drop():
 	selected_player.select_component.emit_deselected_on_next_mouse_release = true
 	selected_player.select_component.listen_for_deselect()
 	selected_player.select_component.deselected.connect(on_player_deselect_snap_player_to_field)
+	selected_player.collider_component.area_shape_entered.connect(listen_for_field_square_from_player_collision)
+	
+func listen_for_field_square_from_player_collision(area_rid:RID, area:Area2D, area_shape_index:int, local_shape_index:int):
+	if area.get_parent() is field_square_script.FieldSquare:
+		selected_field_square = area.get_parent()
+
+
 	
 
 func set_player_pos_to_mouse_pos(_player:Player):
@@ -121,7 +125,7 @@ func set_player_pos_to_mouse_pos(_player:Player):
 	_player.global_position = _mouse_position
 
 func on_player_deselect_snap_player_to_field(_player:Player):
-	if selected_field_square == null:
+	if not field.is_mouse_inside_field():
 		LogController.add_text("ERROR: MUST PLACE PLAYER ON FIELD OR SIDEBOARD DURING SETUP")
 		side_board.request_to_place_on_sideBoard(_player)
 	else:
@@ -129,6 +133,14 @@ func on_player_deselect_snap_player_to_field(_player:Player):
 	_player.select_component.deselected.disconnect(on_player_deselect_snap_player_to_field)
 	_player.select_component.emit_deselected_on_next_mouse_release = false
 	is_player_drag_and_drop = false
+
+	for player:Player in player_team.get_players():
+		player.state_machine.switch_state(PLAYER_STATE.SETUP_STATE)
+	
+	listen_for_select_on_player(_player)
+	if !_player_selected.is_connected(on_selected_player_for_drag_and_drop):
+		_player_selected.connect(on_selected_player_for_drag_and_drop)
+
 
 func activate_hover_square(square: field_square_script.FieldSquare, isActive: bool):
 	if !is_select_coloration:
@@ -142,16 +154,17 @@ func activate_hover_square(square: field_square_script.FieldSquare, isActive: bo
 func on_mouse_enter_square(square):
 	hover_square.emit(square)
 	activate_hover_square(square, true)
-	selected_field_square = square
 
 
 func on_mouse_exit_square(square):
 	hover_left.emit(square)
 	activate_hover_square(square, false)
 
+#do not use mouse enter, use colliders.
+
+
 
 func _process(_delta):
 	if is_player_drag_and_drop:
 		set_player_pos_to_mouse_pos(selected_player)
-		
 
