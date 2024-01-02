@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ch2683b76yi3b"]
+
+[ext_resource type="Script" path="res://components/component_scripts/drag_and_drop_component.gd" id="1_myg84"]
+
+[node name="DragAndDropComponent" type="Node2D"]
+script = ExtResource("1_myg84")

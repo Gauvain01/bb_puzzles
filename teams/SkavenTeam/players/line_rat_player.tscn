@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cwav44svuxn5l"]
+[gd_scene load_steps=12 format=3 uid="uid://cwav44svuxn5l"]
 
 [ext_resource type="Script" path="res://teams/Player.gd" id="1_0lfiq"]
 [ext_resource type="Texture2D" uid="uid://ntigctv0fom6" path="res://assets/textures/ball.png" id="2_edahv"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://dmj4qqjic80ht" path="res://components/component_scenes/player_ui_component.tscn" id="6_qnm0n"]
 [ext_resource type="Script" path="res://teams/block_dice_viewer.gd" id="7_tnamy"]
 [ext_resource type="PackedScene" uid="uid://blr437bq866w7" path="res://components/component_scenes/collider_component.tscn" id="10_ao2xe"]
+[ext_resource type="PackedScene" uid="uid://ch2683b76yi3b" path="res://components/component_scenes/drag_and_drop_component.tscn" id="11_k3y3d"]
 
 [node name="line_rat" type="Node2D" node_paths=PackedStringArray("mySprite", "ball_texture", "ui_component", "blockDiceViewer")]
 position = Vector2(1083, 210)
@@ -72,3 +73,5 @@ position = Vector2(21, -28)
 
 [node name="ColliderComponent" parent="." instance=ExtResource("10_ao2xe")]
 scale = Vector2(1.4, 1.4)
+
+[node name="DragAndDropComponent" parent="." instance=ExtResource("11_k3y3d")]

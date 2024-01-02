@@ -110,8 +110,10 @@ func on_selected_player_for_drag_and_drop():
 			player.state_machine.switch_state(PLAYER_STATE.IDLE_STATE)
 	selected_player.select_component.emit_deselected_on_next_mouse_release = true
 	selected_player.select_component.listen_for_deselect()
-	selected_player.select_component.deselected.connect(on_player_deselect_snap_player_to_field)
+	selected_player.select_component.deselected.connect(on_player_deselect_drop_player)
 	selected_player.collider_component.area_shape_entered.connect(listen_for_field_square_from_player_collision)
+	NodeInspector.get_drag_and_drop_component(selected_player).drag()
+
 	
 func listen_for_field_square_from_player_collision(area_rid:RID, area:Area2D, area_shape_index:int, local_shape_index:int):
 	if area.get_parent() is field_square_script.FieldSquare:
@@ -124,20 +126,22 @@ func set_player_pos_to_mouse_pos(_player:Player):
 	var _mouse_position = get_viewport().get_mouse_position()
 	_player.global_position = _mouse_position
 
-func on_player_deselect_snap_player_to_field(_player:Player):
+func on_player_deselect_drop_player(_player:Player):
+	NodeInspector.get_drag_and_drop_component(_player).drop(on_dropped_selected_player_for_field_snap)
+	_player.select_component.deselected.disconnect(on_player_deselect_drop_player)
+	_player.select_component.emit_deselected_on_next_mouse_release = false
+
+func on_dropped_selected_player_for_field_snap():
 	if not field.is_mouse_inside_field():
 		LogController.add_text("ERROR: MUST PLACE PLAYER ON FIELD OR SIDEBOARD DURING SETUP")
-		side_board.request_to_place_on_sideBoard(_player)
+		side_board.request_to_place_on_sideBoard(selected_player)
 	else:
-		field.request_to_place_on_field(_player, selected_field_square)
-	_player.select_component.deselected.disconnect(on_player_deselect_snap_player_to_field)
-	_player.select_component.emit_deselected_on_next_mouse_release = false
-	is_player_drag_and_drop = false
+		field.request_to_place_on_field(selected_player, selected_field_square)
 
 	for player:Player in player_team.get_players():
 		player.state_machine.switch_state(PLAYER_STATE.SETUP_STATE)
 	
-	listen_for_select_on_player(_player)
+	listen_for_select_on_player(selected_player)
 	if !_player_selected.is_connected(on_selected_player_for_drag_and_drop):
 		_player_selected.connect(on_selected_player_for_drag_and_drop)
 
@@ -161,10 +165,4 @@ func on_mouse_exit_square(square):
 	activate_hover_square(square, false)
 
 #do not use mouse enter, use colliders.
-
-
-
-func _process(_delta):
-	if is_player_drag_and_drop:
-		set_player_pos_to_mouse_pos(selected_player)
 

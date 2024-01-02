@@ -10,6 +10,7 @@ const _INPUT_COMPONENT_PATH = "res://components/component_scenes/input_component
 const _PLAYER_UI_COMPONENT_PATH = "res://components/component_scenes/player_ui_component.tscn"
 const _ROLL_DISPLAY_COMPONENT_PATH = "res://components/component_scenes/roll_display_component.tscn"
 const _SELECT_COMPONENT_PATH = "res://components/component_scenes/select_component.tscn"
+const _DRAG_AND_DROP_COMPONENT_PATH = "res://components/component_scenes/drag_and_drop_component.tscn"
 
 var _COMPONENT_ENUM_MAP = {
 	COMPONENT_TYPE.ACTION_MENU_COMPONENT: Callable(self, "build_action_menu_component"),
@@ -20,6 +21,7 @@ var _COMPONENT_ENUM_MAP = {
 	COMPONENT_TYPE.PLAYER_UI_COMPONENT: Callable(self, "build_player_ui_component"),
 	COMPONENT_TYPE.ROLL_DISPLAY_COMPONENT: Callable(self, "build_roll_display_component"),
 	COMPONENT_TYPE.SELECT_COMPONENT: Callable(self, "build_select_component"),
+	COMPONENT_TYPE.DRAG_AND_DROP_COMPONENT:Callable(self, "build_drag_and_drop_component")
 }
 
 
@@ -42,6 +44,9 @@ func build_collider_component() -> ColliderComponent:
 
 func build_follow_stay_menu_component() -> FollowStayMenuComponent:
 	return preload(_FOLLOW_STAY_MENU_COMPONENT_PATH).instantiate()
+
+func build_drag_and_drop_component() -> DragAndDropComponent:
+	return preload(_DRAG_AND_DROP_COMPONENT_PATH).instantiate()
 
 
 func build_input_component() -> InputComponent:
