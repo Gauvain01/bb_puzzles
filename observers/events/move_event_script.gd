@@ -19,7 +19,8 @@ class MoveEvent extends Node2D:
 	var total_movement
 	
 	func _init(field:Field, player:Player, selection_observer:SelectionObserver):
-		field.player_team.activate_ui_component_all_players(false, player)
+		field.player_team.set_all_active_players_to_idle_state()
+		player.state_machine.switch_state(PLAYER_STATE.ACTIVE_STATE)
 		self.field = field
 		self.player = player
 		self.instantiated.emit()
@@ -214,7 +215,6 @@ class MoveEvent extends Node2D:
 		
 	func disable_action_menu_for_player():
 		
-		player.ui_component.activate_ui_component(true)
 		player.ui_component.action_menu_component.blitz_button.disabled = true
 		player.ui_component.action_menu_component.move_button.disabled = true
 		player.ui_component.action_menu_component.block_button.disabled = true
@@ -231,7 +231,7 @@ class MoveEvent extends Node2D:
 		
 		field.reset_field_state()
 		
-		player.change_player_state(PLAYER_STATE.FINISHED_STATE)
+		player.state_machine.switch_state(PLAYER_STATE.FINISHED_STATE)
 		selection_observer.activate_select_coloration(true)
 		is_completed.emit()
 		destroy()

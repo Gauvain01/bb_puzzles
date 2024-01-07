@@ -12,6 +12,8 @@ var players:Array[Player] = []
 
 signal _disable_select_component_for_all_players(is_disabled:bool)
 
+
+
 func _ready():
 	
 	GameStateMachine.switched_game_state.connect(on_game_state_changed)
@@ -29,11 +31,15 @@ func set_all_active_players_to_idle_state():
 	for player in get_active_players():
 		player.state_machine.switch_state(PLAYER_STATE.IDLE_STATE)
 
+func set_not_downed_players_to_target_select_state():
+	for player:Player in get_active_players():
+		player.state_machine.switch_state(PLAYER_STATE.TARGET_SELECT_STATE)
+
 func get_active_players():
 
 	var output = []
 	for player:Player in get_players():
-		if player.state_machine.current_state is PlayerStateMachine.FinishedState:
+		if player.state_machine.current_state is PlayerStateMachine.FinishedState or PlayerStateMachine.DownedState:
 			continue
 		else:
 			output.append(player)

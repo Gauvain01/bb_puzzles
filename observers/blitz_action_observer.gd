@@ -22,15 +22,15 @@ func _ready():
 
 func on_blitz_pressed(player: Player):
 	print("blitz pressed")
-	player_team.activate_ui_component_all_players(false, player)
+	player_team.set_all_active_players_to_idle_state()
 	active_player = player
 	for i in opponent_team.get_players():
 		i.select_component.selected.connect(on_player_select_for_blitz_target)
-	opponent_team.change_color_all_players(Color.ORANGE)
+	opponent_team.set_not_downed_players_to_target_select_state()
 
 
 func on_player_select_for_blitz_target(player: Player):
-	opponent_team.change_color_all_players(Color.WHITE)
+	opponent_team.set_all_active_players_to_idle_state()
 
 	for i in opponent_team.get_players():
 		i.select_component.selected.disconnect(on_player_select_for_blitz_target)
@@ -78,4 +78,4 @@ func on_block_event_completed():
 	active_block_event.destroy()
 	active_block_event = null
 	field.tackle_zone_component.refresh_tackle_zones()
-	field.player_team.activate_ui_component_all_players(true)
+	player_team.set_active_players_to_active_state()

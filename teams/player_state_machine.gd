@@ -28,7 +28,10 @@ func setup_state_machine(player:Player):
 	add_child(move_state)
 	var downed_state = DownedState.new(player)
 	add_child(downed_state)
+	var target_select_state = TargetSelectState.new(player)
+	add_child(target_select_state)
 
+	_state_map[PLAYER_STATE.TARGET_SELECT_STATE] = target_select_state
 	_state_map[PLAYER_STATE.MOVE_STATE] = move_state
 	_state_map[PLAYER_STATE.SETUP_STATE] = setup_state
 	_state_map[PLAYER_STATE.ACTIVE_STATE] = active_state
@@ -37,6 +40,7 @@ func setup_state_machine(player:Player):
 	_state_map[PLAYER_STATE.BLOCK_STATE] = block_state
 	_state_map[PLAYER_STATE.BLITZ_STATE] = blitz_state
 	_state_map[PLAYER_STATE.DOWNED_STATE] = downed_state
+
 
 ## [param new_state]:[enum PLAYER_STATE].[Br]
 ## make sure [code]setup_state_machine(Player)[/code] is called at least once before this.
@@ -174,7 +178,25 @@ class DownedState extends PlayerState:
 		_player.change_color(_player.default_color)
 
 
+class TargetSelectState extends PlayerState:
+	var _previous_default_color
+	func _init(player:Player):
+		super._init(player)
+		_debug_type = "TargetSelectState"
+	func enter():
+		_previous_default_color = _player.default_color
+		_player.default_color = Color.ORANGE
+		_player.change_color(_player.default_color)
+		_player.setup_hover_color_activation()
+		_player.setup_select_color_activation()
+	
+	func exit():
+		_player.default_color = _previous_default_color
+		_player.stop_hover_color_activation()
+		_player.stop_select_color_activation()
+		_player.change_color(_player.default_color)
 
+		
 		
 
 		
