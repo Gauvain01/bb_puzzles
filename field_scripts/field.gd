@@ -8,7 +8,6 @@ class_name Field
 @export var player_team: TeamComponent
 @export var tackle_zone_component: TackleZoneComponent
 @export var opponent: TeamComponent
-@export var game_controller: GameController
 var field_rect:Rect2
 var player_coordinate_position_map = {}
 var field_squares_draw_array = []
@@ -74,7 +73,7 @@ func move_player_to_coordinate(player: Player, coordinate: Vector2):
 	player.global_position = new_square.global_position
 	moved_player.emit(player, old_square, new_square.gridCoordinate)
 
-	if game_controller.game_state == GAME_STATE.PLAY:
+	if GameStateMachine.get_game_state() == GAME_STATE.PLAY:
 		moved_player_during_play.emit(player)
 
 
@@ -128,50 +127,6 @@ func is_grid_coordinate_out_of_bounds(coordinate) -> bool:
 	return true
 
 
-func request_to_place_on_field(board_piece: Player, field_square):
-	if field_square.occupied != null and GameStateMachine.get_game_state() == GAME_STATE.SETUP:
-		if (
-			field_square.player_team == "opponent"
-		):
-			LogController.add_text(
-				"ERROR: you can't place your player on the opponents half of the pitch"
-			)
-
-			sideboard.request_to_place_on_sideBoard(board_piece)
-			return
-		LogController.add_text("INFO: switched two players")
-		var holdingPiece = board_piece
-		var onFieldPiece = field_square.occupied
-		var holdingPieceTile = holdingPiece.my_field_square
-
-		#if onFieldPieceTile.zone =="sideboard":
-		#get_parent().get_node("SideBoard").players_on_sideboard +=1
-		holdingPiece.my_field_square = field_square
-		holdingPiece.my_field_square.occupied = holdingPiece
-		holdingPiece.global_position = field_square.global_position
-		
-		onFieldPiece.my_field_square = holdingPieceTile
-		onFieldPiece.my_field_square.occupied = onFieldPiece
-		onFieldPiece.global_position = onFieldPiece.my_field_square.global_position
-		onFieldPiece.my_field_square.disable_collision(true)
-		return
-
-	board_piece.my_field_square.occupied = null
-	board_piece.my_field_square = null
-
-	if (
-		field_square.player_team == "opponent") and GameStateMachine.get_game_state() == GAME_STATE.SETUP:
-		LogController.add_text(
-			"ERROR: you can't place your player on the opponents half of the pitch"
-		)
-
-		sideboard.request_to_place_on_sideBoard(board_piece)
-		return
-	board_piece.global_position = field_square.global_position
-	field_square.occupied = board_piece
-	board_piece.my_field_square = field_square
-	field_square.disable_collision(true)
-
 
 func request_to_place_opponent(player, gridCoordinate):
 	var field_square = player_coordinate_position_map[gridCoordinate]
@@ -198,6 +153,34 @@ func _ready():
 				grid.ROWS * grid.SQUARE_SIZE
 			)
 
+
+
+
+func request_to_place_on_field(player:Player, requested_square:field_square_script.FieldSquare):
+	var current_player_square = player.my_field_square
+
+	if requested_square.get_occupied() != null and requested_square.get_occupied() is Player:
+		_switch_players(player, requested_square.occupied)
+		return
+	
+	current_player_square.occupy_set_null()
+	requested_square.occupy(player) 
+
+
+
+
+
+func _switch_players(player_one:Player, player_two:Player):
+	var player_one_square = player_one.my_field_square
+	var player_two_square = player_two.my_field_square
+
+	player_one_square.occupy(player_two) 
+	player_two_square.occupy(player_one)
+
+
+
+
+	
 
 
 func _draw():
@@ -281,6 +264,7 @@ func place_opponent_team_on_field():
 
 	for i in players:
 		move_player_to_coordinate(i, position_data[i.name])
+
 func place_player_team_on_sideboard():
 	for player in player_team.get_players():
 		sideboard.request_to_place_on_sideBoard(player)

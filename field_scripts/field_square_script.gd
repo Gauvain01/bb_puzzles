@@ -1,6 +1,4 @@
 class_name field_square_script
-
-
 class FieldSquare:
 	extends Node2D
 
@@ -69,6 +67,27 @@ class FieldSquare:
 		self.rollDisplayComponent.position += Vector2(size.x / 2 - 3, -size.y / 2 + 3)
 		add_child(label)
 
+
+	
+	func occupy(entity:Node):
+		self.occupied = entity
+		entity.global_position = global_position
+
+		if entity is Player:
+			entity.my_field_square = self
+
+	func occupy_set_null():
+		self.occupied = null
+	func is_occupied() -> bool:
+		return self.occupied != null
+	
+	func get_occupied(deoccupy_set_null:bool = false):
+		var occupied_entity = self.occupied
+		if deoccupy_set_null:
+			self.occupied = null
+		return occupied_entity
+		
+
 	func on_select_component_ready():
 		var colliderRectangle = RectangleShape2D.new()
 		colliderRectangle.set_size(Vector2(33, 33))
@@ -90,7 +109,7 @@ class FieldSquare:
 		self.square_position = new_square_position
 		self.global_position = new_square_position
 
-	func _get_player_team() -> String:
+	func get_player_team() -> String:
 		return self.player_team
 
 	func _set_player_team(newTeam: String):

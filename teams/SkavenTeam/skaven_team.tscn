@@ -6,6 +6,7 @@
 
 [node name="skaven_team" type="Node2D"]
 script = ExtResource("1_hdgkj")
+is_opponent = null
 
 [node name="line_rat" parent="." instance=ExtResource("2_0k3jj")]
 isOpponent = false

@@ -2,7 +2,6 @@ class_name TeamComponent
 extends Node2D
 
 @export var ui_controller:UiController
-@export var gameController:GameController
 @export var grid:Node2D
 @export var is_opponent:bool = false
 
@@ -63,9 +62,9 @@ func store_position_data():
 
 	var path
 	if is_opponent:
-		path = "res://team_setup_position_data/opponent/"+ gameController.level_name + ".json"
+		path = "res://team_setup_position_data/opponent/"+ "skaven one turn" + ".json"
 	else:
-		path = "res://team_setup_position_data/user/"+ gameController.level_name + ".json"
+		path = "res://team_setup_position_data/user/"+ "skaven one turn" + ".json"
 		
 	var acces_obj = FileAccess.open(path, FileAccess.WRITE_READ)
 	acces_obj.store_line(json_string)
@@ -76,9 +75,9 @@ func get_position_data_from_file_node_name_pos_format() -> Dictionary:
 
 	var path
 	if is_opponent:
-		path = "res://team_setup_position_data/opponent/"+ gameController.level_name + ".json"
+		path = "res://team_setup_position_data/opponent/"+ "skaven one turn" + ".json"
 	else:
-		path = "res://team_setup_position_data/user/"+ gameController.level_name + ".json"
+		path = "res://team_setup_position_data/user/"+ "skaven one turn" + ".json"
 	
 	var acces_obj = FileAccess.open(path, FileAccess.READ)
 	var json_string = acces_obj.get_as_text()

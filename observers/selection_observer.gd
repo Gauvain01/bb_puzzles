@@ -2,9 +2,8 @@ class_name SelectionObserver
 extends Node2D
 
 @export var field: Field
-@export var game_controller: GameController
 @export var ui_controller: UiController
-
+@export var free_placement:bool = false
 @onready var player_team: TeamComponent = field.player_team
 @onready var side_board:SideBoard = get_node("%SideBoard")
 @onready var grid: Node2D = field.grid
@@ -87,6 +86,8 @@ func on_player_state_changed(_player:Player, new_state):
 				_player_selected.connect(on_selected_player_for_drag_and_drop)
 		PLAYER_STATE.IDLE_STATE:
 			stop_listen_for_select_on_player(_player)
+		PLAYER_STATE.ACTIVE_STATE:
+			stop_listen_for_select_on_player(_player)
 
 func stop_listen_for_select_on_player(_player):
 	if _player.select_component.selected.is_connected(on_player_select_for_setting_selected_player):
@@ -98,16 +99,10 @@ func listen_for_select_on_player(_player:Player):
 
 func on_player_select_for_setting_selected_player(_player:Player):
 	selected_player = _player
-	for player:Player in player_team.get_players():
-		player.select_component.selected.disconnect(on_player_select_for_setting_selected_player)
-	
 	_player_selected.emit()
 
 func on_selected_player_for_drag_and_drop():
 	is_player_drag_and_drop = true
-	for player:Player in player_team.get_players():
-		if player != selected_player:
-			player.state_machine.switch_state(PLAYER_STATE.IDLE_STATE)
 	selected_player.select_component.emit_deselected_on_next_mouse_release = true
 	selected_player.select_component.listen_for_deselect()
 	selected_player.select_component.deselected.connect(on_player_deselect_drop_player)
@@ -127,20 +122,26 @@ func set_player_pos_to_mouse_pos(_player:Player):
 	_player.global_position = _mouse_position
 
 func on_player_deselect_drop_player(_player:Player):
-	NodeInspector.get_drag_and_drop_component(_player).drop(on_dropped_selected_player_for_field_snap)
+	NodeInspector.get_drag_and_drop_component(_player).drop()
+	on_dropped_selected_player_for_field_placement()
+
+
 	_player.select_component.deselected.disconnect(on_player_deselect_drop_player)
 	_player.select_component.emit_deselected_on_next_mouse_release = false
 
-func on_dropped_selected_player_for_field_snap():
+func on_dropped_selected_player_for_field_placement():
 	if not field.is_mouse_inside_field():
 		LogController.add_text("ERROR: MUST PLACE PLAYER ON FIELD OR SIDEBOARD DURING SETUP")
 		side_board.request_to_place_on_sideBoard(selected_player)
 	else:
-		field.request_to_place_on_field(selected_player, selected_field_square)
-
-	for player:Player in player_team.get_players():
-		player.state_machine.switch_state(PLAYER_STATE.SETUP_STATE)
-	
+		if free_placement:
+			field.request_to_place_on_field(selected_player, selected_field_square)
+		elif selected_field_square.get_player_team() !="opponent" and not selected_player.isOpponent:
+			field.request_to_place_on_field(selected_player, selected_field_square)
+		elif selected_field_square.get_player_team() == "opponent" and not selected_player.isOpponent:
+			LogController.add_text("ERROR: placing on opponent's half not allowed")
+			side_board.request_to_place_on_sideBoard(selected_player)
+		
 	listen_for_select_on_player(selected_player)
 	if !_player_selected.is_connected(on_selected_player_for_drag_and_drop):
 		_player_selected.connect(on_selected_player_for_drag_and_drop)
@@ -165,4 +166,5 @@ func on_mouse_exit_square(square):
 	activate_hover_square(square, false)
 
 #do not use mouse enter, use colliders.
+
 

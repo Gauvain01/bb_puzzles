@@ -1,4 +1,4 @@
-class_name ChallengeBase
+class_name PuzzleBase
 extends Control
 
 func victory_achieved():

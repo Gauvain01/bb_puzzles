@@ -1,8 +1,9 @@
-class_name ChallengeOneturn
-extends ChallengeBase
+class_name OneTurnPuzzle
+extends PuzzleBase
 
-@onready var ui:UiController = get_node("%UI")
+@onready var ui:UiController = get_node("%Ui")
 @onready var field:Field = get_node("%Field")
+@onready var sideboard:SideBoard = get_node("%SideBoard")
 
 
 func _ready():
@@ -13,5 +14,6 @@ func _ready():
 
 
 func on_end_setup_button_click():
-	GameStateMachine.switch_states(GAME_STATE.PLAY)
+	if sideboard.get_side_board_player_count() == 0:
+		GameStateMachine.switch_states(GAME_STATE.PLAY)
 

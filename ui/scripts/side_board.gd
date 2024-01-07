@@ -9,8 +9,15 @@ const YFILL = 50
 var players_on_sideboard = 0
 var side_board_map = {} #{Player:Square}
 var available_field_squares = []
-
 @export var field_squares = []
+
+
+func get_side_board_player_count() -> int:
+	var _count = 0
+	for key:Player in side_board_map.keys():
+		if key.my_field_square.zone == "sideboard":
+			_count =+ 1
+	return _count
 func _generate_field_squares():
 	if len(field_squares) != 0:
 		return

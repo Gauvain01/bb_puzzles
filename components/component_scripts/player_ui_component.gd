@@ -62,7 +62,6 @@ func activate_follow_stay_menu(isActive:bool):
 	_change_menu(follow_stay_menu_component, isActive)
 
 func activate_action_menu(isActive:bool):
-	action_menu_component.show()
 	_change_menu(action_menu_component, isActive)
 	
 func on_mouse_click(_redundant):

@@ -1,5 +1,5 @@
-class_name ScoreChallenge
-extends ChallengeBase
+class_name ScorePuzzle
+extends PuzzleBase
 @onready var field: Field = get_node("%Field")
 
 

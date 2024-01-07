@@ -1,6 +1,6 @@
-[gd_scene load_steps=25 format=3 uid="uid://b5a50ahjellh2"]
+[gd_scene load_steps=24 format=3 uid="uid://b5a50ahjellh2"]
 
-[ext_resource type="Script" path="res://challenges/game_controller.gd" id="1_c3gfw"]
+[ext_resource type="Script" path="res://puzzles/one_turn/one_turn_puzzle.gd" id="1_1ar4l"]
 [ext_resource type="Script" path="res://ui/scripts/side_board.gd" id="2_p6hff"]
 [ext_resource type="Theme" uid="uid://btrn53r4bnl4p" path="res://ui/themes/challenge_ui_theme.tres" id="2_t88x4"]
 [ext_resource type="Script" path="res://ui/scripts/ui_controller.gd" id="3_a5yym"]
@@ -23,9 +23,8 @@
 [ext_resource type="Script" path="res://observers/blitz_action_observer.gd" id="17_rv30j"]
 [ext_resource type="PackedScene" uid="uid://cggqb75a8w8r" path="res://addons/debug_menu/debug_menu.tscn" id="21_lvlip"]
 [ext_resource type="Texture2D" uid="uid://bgupcleo51cf" path="res://assets/textures/player_sprites/line_rat.png" id="22_7xqtp"]
-[ext_resource type="Script" path="res://victory_conditions/one_turn_victory_observer.gd" id="25_63uh4"]
 
-[node name="GameController" type="Control" node_paths=PackedStringArray("field", "ui_controller", "selection_observer")]
+[node name="GameController" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -37,19 +36,14 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 2
-script = ExtResource("1_c3gfw")
-level_name = "skaven one turn"
-opponent_placement_allowed = true
-field = NodePath("Field")
-ui_controller = NodePath("Ui")
-selection_observer = NodePath("SelectionObserver")
+script = ExtResource("1_1ar4l")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, 3)
 anchor_mode = 0
 editor_draw_limits = true
 
-[node name="Field" type="Node2D" parent="." node_paths=PackedStringArray("sideboard", "grid", "selection_observer", "block_action_observer", "player_team", "tackle_zone_component", "opponent", "game_controller")]
+[node name="Field" type="Node2D" parent="." node_paths=PackedStringArray("sideboard", "grid", "selection_observer", "block_action_observer", "player_team", "tackle_zone_component", "opponent")]
 unique_name_in_owner = true
 z_index = 1
 position = Vector2(65, 46)
@@ -61,7 +55,6 @@ block_action_observer = NodePath("../BlockActionObserver")
 player_team = NodePath("PlayerTeam")
 tackle_zone_component = NodePath("TackleZoneComponent")
 opponent = NodePath("Opponent")
-game_controller = NodePath("..")
 
 [node name="grid" type="Node2D" parent="Field"]
 z_index = 2
@@ -75,24 +68,22 @@ player_team = NodePath("../PlayerTeam")
 opponent = NodePath("../Opponent")
 ui_controller = NodePath("../../Ui")
 
-[node name="Opponent" parent="Field" node_paths=PackedStringArray("ui_controller", "gameController", "grid") instance=ExtResource("9_0gwj4")]
+[node name="Opponent" parent="Field" node_paths=PackedStringArray("ui_controller", "grid") instance=ExtResource("9_0gwj4")]
 z_index = 3
 ui_controller = NodePath("../../Ui")
-gameController = NodePath("../..")
 grid = NodePath("../grid")
 
-[node name="PlayerTeam" parent="Field" node_paths=PackedStringArray("ui_controller", "gameController", "grid") instance=ExtResource("14_7r1po")]
+[node name="PlayerTeam" parent="Field" node_paths=PackedStringArray("ui_controller", "grid") instance=ExtResource("14_7r1po")]
 z_index = 3
 ui_controller = NodePath("../../Ui")
-gameController = NodePath("../..")
 grid = NodePath("../grid")
 
-[node name="SelectionObserver" type="Node2D" parent="." node_paths=PackedStringArray("field", "game_controller", "ui_controller")]
+[node name="SelectionObserver" type="Node2D" parent="." node_paths=PackedStringArray("field", "ui_controller")]
 unique_name_in_owner = true
 script = ExtResource("11_biix8")
 field = NodePath("../Field")
-game_controller = NodePath("..")
 ui_controller = NodePath("../Ui")
+free_placement = null
 
 [node name="BlockActionObserver" type="Node2D" parent="." node_paths=PackedStringArray("blockDieCalculator", "field")]
 position = Vector2(65, 46)
@@ -122,13 +113,10 @@ field = NodePath("../../Field")
 
 [node name="InputComponent" parent="BlitzActionObserver" instance=ExtResource("12_qshoy")]
 
-[node name="VictoryObserver" type="Node2D" parent="." node_paths=PackedStringArray("field")]
-script = ExtResource("25_63uh4")
-field = NodePath("../Field")
-
 [node name="CanvasLayer" parent="." instance=ExtResource("21_lvlip")]
 
 [node name="Ui" type="Control" parent="." node_paths=PackedStringArray("sideboard", "move_popup", "end_setup_button", "player_team_tackle_check_button", "opponent_tackle_check_button")]
+unique_name_in_owner = true
 z_index = 1
 anchors_preset = 0
 offset_top = 1.0
