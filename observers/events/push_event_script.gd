@@ -39,9 +39,9 @@ class PushEvent extends Node2D:
 
 	func activate_target_follow_stay_menu():
 		blockEvent.field.reset_field_state()
-		blockEvent.target.ui_component.activate_follow_stay_menu()
 		blockEvent.target.ui_component.follow_stay_menu_component.get_follow_signal().connect(on_follow)
 		blockEvent.target.ui_component.follow_stay_menu_component.get_stay_signal().connect(on_stay)
+		blockEvent.target.ui_component.activate_follow_stay_menu()
 	
 
 

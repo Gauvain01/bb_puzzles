@@ -7,6 +7,7 @@ var action_menu_component:ActionMenuComponent
 var active_menu = null
 var timer
 var select_component:SelectComponent
+var _callable_for_process = null
 signal is_deactivated
 signal is_activated
 
@@ -17,17 +18,16 @@ func clear_button_signals():
 func show_menu(isActive):
 	if !isActive:
 		if active_menu != null:
-			active_menu.deactivate()
+			_schedule_show_menu(active_menu.deactivate)
 		hide()
 	else:
 		show()
 		if active_menu != null:
-			active_menu.activate()
+			_schedule_show_menu(active_menu.activate)
 
 
 func deactivate_active_menu():
 	if active_menu != null:
-		print("emiited_signal")
 		active_menu.deactivate()
 	stop_listen_for_mouse_click()
 
@@ -41,7 +41,9 @@ func _ready():
 
 func _process(delta):
 	global_position = get_parent().global_position
-
+	if _callable_for_process != null:
+		_callable_for_process.call()
+		_callable_for_process = null
 
 func _change_menu(menu):
 		if active_menu != null:
@@ -90,3 +92,10 @@ func listen_for_mouse_click():
 func stop_listen_for_mouse_click():
 	if select_component.selected.is_connected(on_mouse_click):
 		select_component.selected.disconnect(on_mouse_click)
+	InputBus.disconnect_all_from_node(self)
+
+func _schedule_show_menu(callable:Callable):
+	_callable_for_process = callable
+	
+
+

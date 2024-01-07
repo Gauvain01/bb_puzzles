@@ -23,12 +23,12 @@ func _input(event):
 			rightMouseClick.emit()
 
 
-func unsubscribe_from_all(callable:Callable):
+func unsubscribe_from_all(callable:Variant):
 	_unsubscribe_from_signal_array(spacePressed.get_connections(), callable)
 	_unsubscribe_from_signal_array(mouseClick.get_connections(), callable)
 	_unsubscribe_from_signal_array(mouseRelease.get_connections(),callable)
 	_unsubscribe_from_signal_array(rightMouseClick.get_connections(),callable)
-		
+
 func is_signal_connected_to_callable(node_to_observe:Node, signal_ref:Signal, callable:Callable) -> bool:
 	if !SUBSCRIBED_NODES.has(node_to_observe):
 		return false
