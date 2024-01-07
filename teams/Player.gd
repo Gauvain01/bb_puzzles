@@ -102,6 +102,7 @@ func activate_menu_for_player_state():
 
 
 func set_player_action_menu_signals():
+
 	ui_component.action_menu_component.get_move_signal().connect(on_move_action, CONNECT_ONE_SHOT)
 	ui_component.action_menu_component.get_block_signal().connect(on_block_action, CONNECT_ONE_SHOT)
 	ui_component.action_menu_component.get_end_action_signal().connect(
@@ -114,6 +115,7 @@ func set_player_action_menu_signals():
 		)
 	else:
 		ui_component.action_menu_component.blitz_button.disabled = true
+
 
 func unset_player_action_menu_signals():
 	var menu_comp = ui_component.action_menu_component
@@ -128,7 +130,8 @@ func unset_player_action_menu_signals():
 	
 func deactivate_action_menu():
 	unset_player_action_menu_signals()
-	ui_component.activate_action_menu(false)
+	ui_component.deactivate_active_menu()
+	ui_component.show_menu(false)
 
 func on_move_action():
 	state_machine.switch_state(PLAYER_STATE.MOVE_STATE)

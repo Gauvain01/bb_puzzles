@@ -22,6 +22,22 @@ func _ready():
 func disable_select_component_for_players(is_disable:bool):
 	_disable_select_component_for_all_players.emit(is_disable)
 
+func set_active_players_to_active_state():
+	for player:Player in get_active_players():
+		player.state_machine.switch_state(PLAYER_STATE.ACTIVE_STATE)
+func set_all_active_players_to_idle_state():
+	for player in get_active_players():
+		player.state_machine.switch_state(PLAYER_STATE.IDLE_STATE)
+
+func get_active_players():
+
+	var output = []
+	for player:Player in get_players():
+		if player.state_machine.current_state is PlayerStateMachine.FinishedState:
+			continue
+		else:
+			output.append(player)
+	return output
 
 func get_players() -> Array[Player]:
 	if len(players) == 0:

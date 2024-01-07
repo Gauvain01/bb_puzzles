@@ -6,7 +6,7 @@ var collider_component:ColliderComponent
 var action_menu_component:ActionMenuComponent
 var active_menu = null
 var timer
-var is_listen_for_mouse_click_active = false
+var select_component:SelectComponent
 signal is_deactivated
 signal is_activated
 
@@ -14,19 +14,26 @@ func clear_button_signals():
 	for i in [block_menu_component, follow_stay_menu_component, action_menu_component]:
 		i.clear_button_signals()
 
-func activate_ui_component(isActive):
-	visible = isActive
+func show_menu(isActive):
 	if !isActive:
 		if active_menu != null:
 			active_menu.deactivate()
+		hide()
+	else:
+		show()
+		if active_menu != null:
+			active_menu.activate()
+
 
 func deactivate_active_menu():
 	if active_menu != null:
 		print("emiited_signal")
 		active_menu.deactivate()
-		
+	stop_listen_for_mouse_click()
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	select_component = NodeInspector.get_select_component(get_parent())
 	block_menu_component = get_node("BlockMenuComponent")
 	follow_stay_menu_component = get_node("FollowStayMenuComponent")
 	collider_component = get_node("ColliderComponent")
@@ -35,54 +42,51 @@ func _ready():
 func _process(delta):
 	global_position = get_parent().global_position
 
-func _change_menu(menu, isActive:bool):
-	if !visible:
-		return
-		
-	if isActive:
-		
+
+func _change_menu(menu):
 		if active_menu != null:
 			active_menu.deactivate()
-		menu.activate()
 		active_menu = menu
 		collider_component.visible = true
-		listen_for_mouse_click(true)
-	else:
-		if active_menu != null:
-			active_menu.deactivate()
-			active_menu = null
-		collider_component.visible = false
-		listen_for_mouse_click(false)
 
-func activate_block_menu(isActive:bool):
-	_change_menu(block_menu_component, isActive)
-	
+func activate_block_menu():
+	_change_menu(block_menu_component)
+	show_menu(true)
 
-func activate_follow_stay_menu(isActive:bool):
-	_change_menu(follow_stay_menu_component, isActive)
+func activate_follow_stay_menu():
+	_change_menu(follow_stay_menu_component)
+	show_menu(true)
+
+
+func set_active_menu_to_action_menu():
+	active_menu = action_menu_component
 
 func activate_action_menu(isActive:bool):
-	_change_menu(action_menu_component, isActive)
+	_change_menu(action_menu_component)
+	listen_for_mouse_click()
 	
 func on_mouse_click(_redundant):
-	
-	if active_menu == action_menu_component:
-		
-		if !collider_component.is_mouse_in_collider():
-			active_menu.deactivate()
-			is_deactivated.emit()
-			active_menu = null
-			InputBus.unsubscribe_from_signal(self, InputBus.mouseClick)
-			is_listen_for_mouse_click_active = false
-		
-func listen_for_mouse_click(isActive:bool):
-	if isActive:
-		if !is_listen_for_mouse_click_active:
-			InputBus.subscribe_to_mouse_click_event(self, on_mouse_click)
-			is_listen_for_mouse_click_active = true
+	LogController.add_text("clicked")
+	LogController.add_text(active_menu)
+	if active_menu != null:
+		show()
+		show_menu(true)
+		InputBus.subscribe_to_mouse_click_event(self, on_mouse_click_for_deactivation)	
 
-	else:
-		if is_listen_for_mouse_click_active:
-			InputBus.unsubscribe_from_signal(self, InputBus.mouseClick)
-			is_listen_for_mouse_click_active = false
 
+func on_mouse_click_for_deactivation(_redundant):
+	LogController.add_text("got_here")
+	if !collider_component.is_mouse_in_collider():
+		is_deactivated.emit()
+		show_menu(false)
+		listen_for_mouse_click()
+		hide()
+		InputBus.unsubscribe_from_signal(self, InputBus.mouseClick, on_mouse_click_for_deactivation)
+
+func listen_for_mouse_click():
+	LogController.add_text("listening_for_mouse_clicked")
+	select_component.selected.connect(on_mouse_click, CONNECT_ONE_SHOT)
+
+func stop_listen_for_mouse_click():
+	if select_component.selected.is_connected(on_mouse_click):
+		select_component.selected.disconnect(on_mouse_click)

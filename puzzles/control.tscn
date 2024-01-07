@@ -1,6 +1,5 @@
-[gd_scene load_steps=24 format=3 uid="uid://b5a50ahjellh2"]
+[gd_scene load_steps=25 format=3 uid="uid://cbsj8fmdfsk7c"]
 
-[ext_resource type="Script" path="res://puzzles/one_turn/one_turn_puzzle.gd" id="1_1ar4l"]
 [ext_resource type="Script" path="res://ui/scripts/side_board.gd" id="2_p6hff"]
 [ext_resource type="Theme" uid="uid://btrn53r4bnl4p" path="res://ui/themes/challenge_ui_theme.tres" id="2_t88x4"]
 [ext_resource type="Script" path="res://ui/scripts/ui_controller.gd" id="3_a5yym"]
@@ -15,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://bi6yt2brbqtb5" path="res://opponents/block_test/blockTest.tscn" id="9_0gwj4"]
 [ext_resource type="Script" path="res://observers/selection_observer.gd" id="11_biix8"]
 [ext_resource type="PackedScene" uid="uid://bmtdo3dyib0l3" path="res://components/component_scenes/input_component.tscn" id="12_qshoy"]
+[ext_resource type="Script" path="res://puzzles/score_puzzle.gd" id="13_mhipu"]
 [ext_resource type="Script" path="res://observers/block_action_observer.gd" id="13_n36xi"]
 [ext_resource type="PackedScene" uid="uid://cjc0wmuq7nhnp" path="res://teams/SkavenTeam/skaven_team.tscn" id="14_7r1po"]
 [ext_resource type="Script" path="res://field_scripts/block_die_calculator.gd" id="14_lhsrd"]
@@ -23,6 +23,58 @@
 [ext_resource type="Script" path="res://observers/blitz_action_observer.gd" id="17_rv30j"]
 [ext_resource type="PackedScene" uid="uid://cggqb75a8w8r" path="res://addons/debug_menu/debug_menu.tscn" id="21_lvlip"]
 [ext_resource type="Texture2D" uid="uid://bgupcleo51cf" path="res://assets/textures/player_sprites/line_rat.png" id="22_7xqtp"]
+
+[sub_resource type="GDScript" id="GDScript_rwm74"]
+script/source = "extends Control
+class_name GameController
+@export var  level_name:String =\"null\"
+@export var opponent_placement_allowed:bool = false
+@export var field:Field
+@export var ui_controller:UiController
+@export var selection_observer:SelectionObserver
+
+@onready var end_setup_button:Button = ui_controller.end_setup_button
+@onready var sideboard:PanelContainer = ui_controller.sideboard
+@onready var player_team:TeamComponent = field.player_team
+
+var total_players
+var game_state = GAME_STATE.SETUP
+
+signal game_state_changed(game_state)
+func _ready():
+	total_players = player_team.get_players(); 
+	ui_controller.get_end_setup_button_signal().connect(on_end_setup_pressed)
+	field.place_opponent_team_on_field()
+	field.place_player_team_on_field()
+	GameStateMachine.switch_states(GAME_STATE.SETUP)
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+	
+func get_game_state() -> GAME_STATE:
+	return game_state
+	
+func set_game_state(game_state:GAME_STATE):
+	self.game_state = game_state
+
+
+
+
+func on_end_setup_pressed():
+	if sideboard.players_on_sideboard != 0:
+		
+		
+		LogController.add_text(\"ERROR: Not all players from the sideboard are on the field\")
+		return
+	start_game_state_play()
+
+func start_game_state_play():
+	game_state = GAME_STATE.PLAY
+	game_state_changed.emit(game_state)
+
+
+"
 
 [node name="GameController" type="Control"]
 layout_mode = 3
@@ -36,7 +88,12 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 2
-script = ExtResource("1_1ar4l")
+script = SubResource("GDScript_rwm74")
+level_name = "skaven one turn"
+opponent_placement_allowed = true
+field = null
+ui_controller = null
+selection_observer = null
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, 3)
@@ -114,16 +171,17 @@ field = NodePath("../../Field")
 
 [node name="InputComponent" parent="BlitzActionObserver" instance=ExtResource("12_qshoy")]
 
+[node name="VictoryObserver" type="Node2D" parent="."]
+script = ExtResource("13_mhipu")
+
 [node name="CanvasLayer" parent="." instance=ExtResource("21_lvlip")]
 
 [node name="Ui" type="Control" parent="." node_paths=PackedStringArray("sideboard", "move_popup", "end_setup_button", "player_team_tackle_check_button", "opponent_tackle_check_button")]
-unique_name_in_owner = true
 z_index = 1
 anchors_preset = 0
 offset_top = 1.0
 offset_right = 1920.0
 offset_bottom = 1085.0
-mouse_filter = 2
 theme = ExtResource("2_t88x4")
 script = ExtResource("3_a5yym")
 sideboard = NodePath("SideBoard")
@@ -133,13 +191,11 @@ player_team_tackle_check_button = NodePath("TackleZoneCheckButton")
 opponent_tackle_check_button = NodePath("OpponentTackleCheck")
 
 [node name="SideBoard" type="PanelContainer" parent="Ui"]
-unique_name_in_owner = true
 layout_mode = 0
 offset_left = 678.0
 offset_top = 92.0
 offset_right = 1014.0
 offset_bottom = 344.0
-mouse_filter = 2
 theme = ExtResource("2_t88x4")
 script = ExtResource("2_p6hff")
 

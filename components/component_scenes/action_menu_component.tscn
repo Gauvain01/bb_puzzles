@@ -19,6 +19,7 @@ end_player_action_button = NodePath("End_Player_Action_Button")
 [node name="Move_Button" type="Button" parent="."]
 z_index = 1
 layout_mode = 2
+theme = ExtResource("2_xi15q")
 toggle_mode = true
 action_mode = 0
 text = "Move"
@@ -26,6 +27,7 @@ text = "Move"
 [node name="Blitz_Button" type="Button" parent="."]
 z_index = 1
 layout_mode = 2
+theme = ExtResource("2_xi15q")
 toggle_mode = true
 action_mode = 0
 text = "Blitz"

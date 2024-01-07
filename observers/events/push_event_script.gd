@@ -39,14 +39,14 @@ class PushEvent extends Node2D:
 
 	func activate_target_follow_stay_menu():
 		blockEvent.field.reset_field_state()
-		blockEvent.target.ui_component.activate_follow_stay_menu(true)
+		blockEvent.target.ui_component.activate_follow_stay_menu()
 		blockEvent.target.ui_component.follow_stay_menu_component.get_follow_signal().connect(on_follow)
 		blockEvent.target.ui_component.follow_stay_menu_component.get_stay_signal().connect(on_stay)
 	
 
 
 	func on_stay():
-		blockEvent.target.ui_component.activate_follow_stay_menu(false)
+		blockEvent.target.ui_component.show_menu(false)
 		if is_surf:
 			blockEvent.block_manager.field.remove_player_from_field(blockEvent.target)
 			self.push_event_completed.emit()
@@ -57,7 +57,7 @@ class PushEvent extends Node2D:
 		
 		
 	func on_follow():
-		blockEvent.target.ui_component.activate_follow_stay_menu(false)
+		blockEvent.target.ui_component.show_menu(false)
 		var target_coord = blockEvent.target_square.gridCoordinate
 		if is_surf:
 			blockEvent.field.remove_player_from_field(blockEvent.target)

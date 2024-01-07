@@ -59,8 +59,8 @@ func on_block_request(player: Player):
 			str(player.name) + " does not base any players, cannot perform the block action"
 		)
 		return
-	player_team.activate_ui_component_all_players(false, player)
-	player.change_player_state(PLAYER_STATE.BLOCK_STATE)
+	player_team.set_all_active_players_to_idle_state()
+	player.state_machine.switch_state(PLAYER_STATE.BLOCK_STATE)
 	currentBlocker = player
 	for j in get_possible_block_targets(player.my_field_square.gridCoordinate):
 		var i: Player = j
@@ -86,8 +86,8 @@ func on_block_event_completed():
 	remove_child(active_block_event)
 	active_block_event = null
 
-	currentBlocker.change_player_state(PLAYER_STATE.FINISHED_STATE)
-	player_team.activate_ui_component_all_players(true)
+	currentBlocker.state_machine.switch_state(PLAYER_STATE.FINISHED_STATE)
+	player_team.set_active_players_to_active_state()
 	completed_block_event.emit()
 	field.tackle_zone_component.refresh_tackle_zones()
 
@@ -107,4 +107,4 @@ func on_opponent_selected_during_block():
 	blockEvent.start()
 	active_block_event = blockEvent
 	active_block_event.completed.connect(on_block_event_completed)
-	player_team.activate_ui_component_all_players(false)
+	
