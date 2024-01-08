@@ -35,7 +35,6 @@ class MoveEvent extends Node2D:
 		self.not_obstacle_map = field.get_not_obstacle_map()
 	
 	func start():
-		self.selection_observer.activate_select_coloration(false)
 		disable_action_menu_for_player()
 		start_listening_for_click_on_available_movement_squares()
 		
@@ -232,7 +231,6 @@ class MoveEvent extends Node2D:
 		field.reset_field_state()
 		
 		player.state_machine.switch_state(PLAYER_STATE.FINISHED_STATE)
-		selection_observer.activate_select_coloration(true)
 		is_completed.emit()
 		destroy()
 	
@@ -253,7 +251,6 @@ class MoveEvent extends Node2D:
 		
 		
 	func destroy():
-		field.player_team.activate_ui_component_all_players(true)
 		self.queue_free()
 			
 			
@@ -275,7 +272,6 @@ class BlitzMoveEvent extends MoveEvent:
 		self.locked_in_path = []
 		
 		self.is_completed.emit()
-		self.selection_observer.activate_select_coloration(true)
 		
 	func restart():
 		if self._movement_count_for_dice_log_evaluation > 0:
