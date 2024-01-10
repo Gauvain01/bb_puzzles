@@ -51,8 +51,6 @@ func _ready():
 	opponent_tackle_check_button= ui_controller.opponent_tackle_check_button
 	player_team_tackle_check_button = ui_controller.player_team_tackle_check_button
 	
-	create_tacklezone_possible_coordinate_map()
-	tacklezone_possible_coordinate_map.duplicate()
 
 func is_in_opponent_tackle_zone(gridCoordinate):
 	var tackle_zones = []
@@ -61,6 +59,12 @@ func is_in_opponent_tackle_zone(gridCoordinate):
 		tackle_zones.append(i[0].gridCoordinate)
 	return gridCoordinate in tackle_zones
 	
+
+func set_up_tackle_zones_component():
+	create_tacklezone_possible_coordinate_map()
+	tacklezone_possible_coordinate_map.duplicate()
+	player_team_tackle_check_button.toggled.connect(_on_tackle_zone_check_button_toggled)
+	opponent_tackle_check_button.toggled.connect(_on_check_button_toggled)
 func create_tacklezone_possible_coordinate_map():
 	for x in range(grid.COLUMNS):
 		for y in range(grid.ROWS):

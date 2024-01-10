@@ -6,9 +6,9 @@ extends PanelContainer
 @onready var AG_label = $VBoxContainer/AG_label
 @onready var AV_label = $VBoxContainer/AV_label
 @onready var PA_label = $VBoxContainer/PA_label
-@export var player_team:TeamComponent
+var player_team:TeamComponent
 @export var selectionObserver:SelectionObserver
-@export var opponent:TeamComponent
+var opponent:TeamComponent
 @export var field:Field
 var is_selection = false
 
@@ -34,6 +34,8 @@ func on_board_piece_exit_hover(_player:Player):
 		
 	
 func _ready():
+	player_team = field.player_team
+	opponent = field.opponent
 	label.label_settings = LabelSettings.new()
 	set_player_card_values()
 	

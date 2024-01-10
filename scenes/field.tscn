@@ -6,16 +6,10 @@
 [ext_resource type="PackedScene" uid="uid://bi6yt2brbqtb5" path="res://opponents/block_test/blockTest.tscn" id="4_vg8gc"]
 [ext_resource type="PackedScene" uid="uid://cjc0wmuq7nhnp" path="res://teams/SkavenTeam/skaven_team.tscn" id="5_s3a7d"]
 
-[node name="Field" type="Node2D" node_paths=PackedStringArray("grid", "selection_observer", "block_action_observer", "player_team", "tackle_zone_component", "opponent")]
+[node name="Field" type="Node2D"]
 z_index = 1
 position = Vector2(65, 46)
 script = ExtResource("1_pybyb")
-grid = NodePath("")
-selection_observer = NodePath("")
-block_action_observer = NodePath("")
-player_team = NodePath("")
-tackle_zone_component = NodePath("")
-opponent = NodePath("")
 
 [node name="grid" type="Node2D" parent="."]
 z_index = 2
@@ -23,10 +17,10 @@ script = ExtResource("2_xd0gj")
 
 [node name="TackleZoneComponent" type="Node2D" parent="." node_paths=PackedStringArray("grid", "field", "player_team", "opponent")]
 script = ExtResource("3_hobj8")
-grid = NodePath("")
-field = NodePath("")
-player_team = NodePath("")
-opponent = NodePath("")
+grid = NodePath("../grid")
+field = NodePath("..")
+player_team = NodePath("../PlayerTeam")
+opponent = NodePath("../Opponent")
 
 [node name="Opponent" parent="." instance=ExtResource("4_vg8gc")]
 z_index = 3

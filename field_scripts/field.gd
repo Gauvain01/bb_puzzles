@@ -65,9 +65,9 @@ func move_player_to_coordinate(player: Player, coordinate: Vector2):
 		assert(false, "cannot move player to occupied square, deal with occupied square first")
 
 	if player_square != null:
-		player_square.occupied = null
+		player_square.occupy_set_null()
 
-	new_square.occupied = player
+	new_square.occupy(player)
 
 	player.my_field_square = new_square
 	player.global_position = new_square.global_position
@@ -153,9 +153,8 @@ func _ready():
 				grid.COLUMNS * grid.SQUARE_SIZE,
 				grid.ROWS * grid.SQUARE_SIZE
 			)
-	tackle_zone_component.create_tacklezone_possible_coordinate_map()
-	tackle_zone_component.tacklezone_possible_coordinate_map.duplicate()
 
+	tackle_zone_component.set_up_tackle_zones_component()
 
 
 

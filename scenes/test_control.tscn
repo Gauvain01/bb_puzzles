@@ -48,9 +48,8 @@ block_action_observer = NodePath("../BlockActionObserver")
 [node name="SelectionObserver" type="Node2D" parent="." node_paths=PackedStringArray("field", "ui_controller")]
 unique_name_in_owner = true
 script = ExtResource("11_biix8")
-field = NodePath("")
+field = NodePath("../Field")
 ui_controller = NodePath("../Ui")
-free_placement = null
 
 [node name="BlockActionObserver" type="Node2D" parent="." node_paths=PackedStringArray("blockDieCalculator", "field")]
 position = Vector2(65, 46)
@@ -139,7 +138,7 @@ text = "Challenge Information"
 horizontal_alignment = 1
 uppercase = true
 
-[node name="PlayerCard" type="PanelContainer" parent="Ui" node_paths=PackedStringArray("player_team", "selectionObserver", "opponent", "field")]
+[node name="PlayerCard" type="PanelContainer" parent="Ui" node_paths=PackedStringArray("selectionObserver", "field")]
 layout_mode = 0
 offset_left = 698.0
 offset_top = 606.0
@@ -147,10 +146,8 @@ offset_right = 956.0
 offset_bottom = 978.0
 tooltip_text = "Displays the last selected player stats"
 script = ExtResource("3_a32k4")
-player_team = NodePath("")
 selectionObserver = NodePath("../../SelectionObserver")
-opponent = NodePath("")
-field = NodePath("")
+field = NodePath("../../Field")
 
 [node name="Label" type="Label" parent="Ui/PlayerCard"]
 layout_mode = 2
