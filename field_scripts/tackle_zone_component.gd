@@ -5,10 +5,10 @@ extends Node2D
 @export var field:Node2D
 @export var player_team:TeamComponent
 @export var opponent:Node2D
-@export var ui_controller:UiController
+var ui_controller:UiController
 
-@onready var opponent_tackle_check_button:CheckButton = ui_controller.opponent_tackle_check_button
-@onready var player_team_tackle_check_button:CheckButton = ui_controller.player_team_tackle_check_button
+var opponent_tackle_check_button:CheckButton
+var player_team_tackle_check_button:CheckButton
 
 var tacklezone_possible_coordinate_map = {}
 var opponent_tackle_zone_map = {}
@@ -47,6 +47,9 @@ func set_tackle_zones_squares_map():
 	opponent_tackle_zone_map = dict
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	ui_controller = field.ui
+	opponent_tackle_check_button= ui_controller.opponent_tackle_check_button
+	player_team_tackle_check_button = ui_controller.player_team_tackle_check_button
 	
 	create_tacklezone_possible_coordinate_map()
 	tacklezone_possible_coordinate_map.duplicate()

@@ -53,19 +53,7 @@ func _on_mouse_exited():
 
 
 func is_mouse_in_collider() -> bool:
-	var point = get_viewport().get_mouse_position()
-	var pos = global_position
-	var SQUARE_SIZE = self.collision_component.shape.get_rect().size * scale
-	var x = point.x
-	var y = point.y
-
-	if x >= (pos.x - (SQUARE_SIZE.x / 2)) and x <= (pos.x + (SQUARE_SIZE.x / 2)):
-		if y >= (pos.y - (SQUARE_SIZE.y / 2)) and y <= (pos.y + (SQUARE_SIZE.y / 2)):
-			return true
-		else:
-			return false
-	else:
-		return false
+	return collision_component.shape.get_rect().has_point(get_local_mouse_position())
 
 
 func on_mouse_click_selector(_redundant):

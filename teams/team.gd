@@ -1,11 +1,8 @@
 class_name TeamComponent
 extends Node2D
 
-@export var ui_controller:UiController
-@export var grid:Node2D
 @export var is_opponent:bool = false
 
-@onready var sideboard:PanelContainer = ui_controller.sideboard
 
 var game_state = GAME_STATE.SETUP
 var players:Array[Player] = []
@@ -39,7 +36,9 @@ func get_active_players():
 
 	var output = []
 	for player:Player in get_players():
-		if player.state_machine.current_state is PlayerStateMachine.FinishedState or PlayerStateMachine.DownedState:
+		if is_instance_of(player.state_machine.current_state, PlayerStateMachine.FinishedState) or is_instance_of(player.state_machine.current_state,PlayerStateMachine.DownedState):
+			LogController.add_text("got here")
+			
 			continue
 		else:
 			output.append(player)
@@ -50,11 +49,6 @@ func get_players() -> Array[Player]:
 		for i in get_children():
 			players.append(i)
 	return players
-
-func place_PlayerTeam_on_sideboard():
-	for player in get_children():
-		sideboard.request_to_place_on_sideBoard(player)
-
 
 func on_game_state_changed(new_game_state, old_game_state):
 	

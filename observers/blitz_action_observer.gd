@@ -23,6 +23,7 @@ func _ready():
 func on_blitz_pressed(player: Player):
 	print("blitz pressed")
 	player_team.set_all_active_players_to_idle_state()
+	LogController.add_text("on_blitz_pressed")
 	active_player = player
 	for i in opponent_team.get_players():
 		i.select_component.selected.connect(on_player_select_for_blitz_target)
@@ -71,11 +72,17 @@ func start_block_event():
 
 
 func on_block_event_completed():
-	active_player = null
+	LogController.add_text("block_event_completed")
 	active_target = null
 	active_move_event.restart()
-	active_move_event = null
+	active_move_event.is_completed.connect(on_restarted_move_event_completed, CONNECT_ONE_SHOT)
 	active_block_event.destroy()
 	active_block_event = null
 	field.tackle_zone_component.refresh_tackle_zones()
+
+func on_restarted_move_event_completed():
+	active_move_event = null
 	player_team.set_active_players_to_active_state()
+	field.tackle_zone_component.refresh_tackle_zones()
+	active_player.state_machine.switch_state(PLAYER_STATE.FINISHED_STATE)
+	active_player = null

@@ -6,7 +6,6 @@ var collision_shape:CollisionShape2D
 func _ready():
 	collision_shape = get_node("CollisionShape2D")
 
-
 func is_mouse_in_collider() -> bool:
 	var point = get_viewport().get_mouse_position()
 	var pos = global_position

@@ -1,13 +1,13 @@
-@tool
 extends Node2D
 class_name Field
-@export var sideboard: SideBoard
-@export var grid: Node2D
+@export var ui:UiController
+var sideboard: SideBoard
+@onready var grid: Node2D = get_node("grid")
 @export var selection_observer: SelectionObserver
 @export var block_action_observer: BlockActionObserver
-@export var player_team: TeamComponent
-@export var tackle_zone_component: TackleZoneComponent
-@export var opponent: TeamComponent
+@onready var player_team: TeamComponent = get_node("PlayerTeam")
+@onready var  tackle_zone_component: TackleZoneComponent = get_node("TackleZoneComponent")
+@onready var opponent: TeamComponent = get_node("Opponent")
 var field_rect:Rect2
 var player_coordinate_position_map = {}
 var field_squares_draw_array = []
@@ -140,6 +140,7 @@ func request_to_place_opponent(player, gridCoordinate):
 
 
 func _ready():
+	sideboard = ui.sideboard
 	set_z_index(1)
 	grid.draw_field_squares.connect(set_field_Squares_draw_flag)
 	grid.redraw_single_square.connect(set_redraw_single_square_flag)
@@ -152,6 +153,8 @@ func _ready():
 				grid.COLUMNS * grid.SQUARE_SIZE,
 				grid.ROWS * grid.SQUARE_SIZE
 			)
+	tackle_zone_component.create_tacklezone_possible_coordinate_map()
+	tackle_zone_component.tacklezone_possible_coordinate_map.duplicate()
 
 
 

@@ -22,7 +22,7 @@ mouse_filter = 0
 
 [node name="BlockMenuComponent" parent="." instance=ExtResource("1_abpfa")]
 visible = false
-z_index = 1
+z_index = 72
 z_as_relative = true
 offset_left = 20.0
 offset_top = -38.0
@@ -32,7 +32,7 @@ mouse_filter = 0
 
 [node name="FollowStayMenuComponent" parent="." instance=ExtResource("2_5t0yq")]
 visible = false
-z_index = 1
+z_index = 72
 z_as_relative = true
 offset_left = 20.0
 offset_top = -38.0

@@ -45,6 +45,7 @@ func setup_state_machine(player:Player):
 ## [param new_state]:[enum PLAYER_STATE].[Br]
 ## make sure [code]setup_state_machine(Player)[/code] is called at least once before this.
 ## for example: [code]switch_state(PLAYER_STATE.SETUP_STATE)[/code]
+
 func switch_state(new_state:int):
 	if current_state == _state_map[new_state]:
 		return
