@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://u5ohwj4wuc1y"]
+
+[ext_resource type="Script" path="res://observers/block_action_observer.gd" id="1_mnn52"]
+
+[node name="BlockActionObserver" type="Node2D" node_paths=PackedStringArray("field")]
+position = Vector2(65, 46)
+script = ExtResource("1_mnn52")
+field = NodePath("")

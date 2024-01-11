@@ -1,0 +1,321 @@
+[gd_scene load_steps=10 format=3 uid="uid://c4iqow675ts6d"]
+
+[ext_resource type="Theme" uid="uid://btrn53r4bnl4p" path="res://ui/themes/challenge_ui_theme.tres" id="1_mpcns"]
+[ext_resource type="Script" path="res://ui/scripts/ui_controller.gd" id="2_4emje"]
+[ext_resource type="Script" path="res://ui/scripts/player_card.gd" id="4_17ksi"]
+[ext_resource type="Theme" uid="uid://cv3jyrorne2a8" path="res://ui/themes/pixel_button.tres" id="5_wbegi"]
+[ext_resource type="Script" path="res://ui/scripts/end_setup_button_label.gd" id="6_0rkmi"]
+[ext_resource type="Script" path="res://ui/scripts/log.gd" id="7_cdpmg"]
+[ext_resource type="Theme" uid="uid://bkr6lis8hc3cq" path="res://ui/themes/check_button_theme.tres" id="8_racpb"]
+[ext_resource type="Theme" uid="uid://m23e5cg5apra" path="res://ui/themes/dice_label_theme.tres" id="9_f3wjl"]
+[ext_resource type="Texture2D" uid="uid://bgupcleo51cf" path="res://assets/textures/player_sprites/line_rat.png" id="10_woiko"]
+
+[node name="Ui" type="Control" node_paths=PackedStringArray("sideboard", "move_popup", "end_setup_button", "player_team_tackle_check_button", "opponent_tackle_check_button")]
+z_index = 1
+layout_mode = 3
+anchors_preset = 0
+offset_top = 8.0
+offset_right = 1920.0
+offset_bottom = 1092.0
+mouse_filter = 2
+theme = ExtResource("1_mpcns")
+script = ExtResource("2_4emje")
+sideboard = NodePath("SideBoard")
+move_popup = NodePath("MovePopup")
+end_setup_button = NodePath("EndSetupButton")
+player_team_tackle_check_button = NodePath("TackleZoneCheckButton")
+opponent_tackle_check_button = NodePath("OpponentTackleCheck")
+
+[node name="SideBoard" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 640.0
+offset_top = 65.0
+offset_right = 976.0
+offset_bottom = 233.0
+mouse_filter = 2
+theme = ExtResource("1_mpcns")
+
+[node name="Label" type="Label" parent="SideBoard"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "your players"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="ChallengeInformation" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.125717
+anchor_top = -0.0470963
+anchor_right = 1.45384
+anchor_bottom = 1.08851
+offset_left = 787.623
+offset_top = 73.0524
+offset_right = -994.377
+offset_bottom = -948.948
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_mpcns")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="ChallengeInformation"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Challenge Information"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="PlayerCard" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_left = 698.0
+offset_top = 606.0
+offset_right = 956.0
+offset_bottom = 978.0
+tooltip_text = "Displays the last selected player stats"
+script = ExtResource("4_17ksi")
+
+[node name="Label" type="Label" parent="PlayerCard"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Player Card"
+horizontal_alignment = 1
+clip_text = true
+uppercase = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PlayerCard"]
+clip_contents = true
+layout_mode = 2
+
+[node name="Space filler" type="Label" parent="PlayerCard/VBoxContainer"]
+layout_mode = 2
+
+[node name="Space filler2" type="Label" parent="PlayerCard/VBoxContainer"]
+layout_mode = 2
+text = "STATS"
+
+[node name="MA_label" type="Label" parent="PlayerCard/VBoxContainer"]
+layout_mode = 2
+
+[node name="ST_label" type="Label" parent="PlayerCard/VBoxContainer"]
+layout_mode = 2
+
+[node name="AG_label" type="Label" parent="PlayerCard/VBoxContainer"]
+layout_mode = 2
+
+[node name="PA_label" type="Label" parent="PlayerCard/VBoxContainer"]
+layout_mode = 2
+
+[node name="AV_label" type="Label" parent="PlayerCard/VBoxContainer"]
+layout_mode = 2
+
+[node name="EndSetupButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 679.0
+offset_top = 400.0
+offset_right = 990.0
+offset_bottom = 514.0
+theme = ExtResource("5_wbegi")
+
+[node name="Label" type="Label" parent="EndSetupButton"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 3.0
+offset_right = 309.0
+offset_bottom = 75.0
+text = "end setup"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("6_0rkmi")
+
+[node name="GameLog" type="PanelContainer" parent="."]
+clip_contents = true
+layout_direction = 2
+layout_mode = 0
+offset_left = 1104.0
+offset_top = 513.0
+offset_right = 1831.0
+offset_bottom = 959.0
+tooltip_text = "logs all the actions you took"
+script = ExtResource("7_cdpmg")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="GameLog"]
+layout_mode = 2
+follow_focus = true
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+
+[node name="Label" type="Label" parent="GameLog/ScrollContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+clip_text = true
+uppercase = true
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+offset_left = 1136.0
+offset_top = 519.0
+offset_right = 1820.0
+offset_bottom = 546.0
+text = "LOG"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TackleZoneCheckButton" type="CheckButton" parent="."]
+z_index = 5
+layout_mode = 0
+offset_left = 5.0
+offset_top = 231.0
+offset_right = 806.0
+offset_bottom = 952.0
+scale = Vector2(0.122, 0.122)
+theme = ExtResource("8_racpb")
+
+[node name="OpponentTackleCheck" type="CheckButton" parent="."]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 447.0
+offset_right = 806.0
+offset_bottom = 1154.0
+scale = Vector2(0.122, 0.122)
+theme = ExtResource("8_racpb")
+
+[node name="MovePopup" type="Label" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 661.0
+offset_top = 375.0
+offset_right = 1037.0
+offset_bottom = 591.0
+theme = ExtResource("9_f3wjl")
+theme_override_font_sizes/font_size = 25
+text = "Press SPACE to continue
+
+Press RMB to reset the path"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SaveButton" type="Button" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 1389.0
+offset_top = 375.0
+offset_right = 1738.0
+offset_bottom = 487.0
+toggle_mode = true
+text = "save"
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 175.0
+offset_right = 109.0
+offset_bottom = 231.0
+text = "Tackle Zones
+player"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="Label2"]
+layout_mode = 0
+offset_top = 216.0
+offset_right = 104.0
+offset_bottom = 272.0
+text = "Tackle Zones
+opponent"
+horizontal_alignment = 1
+
+[node name="ActionBox" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 1029.0
+offset_top = 239.0
+offset_right = 1858.9
+offset_bottom = 543.009
+theme = ExtResource("1_mpcns")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ActionBox"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ActionBox/HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="TextureRect" type="TextureRect" parent="ActionBox/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("10_woiko")
+expand_mode = 5
+
+[node name="Label" type="Label" parent="ActionBox/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "0"
+horizontal_alignment = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="ActionBox/HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="TextureRect" type="TextureRect" parent="ActionBox/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+texture = ExtResource("10_woiko")
+expand_mode = 5
+
+[node name="Label" type="Label" parent="ActionBox/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "0"
+horizontal_alignment = 1
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="ActionBox/HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="TextureRect" type="TextureRect" parent="ActionBox/HBoxContainer/VBoxContainer3"]
+layout_mode = 2
+texture = ExtResource("10_woiko")
+expand_mode = 5
+
+[node name="Label" type="Label" parent="ActionBox/HBoxContainer/VBoxContainer3"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "0"
+horizontal_alignment = 1
+
+[node name="VBoxContainer4" type="VBoxContainer" parent="ActionBox/HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="TextureRect" type="TextureRect" parent="ActionBox/HBoxContainer/VBoxContainer4"]
+layout_mode = 2
+texture = ExtResource("10_woiko")
+expand_mode = 5
+
+[node name="Label" type="Label" parent="ActionBox/HBoxContainer/VBoxContainer4"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "0"
+horizontal_alignment = 1
+
+[node name="VBoxContainer5" type="VBoxContainer" parent="ActionBox/HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="TextureRect" type="TextureRect" parent="ActionBox/HBoxContainer/VBoxContainer5"]
+layout_mode = 2
+texture = ExtResource("10_woiko")
+expand_mode = 5
+
+[node name="Label" type="Label" parent="ActionBox/HBoxContainer/VBoxContainer5"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "0"
+horizontal_alignment = 1
+
+[connection signal="button_down" from="EndSetupButton" to="EndSetupButton/Label" method="_on_end_setup_button_button_down"]
+[connection signal="button_up" from="EndSetupButton" to="EndSetupButton/Label" method="_on_end_setup_button_button_up"]

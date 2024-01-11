@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://c6chmpetsog1e"]
+
+[ext_resource type="Script" path="res://observers/blitz_action_observer.gd" id="1_nvxfl"]
+
+[node name="BlitzActionObserver" type="Node2D" node_paths=PackedStringArray("field", "selectionObserver")]
+script = ExtResource("1_nvxfl")
+field = NodePath("")
+selectionObserver = NodePath("")

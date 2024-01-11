@@ -1,10 +1,7 @@
 extends Node2D
 class_name Field
-@export var ui:UiController
-var sideboard: SideBoard
+@onready var sideboard: SideBoardController = get_node("SideBoardController")
 @onready var grid: Node2D = get_node("grid")
-@export var selection_observer: SelectionObserver
-@export var block_action_observer: BlockActionObserver
 @onready var player_team: TeamComponent = get_node("PlayerTeam")
 @onready var  tackle_zone_component: TackleZoneComponent = get_node("TackleZoneComponent")
 @onready var opponent: TeamComponent = get_node("Opponent")
@@ -80,7 +77,7 @@ func move_player_to_coordinate(player: Player, coordinate: Vector2):
 func remove_player_from_field(player: Player):
 	var player_square = player.my_field_square
 	player_square.occupied = null
-	sideboard.request_to_place_on_sideBoard(player)
+	sideboard.request_to_place_on_sideboard(player)
 
 
 func get_field_squares():
@@ -140,11 +137,9 @@ func request_to_place_opponent(player, gridCoordinate):
 
 
 func _ready():
-	sideboard = ui.sideboard
 	set_z_index(1)
 	grid.draw_field_squares.connect(set_field_Squares_draw_flag)
 	grid.redraw_single_square.connect(set_redraw_single_square_flag)
-	selection_observer.request_to_place_on_field.connect(request_to_place_on_field)
 	setup_field_square_mouse_release_signal()
 	queue_redraw()
 	field_rect = Rect2(
@@ -212,11 +207,10 @@ func get_player_gridPositions(player_team):
 
 
 func evaluate_possible_block_for_players():
-	for i in get_player_gridPositions(player_team):
-		var player: Player = i[1]
-		var gridCoordinate = i[0]
-		if block_action_observer.evaluate_player_has_block_targets(gridCoordinate):
+	for player in player_team.get_active_players():
+		if BlockChecker.evaluate_player_has_block_targets(player, self):
 			player.ui_component.action_menu_component.block_button.disabled = false
+		
 
 
 func get_field_square_for_mouse_position(mouse_position: Vector2):
@@ -269,13 +263,13 @@ func place_opponent_team_on_field():
 
 func place_player_team_on_sideboard():
 	for player in player_team.get_players():
-		sideboard.request_to_place_on_sideBoard(player)
+		sideboard.request_to_place_on_sideboard(player)
 
 func place_player_team_on_field():
 	if sideboard:
 		print("got here")
 		for player in player_team.get_players():
-			sideboard.request_to_place_on_sideBoard(player)
+			sideboard.request_to_place_on_sideboard(player)
 		return
 
 	var position_data = player_team.get_position_data_from_file_node_name_pos_format()

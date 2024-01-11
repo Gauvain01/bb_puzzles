@@ -1,24 +1,13 @@
-[gd_scene load_steps=20 format=3 uid="uid://bwbyokl742uq1"]
+[gd_scene load_steps=9 format=3 uid="uid://bwbyokl742uq1"]
 
 [ext_resource type="Script" path="res://puzzles/one_turn/one_turn_puzzle.gd" id="1_1ar4l"]
 [ext_resource type="PackedScene" uid="uid://csx5wklollko" path="res://scenes/field.tscn" id="2_ku2ml"]
-[ext_resource type="Script" path="res://ui/scripts/side_board.gd" id="2_p6hff"]
-[ext_resource type="Theme" uid="uid://btrn53r4bnl4p" path="res://ui/themes/challenge_ui_theme.tres" id="2_t88x4"]
-[ext_resource type="Script" path="res://ui/scripts/ui_controller.gd" id="3_a5yym"]
-[ext_resource type="Script" path="res://ui/scripts/player_card.gd" id="3_a32k4"]
-[ext_resource type="Script" path="res://ui/scripts/log.gd" id="4_rm3be"]
-[ext_resource type="Theme" uid="uid://m23e5cg5apra" path="res://ui/themes/dice_label_theme.tres" id="5_4p6mk"]
-[ext_resource type="Theme" uid="uid://cv3jyrorne2a8" path="res://ui/themes/pixel_button.tres" id="5_6h72s"]
-[ext_resource type="Script" path="res://ui/scripts/end_setup_button_label.gd" id="6_jq8gn"]
-[ext_resource type="Theme" uid="uid://bkr6lis8hc3cq" path="res://ui/themes/check_button_theme.tres" id="7_lj0gm"]
-[ext_resource type="Script" path="res://observers/selection_observer.gd" id="11_biix8"]
-[ext_resource type="PackedScene" uid="uid://bmtdo3dyib0l3" path="res://components/component_scenes/input_component.tscn" id="12_qshoy"]
-[ext_resource type="Script" path="res://observers/block_action_observer.gd" id="13_n36xi"]
-[ext_resource type="Script" path="res://field_scripts/block_die_calculator.gd" id="14_lhsrd"]
-[ext_resource type="Script" path="res://observers/move_action_observer.gd" id="16_dx2ee"]
-[ext_resource type="Script" path="res://observers/blitz_action_observer.gd" id="17_rv30j"]
+[ext_resource type="PackedScene" uid="uid://d2a328eqwijrd" path="res://observers/scenes/selection_observer.tscn" id="3_4tbpm"]
+[ext_resource type="PackedScene" uid="uid://u5ohwj4wuc1y" path="res://observers/scenes/block_action_observer.tscn" id="4_6vpjk"]
+[ext_resource type="PackedScene" uid="uid://cuor2c8jvphyl" path="res://observers/scenes/move_action_observer.tscn" id="5_fv3wq"]
+[ext_resource type="PackedScene" uid="uid://c6chmpetsog1e" path="res://observers/scenes/blitz_action_observer.tscn" id="6_03183"]
+[ext_resource type="PackedScene" uid="uid://c4iqow675ts6d" path="res://ui/puzzle_ui.tscn" id="9_e5dxq"]
 [ext_resource type="PackedScene" uid="uid://cggqb75a8w8r" path="res://addons/debug_menu/debug_menu.tscn" id="21_lvlip"]
-[ext_resource type="Texture2D" uid="uid://bgupcleo51cf" path="res://assets/textures/player_sprites/line_rat.png" id="22_7xqtp"]
 
 [node name="TestControl" type="Control"]
 layout_mode = 3
@@ -39,357 +28,28 @@ position = Vector2(0, 3)
 anchor_mode = 0
 editor_draw_limits = true
 
-[node name="Field" parent="." node_paths=PackedStringArray("ui", "selection_observer", "block_action_observer") instance=ExtResource("2_ku2ml")]
+[node name="Field" parent="." instance=ExtResource("2_ku2ml")]
 unique_name_in_owner = true
-ui = NodePath("../Ui")
-selection_observer = NodePath("../SelectionObserver")
-block_action_observer = NodePath("../BlockActionObserver")
 
-[node name="SelectionObserver" type="Node2D" parent="." node_paths=PackedStringArray("field", "ui_controller")]
+[node name="SelectionObserver" parent="." node_paths=PackedStringArray("field") instance=ExtResource("3_4tbpm")]
 unique_name_in_owner = true
-script = ExtResource("11_biix8")
-field = NodePath("../Field")
-ui_controller = NodePath("../Ui")
-
-[node name="BlockActionObserver" type="Node2D" parent="." node_paths=PackedStringArray("blockDieCalculator", "field")]
-position = Vector2(65, 46)
-script = ExtResource("13_n36xi")
-blockDieCalculator = NodePath("BlockDieCalculator")
 field = NodePath("../Field")
 
-[node name="BlockDieCalculator" type="Node2D" parent="BlockActionObserver" node_paths=PackedStringArray("field")]
-script = ExtResource("14_lhsrd")
-field = NodePath("../../Field")
+[node name="BlockActionObserver" parent="." node_paths=PackedStringArray("field") instance=ExtResource("4_6vpjk")]
+field = NodePath("../Field")
 
-[node name="MoveActionObserver" type="Node2D" parent="." node_paths=PackedStringArray("field", "ui_controller", "selection_observer")]
-script = ExtResource("16_dx2ee")
+[node name="MoveActionObserver" parent="." node_paths=PackedStringArray("field", "ui_controller", "selection_observer") instance=ExtResource("5_fv3wq")]
 field = NodePath("../Field")
 ui_controller = NodePath("../Ui")
 selection_observer = NodePath("../SelectionObserver")
 
-[node name="BlitzActionObserver" type="Node2D" parent="." node_paths=PackedStringArray("field", "selectionObserver", "blockDieCalculator")]
-script = ExtResource("17_rv30j")
+[node name="BlitzActionObserver" parent="." node_paths=PackedStringArray("field", "selectionObserver") instance=ExtResource("6_03183")]
 field = NodePath("../Field")
 selectionObserver = NodePath("../SelectionObserver")
-blockDieCalculator = NodePath("BlockDieCalculator")
-
-[node name="BlockDieCalculator" type="Node2D" parent="BlitzActionObserver" node_paths=PackedStringArray("field")]
-script = ExtResource("14_lhsrd")
-field = NodePath("../../Field")
-
-[node name="InputComponent" parent="BlitzActionObserver" instance=ExtResource("12_qshoy")]
 
 [node name="CanvasLayer" parent="." instance=ExtResource("21_lvlip")]
 
-[node name="Ui" type="Control" parent="." node_paths=PackedStringArray("sideboard", "move_popup", "end_setup_button", "player_team_tackle_check_button", "opponent_tackle_check_button")]
+[node name="Ui" parent="." node_paths=PackedStringArray("field", "selection_observer") instance=ExtResource("9_e5dxq")]
 unique_name_in_owner = true
-z_index = 1
-anchors_preset = 0
-offset_top = 1.0
-offset_right = 1920.0
-offset_bottom = 1085.0
-mouse_filter = 2
-theme = ExtResource("2_t88x4")
-script = ExtResource("3_a5yym")
-sideboard = NodePath("SideBoard")
-move_popup = NodePath("MovePopup")
-end_setup_button = NodePath("EndSetupButton")
-player_team_tackle_check_button = NodePath("TackleZoneCheckButton")
-opponent_tackle_check_button = NodePath("OpponentTackleCheck")
-
-[node name="SideBoard" type="PanelContainer" parent="Ui"]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 678.0
-offset_top = 92.0
-offset_right = 1014.0
-offset_bottom = 344.0
-mouse_filter = 2
-theme = ExtResource("2_t88x4")
-script = ExtResource("2_p6hff")
-
-[node name="Label" type="Label" parent="Ui/SideBoard"]
-layout_mode = 2
-size_flags_vertical = 0
-text = "your players"
-horizontal_alignment = 1
-uppercase = true
-
-[node name="ChallengeInformation" type="PanelContainer" parent="Ui"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.125717
-anchor_top = -0.0470963
-anchor_right = 1.45384
-anchor_bottom = 1.08851
-offset_left = 787.623
-offset_top = 73.0524
-offset_right = -994.377
-offset_bottom = -948.948
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("2_t88x4")
-metadata/_edit_use_anchors_ = true
-
-[node name="Label" type="Label" parent="Ui/ChallengeInformation"]
-layout_mode = 2
-size_flags_vertical = 0
-text = "Challenge Information"
-horizontal_alignment = 1
-uppercase = true
-
-[node name="PlayerCard" type="PanelContainer" parent="Ui" node_paths=PackedStringArray("selectionObserver", "field")]
-layout_mode = 0
-offset_left = 698.0
-offset_top = 606.0
-offset_right = 956.0
-offset_bottom = 978.0
-tooltip_text = "Displays the last selected player stats"
-script = ExtResource("3_a32k4")
-selectionObserver = NodePath("../../SelectionObserver")
-field = NodePath("../../Field")
-
-[node name="Label" type="Label" parent="Ui/PlayerCard"]
-layout_mode = 2
-size_flags_vertical = 0
-text = "Player Card"
-horizontal_alignment = 1
-clip_text = true
-uppercase = true
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Ui/PlayerCard"]
-clip_contents = true
-layout_mode = 2
-
-[node name="Space filler" type="Label" parent="Ui/PlayerCard/VBoxContainer"]
-layout_mode = 2
-
-[node name="Space filler2" type="Label" parent="Ui/PlayerCard/VBoxContainer"]
-layout_mode = 2
-text = "STATS"
-
-[node name="MA_label" type="Label" parent="Ui/PlayerCard/VBoxContainer"]
-layout_mode = 2
-
-[node name="ST_label" type="Label" parent="Ui/PlayerCard/VBoxContainer"]
-layout_mode = 2
-
-[node name="AG_label" type="Label" parent="Ui/PlayerCard/VBoxContainer"]
-layout_mode = 2
-
-[node name="PA_label" type="Label" parent="Ui/PlayerCard/VBoxContainer"]
-layout_mode = 2
-
-[node name="AV_label" type="Label" parent="Ui/PlayerCard/VBoxContainer"]
-layout_mode = 2
-
-[node name="EndSetupButton" type="Button" parent="Ui"]
-layout_mode = 0
-offset_left = 679.0
-offset_top = 400.0
-offset_right = 990.0
-offset_bottom = 514.0
-theme = ExtResource("5_6h72s")
-
-[node name="Label" type="Label" parent="Ui/EndSetupButton"]
-layout_mode = 0
-offset_left = 1.0
-offset_top = 3.0
-offset_right = 309.0
-offset_bottom = 75.0
-text = "end setup"
-horizontal_alignment = 1
-vertical_alignment = 1
-script = ExtResource("6_jq8gn")
-
-[node name="GameLog" type="PanelContainer" parent="Ui"]
-clip_contents = true
-layout_direction = 2
-layout_mode = 0
-offset_left = 1104.0
-offset_top = 513.0
-offset_right = 1831.0
-offset_bottom = 959.0
-tooltip_text = "logs all the actions you took"
-script = ExtResource("4_rm3be")
-
-[node name="ScrollContainer" type="ScrollContainer" parent="Ui/GameLog"]
-layout_mode = 2
-follow_focus = true
-horizontal_scroll_mode = 0
-vertical_scroll_mode = 2
-
-[node name="Label" type="Label" parent="Ui/GameLog/ScrollContainer"]
-clip_contents = true
-layout_mode = 2
-size_flags_horizontal = 3
-clip_text = true
-uppercase = true
-
-[node name="Label" type="Label" parent="Ui"]
-layout_mode = 2
-offset_left = 1136.0
-offset_top = 519.0
-offset_right = 1820.0
-offset_bottom = 546.0
-text = "LOG"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="TackleZoneCheckButton" type="CheckButton" parent="Ui"]
-z_index = 5
-layout_mode = 0
-offset_left = 5.0
-offset_top = 231.0
-offset_right = 806.0
-offset_bottom = 952.0
-scale = Vector2(0.122, 0.122)
-theme = ExtResource("7_lj0gm")
-
-[node name="OpponentTackleCheck" type="CheckButton" parent="Ui"]
-layout_mode = 0
-offset_left = 5.0
-offset_top = 447.0
-offset_right = 806.0
-offset_bottom = 1154.0
-scale = Vector2(0.122, 0.122)
-theme = ExtResource("7_lj0gm")
-
-[node name="MovePopup" type="Label" parent="Ui"]
-visible = false
-layout_mode = 0
-offset_left = 661.0
-offset_top = 375.0
-offset_right = 1037.0
-offset_bottom = 591.0
-theme = ExtResource("5_4p6mk")
-theme_override_font_sizes/font_size = 25
-text = "Press SPACE to continue
-
-Press RMB to reset the path"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="SaveButton" type="Button" parent="Ui"]
-visible = false
-layout_mode = 0
-offset_left = 1389.0
-offset_top = 375.0
-offset_right = 1738.0
-offset_bottom = 487.0
-toggle_mode = true
-text = "save"
-
-[node name="Label2" type="Label" parent="Ui"]
-layout_mode = 0
-offset_left = 5.0
-offset_top = 175.0
-offset_right = 109.0
-offset_bottom = 231.0
-text = "Tackle Zones
-player"
-horizontal_alignment = 1
-
-[node name="Label2" type="Label" parent="Ui/Label2"]
-layout_mode = 0
-offset_top = 216.0
-offset_right = 104.0
-offset_bottom = 272.0
-text = "Tackle Zones
-opponent"
-horizontal_alignment = 1
-
-[node name="ActionBox" type="PanelContainer" parent="Ui"]
-visible = false
-layout_mode = 0
-offset_left = 1029.0
-offset_top = 239.0
-offset_right = 1858.9
-offset_bottom = 543.009
-theme = ExtResource("2_t88x4")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Ui/ActionBox"]
-layout_mode = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Ui/ActionBox/HBoxContainer"]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-size_flags_horizontal = 0
-
-[node name="TextureRect" type="TextureRect" parent="Ui/ActionBox/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-texture = ExtResource("22_7xqtp")
-expand_mode = 5
-
-[node name="Label" type="Label" parent="Ui/ActionBox/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 60
-text = "0"
-horizontal_alignment = 1
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="Ui/ActionBox/HBoxContainer"]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-size_flags_horizontal = 0
-
-[node name="TextureRect" type="TextureRect" parent="Ui/ActionBox/HBoxContainer/VBoxContainer2"]
-layout_mode = 2
-texture = ExtResource("22_7xqtp")
-expand_mode = 5
-
-[node name="Label" type="Label" parent="Ui/ActionBox/HBoxContainer/VBoxContainer2"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 60
-text = "0"
-horizontal_alignment = 1
-
-[node name="VBoxContainer3" type="VBoxContainer" parent="Ui/ActionBox/HBoxContainer"]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-size_flags_horizontal = 0
-
-[node name="TextureRect" type="TextureRect" parent="Ui/ActionBox/HBoxContainer/VBoxContainer3"]
-layout_mode = 2
-texture = ExtResource("22_7xqtp")
-expand_mode = 5
-
-[node name="Label" type="Label" parent="Ui/ActionBox/HBoxContainer/VBoxContainer3"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 60
-text = "0"
-horizontal_alignment = 1
-
-[node name="VBoxContainer4" type="VBoxContainer" parent="Ui/ActionBox/HBoxContainer"]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-size_flags_horizontal = 0
-
-[node name="TextureRect" type="TextureRect" parent="Ui/ActionBox/HBoxContainer/VBoxContainer4"]
-layout_mode = 2
-texture = ExtResource("22_7xqtp")
-expand_mode = 5
-
-[node name="Label" type="Label" parent="Ui/ActionBox/HBoxContainer/VBoxContainer4"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 60
-text = "0"
-horizontal_alignment = 1
-
-[node name="VBoxContainer5" type="VBoxContainer" parent="Ui/ActionBox/HBoxContainer"]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-size_flags_horizontal = 0
-
-[node name="TextureRect" type="TextureRect" parent="Ui/ActionBox/HBoxContainer/VBoxContainer5"]
-layout_mode = 2
-texture = ExtResource("22_7xqtp")
-expand_mode = 5
-
-[node name="Label" type="Label" parent="Ui/ActionBox/HBoxContainer/VBoxContainer5"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 60
-text = "0"
-horizontal_alignment = 1
-
-[connection signal="button_down" from="Ui/EndSetupButton" to="Ui/EndSetupButton/Label" method="_on_end_setup_button_button_down"]
-[connection signal="button_up" from="Ui/EndSetupButton" to="Ui/EndSetupButton/Label" method="_on_end_setup_button_button_up"]
+field = NodePath("../Field")
+selection_observer = NodePath("../SelectionObserver")

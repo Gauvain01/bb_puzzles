@@ -5,7 +5,6 @@ extends Node2D
 @export var field:Node2D
 @export var player_team:TeamComponent
 @export var opponent:Node2D
-var ui_controller:UiController
 
 var opponent_tackle_check_button:CheckButton
 var player_team_tackle_check_button:CheckButton
@@ -45,12 +44,12 @@ func set_tackle_zones_squares_map():
 				if coordinate.x < 15 and coordinate.y < 26:
 					dict[coordinate] = dict[coordinate] + 1
 	opponent_tackle_zone_map = dict
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	ui_controller = field.ui
-	opponent_tackle_check_button= ui_controller.opponent_tackle_check_button
-	player_team_tackle_check_button = ui_controller.player_team_tackle_check_button
 	
+func connect_button_signals(opponent_check, player_team_check):
+	opponent_tackle_check_button = opponent_check
+	player_team_tackle_check_button = player_team_check
+	player_team_tackle_check_button.toggled.connect(_on_tackle_zone_check_button_toggled)
+	opponent_tackle_check_button.toggled.connect(_on_check_button_toggled)
 
 func is_in_opponent_tackle_zone(gridCoordinate):
 	var tackle_zones = []
@@ -63,8 +62,6 @@ func is_in_opponent_tackle_zone(gridCoordinate):
 func set_up_tackle_zones_component():
 	create_tacklezone_possible_coordinate_map()
 	tacklezone_possible_coordinate_map.duplicate()
-	player_team_tackle_check_button.toggled.connect(_on_tackle_zone_check_button_toggled)
-	opponent_tackle_check_button.toggled.connect(_on_check_button_toggled)
 func create_tacklezone_possible_coordinate_map():
 	for x in range(grid.COLUMNS):
 		for y in range(grid.ROWS):
@@ -74,6 +71,8 @@ func get_tackle_zone_squares(player_team) -> Array:
 	var dict = tacklezone_possible_coordinate_map.duplicate()
 	var output = []
 	for square in get_player_squares(player_team):
+		if square.zone == "sideboard":
+			continue
 		var grid_coordinate = square.gridCoordinate
 		var tz1 =[ Vector2(grid_coordinate.x -1, grid_coordinate.y +1),
 			Vector2(grid_coordinate.x , grid_coordinate.y +1),

@@ -1,7 +1,7 @@
 class_name BlockActionObserver
 extends Node2D
 
-@export var blockDieCalculator: BlockDieCalculator
+var blockDieCalculator: BlockDieCalculator
 @export var field: Field
 
 @onready var player_team: TeamComponent = field.player_team
@@ -51,6 +51,10 @@ func _ready():
 	for i in player_team.get_players():
 		var player: Player = i
 		player.request_block_event.connect(on_block_request)
+	var _block_die_calculator = BlockDieCalculator.new()
+	_block_die_calculator.field = field
+	add_child(_block_die_calculator)
+	blockDieCalculator = _block_die_calculator
 
 
 func on_block_request(player: Player):

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://d2a328eqwijrd"]
+
+[ext_resource type="Script" path="res://observers/selection_observer.gd" id="1_bbxoc"]
+
+[node name="SelectionObserver" type="Node2D" node_paths=PackedStringArray("field")]
+script = ExtResource("1_bbxoc")
+field = NodePath("")

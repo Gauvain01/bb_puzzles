@@ -2,10 +2,9 @@ class_name SelectionObserver
 extends Node2D
 
 @export var field: Field
-@export var ui_controller: UiController
 @export var free_placement:bool = false
 @onready var player_team: TeamComponent = field.player_team
-@onready var side_board:SideBoard = get_node("%SideBoard")
+@onready var side_board:SideBoardController = field.sideboard
 @onready var grid: Node2D = field.grid
 @onready var opponent_team: TeamComponent = field.opponent
 
@@ -132,7 +131,7 @@ func on_player_deselect_drop_player(_player:Player):
 func on_dropped_selected_player_for_field_placement():
 	if not field.is_mouse_inside_field():
 		LogController.add_text("ERROR: MUST PLACE PLAYER ON FIELD OR SIDEBOARD DURING SETUP")
-		side_board.request_to_place_on_sideBoard(selected_player)
+		side_board.request_to_place_on_sideboard(selected_player)
 	else:
 		if free_placement:
 			field.request_to_place_on_field(selected_player, selected_field_square)
@@ -140,7 +139,7 @@ func on_dropped_selected_player_for_field_placement():
 			field.request_to_place_on_field(selected_player, selected_field_square)
 		elif selected_field_square.get_player_team() == "opponent" and not selected_player.isOpponent:
 			LogController.add_text("ERROR: placing on opponent's half not allowed")
-			side_board.request_to_place_on_sideBoard(selected_player)
+			side_board.request_to_place_on_sideboard(selected_player)
 		
 	listen_for_select_on_player(selected_player)
 	if !_player_selected.is_connected(on_selected_player_for_drag_and_drop):

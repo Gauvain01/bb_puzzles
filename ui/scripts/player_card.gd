@@ -7,10 +7,9 @@ extends PanelContainer
 @onready var AV_label = $VBoxContainer/AV_label
 @onready var PA_label = $VBoxContainer/PA_label
 var player_team:TeamComponent
-@export var selectionObserver:SelectionObserver
 var opponent:TeamComponent
-@export var field:Field
 var is_selection = false
+var _selection_observer:SelectionObserver
 
 func on_board_piece_hover(board_piece):
 	if board_piece.isOpponent:
@@ -33,7 +32,8 @@ func on_board_piece_exit_hover(_player:Player):
 	PA_label.text = "PA:"
 		
 	
-func _ready():
+func setup(field:Field ,selection_observer:SelectionObserver):
+	_selection_observer = selection_observer
 	player_team = field.player_team
 	opponent = field.opponent
 	label.label_settings = LabelSettings.new()
@@ -51,8 +51,8 @@ func set_player_card_values():
 		$VBoxContainer/PA_label.text = "PA:"
 		
 		
-	selectionObserver.selection_is_on.connect(on_selection_is_on)
-	selectionObserver.selection_is_off.connect(on_selection_is_off)
+	_selection_observer.selection_is_on.connect(on_selection_is_on)
+	_selection_observer.selection_is_off.connect(on_selection_is_off)
 	for board_piece in opponent.get_players():
 		board_piece.select_component._mouse_entered_release_selected.connect(on_board_piece_hover)
 		board_piece.select_component._mouse_exited_release_selected.connect(on_board_piece_exit_hover)

@@ -3,7 +3,7 @@ extends Node2D
 
 @export var field: Field
 @export var selectionObserver: SelectionObserver
-@export var blockDieCalculator: BlockDieCalculator
+var blockDieCalculator: BlockDieCalculator
 
 @onready var player_team: TeamComponent = field.player_team
 @onready var opponent_team: TeamComponent = field.opponent
@@ -18,6 +18,12 @@ var active_block_event = null
 func _ready():
 	for player in player_team.get_players():
 		player.request_blitz_event.connect(on_blitz_pressed)
+	
+	var _block_die_calculator = BlockDieCalculator.new()
+	_block_die_calculator.field = field
+	add_child(_block_die_calculator)
+	blockDieCalculator = _block_die_calculator
+
 
 
 func on_blitz_pressed(player: Player):

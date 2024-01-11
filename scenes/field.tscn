@@ -1,15 +1,22 @@
-[gd_scene load_steps=6 format=3 uid="uid://csx5wklollko"]
+[gd_scene load_steps=9 format=3 uid="uid://csx5wklollko"]
 
 [ext_resource type="Script" path="res://field_scripts/field.gd" id="1_pybyb"]
 [ext_resource type="Script" path="res://field_scripts/grid.gd" id="2_xd0gj"]
 [ext_resource type="Script" path="res://field_scripts/tackle_zone_component.gd" id="3_hobj8"]
 [ext_resource type="PackedScene" uid="uid://bi6yt2brbqtb5" path="res://opponents/block_test/blockTest.tscn" id="4_vg8gc"]
 [ext_resource type="PackedScene" uid="uid://cjc0wmuq7nhnp" path="res://teams/SkavenTeam/skaven_team.tscn" id="5_s3a7d"]
+[ext_resource type="Script" path="res://field_scripts/side_board_controller.gd" id="6_srorn"]
+[ext_resource type="Script" path="res://debug_drawing_tool.gd" id="7_srw6y"]
+[ext_resource type="Script" path="res://field_scripts/sideboard_drawing_tool.gd" id="8_wki36"]
 
 [node name="Field" type="Node2D"]
 z_index = 1
 position = Vector2(65, 46)
 script = ExtResource("1_pybyb")
+
+[node name="DebugDrawingTool" type="Node2D" parent="."]
+position = Vector2(-1, 2)
+script = ExtResource("7_srw6y")
 
 [node name="grid" type="Node2D" parent="."]
 z_index = 2
@@ -27,3 +34,11 @@ z_index = 3
 
 [node name="PlayerTeam" parent="." instance=ExtResource("5_s3a7d")]
 z_index = 3
+
+[node name="SideBoardController" type="Node2D" parent="."]
+z_index = 2
+position = Vector2(589, 32)
+script = ExtResource("6_srorn")
+
+[node name="DebugDrawingTool" type="Node2D" parent="SideBoardController"]
+script = ExtResource("8_wki36")
