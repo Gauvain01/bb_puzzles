@@ -20,6 +20,8 @@ signal moved_player_during_play(player_ref: Player)
 signal moved_player(player_ref: Player, coord_from: Vector2, coord_to: Vector2)
 signal mouse_release_on_field_square
 
+signal placed_new_player_on_field(player, side_board_square)
+
 	
 func on_mouse_release_square_select(square):
 	mouse_release_on_field_square.emit(square)
@@ -132,7 +134,7 @@ func request_to_place_opponent(player, gridCoordinate):
 
 	player.my_field_square = field_square
 	field_square.disable_collision(true)
-	player.my_field_square.occupied = player
+	player.my_field_square.occupy(player)
 	player.global_position = field_square.global_position
 
 
@@ -154,6 +156,7 @@ func _ready():
 
 
 func request_to_place_on_field(player:Player, requested_square:field_square_script.FieldSquare):
+	print(" got called")
 	var current_player_square = player.my_field_square
 
 	if requested_square.get_occupied() != null and requested_square.get_occupied() is Player:
@@ -162,7 +165,7 @@ func request_to_place_on_field(player:Player, requested_square:field_square_scri
 	
 	current_player_square.occupy_set_null()
 	requested_square.occupy(player) 
-
+	placed_new_player_on_field.emit(player, current_player_square)
 
 
 
@@ -267,7 +270,6 @@ func place_player_team_on_sideboard():
 
 func place_player_team_on_field():
 	if sideboard:
-		print("got here")
 		for player in player_team.get_players():
 			sideboard.request_to_place_on_sideboard(player)
 		return

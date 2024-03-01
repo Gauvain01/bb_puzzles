@@ -9,13 +9,12 @@ class_name MoveActionObserver
 @onready var movePopup: Label = ui_controller.move_popup
 
 var active_move_event = null
-var current_player:Player = null
+var current_player: Player = null
 
 func _ready():
 	for i in player_team.get_players():
 		var player: Player = i
 		player.request_move_event.connect(_on_player_team_move_action_triggered)
-
 
 func _on_player_team_move_action_triggered(player):
 	current_player = player
@@ -28,8 +27,6 @@ func _on_player_team_move_action_triggered(player):
 	active_move_event.start()
 	movePopup.visible = true
 
-
 func on_complete_move_event():
 	current_player.state_machine.switch_state(PLAYER_STATE.FINISHED_STATE)
 	movePopup.visible = false
-	

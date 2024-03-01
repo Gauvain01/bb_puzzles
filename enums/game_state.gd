@@ -1,9 +1,9 @@
-
 class_name GAME_STATE
 
-enum{
+enum {
 	PLAY,
 	SETUP,
 	COMPLETE,
-	PAUSED
+	PAUSED,
+	BUILDING_MODE
 }

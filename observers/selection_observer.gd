@@ -2,9 +2,9 @@ class_name SelectionObserver
 extends Node2D
 
 @export var field: Field
-@export var free_placement:bool = false
+@export var free_placement: bool = false
 @onready var player_team: TeamComponent = field.player_team
-@onready var side_board:SideBoardController = field.sideboard
+@onready var side_board: SideBoardController = field.sideboard
 @onready var grid: Node2D = field.grid
 @onready var opponent_team: TeamComponent = field.opponent
 
@@ -23,8 +23,11 @@ signal selection_is_on
 signal selection_is_off
 signal request_to_place_on_field(board_piece, fieldSquare)
 
-
 func _ready():
+	if field is PuzzleBuilderField:
+		var player_builder = field.get_node("PlayerBuilder")
+		player_builder.spawned_building_player.connect(on_new_player_spawn)
+		
 #	input_component.mouseClick.connect(on_mouse_click)
 	for square in field.get_field_squares():
 		NodeInspector.get_select_component(square).get_mouse_enter_signal().connect(
@@ -54,28 +57,32 @@ func _ready():
 	#			var j: Player = i
 	#			j.select_component.get_mouse_enter_signal().connect(on_mouse_enter_player)
 	#			j.select_component.get_mouse_exited_signal().connect(on_mouse_exit_player)
-	for player:Player in player_team.get_players():
+	for player: Player in player_team.get_players():
 		player.state_machine.switched_states.connect(on_player_state_changed)
-	start_listening_for_selected_field_square()
+	for player: Player in opponent_team.get_players():
+		player.state_machine.switched_states.connect(on_player_state_changed)
+
+func on_new_player_spawn(_player: Player):
+	if _player.state_machine.current_state == null:
+		return
+	if _player.state_machine.get_current_state_enum() == PLAYER_STATE.SETUP_STATE:
+		listen_for_select_on_player(_player)
 
 func start_listening_for_selected_field_square():
-	for field_square:field_square_script.FieldSquare in field.grid.field_squares:
+	for field_square: field_square_script.FieldSquare in field.grid.field_squares:
 		if !field_square.select_component._mouse_entered_release_selected.is_connected(on_mouse_enter_square):
 			field_square.select_component._mouse_entered_release_selected.connect(on_mouse_enter_square)
 		if !field_square.select_component._mouse_exited_release_selected.is_connected(on_mouse_exit_square):
 			field_square.select_component._mouse_exited_release_selected.connect(on_mouse_exit_square)
 
 func stop_listening_for_selected_field_square():
-	for field_square:field_square_script.FieldSquare in field.grid.field_squares:
+	for field_square: field_square_script.FieldSquare in field.grid.field_squares:
 		if field_square.select_component._mouse_entered_release_selected.is_connected(on_mouse_enter_square):
 			field_square.select_component._mouse_entered_release_selected.disconnect(on_mouse_enter_square)
 		if field_square.select_component._mouse_exited_release_selected.is_connected(on_mouse_exit_square):
 			field_square.select_component._mouse_exited_release_selected.disconnect(on_mouse_exit_square)
 
-
-
-
-func on_player_state_changed(_player:Player, new_state):
+func on_player_state_changed(_player: Player, new_state):
 	match new_state:
 		PLAYER_STATE.SETUP_STATE:
 			#on selected player follows mouse
@@ -92,11 +99,11 @@ func stop_listen_for_select_on_player(_player):
 	if _player.select_component.selected.is_connected(on_player_select_for_setting_selected_player):
 		_player.select_component.selected.disconnect(on_player_select_for_setting_selected_player)
 	
-func listen_for_select_on_player(_player:Player):
+func listen_for_select_on_player(_player: Player):
 	if !_player.select_component.selected.is_connected(on_player_select_for_setting_selected_player):
 		_player.select_component.selected.connect(on_player_select_for_setting_selected_player)
 
-func on_player_select_for_setting_selected_player(_player:Player):
+func on_player_select_for_setting_selected_player(_player: Player):
 	selected_player = _player
 	_player_selected.emit()
 
@@ -107,23 +114,18 @@ func on_selected_player_for_drag_and_drop():
 	selected_player.select_component.deselected.connect(on_player_deselect_drop_player)
 	selected_player.collider_component.area_shape_entered.connect(listen_for_field_square_from_player_collision)
 	NodeInspector.get_drag_and_drop_component(selected_player).drag()
-
 	
-func listen_for_field_square_from_player_collision(area_rid:RID, area:Area2D, area_shape_index:int, local_shape_index:int):
+func listen_for_field_square_from_player_collision(area_rid: RID, area: Area2D, area_shape_index: int, local_shape_index: int):
 	if area.get_parent() is field_square_script.FieldSquare:
 		selected_field_square = area.get_parent()
 
-
-	
-
-func set_player_pos_to_mouse_pos(_player:Player):
+func set_player_pos_to_mouse_pos(_player: Player):
 	var _mouse_position = get_viewport().get_mouse_position()
 	_player.global_position = _mouse_position
 
-func on_player_deselect_drop_player(_player:Player):
+func on_player_deselect_drop_player(_player: Player):
 	NodeInspector.get_drag_and_drop_component(_player).drop()
 	on_dropped_selected_player_for_field_placement()
-
 
 	_player.select_component.deselected.disconnect(on_player_deselect_drop_player)
 	_player.select_component.emit_deselected_on_next_mouse_release = false
@@ -135,7 +137,7 @@ func on_dropped_selected_player_for_field_placement():
 	else:
 		if free_placement:
 			field.request_to_place_on_field(selected_player, selected_field_square)
-		elif selected_field_square.get_player_team() !="opponent" and not selected_player.isOpponent:
+		elif selected_field_square.get_player_team() != "opponent" and not selected_player.isOpponent:
 			field.request_to_place_on_field(selected_player, selected_field_square)
 		elif selected_field_square.get_player_team() == "opponent" and not selected_player.isOpponent:
 			LogController.add_text("ERROR: placing on opponent's half not allowed")
@@ -145,7 +147,6 @@ func on_dropped_selected_player_for_field_placement():
 	if !_player_selected.is_connected(on_selected_player_for_drag_and_drop):
 		_player_selected.connect(on_selected_player_for_drag_and_drop)
 
-
 func activate_hover_square(square: field_square_script.FieldSquare, isActive: bool):
 	if !is_select_coloration:
 		return
@@ -154,16 +155,12 @@ func activate_hover_square(square: field_square_script.FieldSquare, isActive: bo
 	else:
 		square.color_to_default()
 
-
 func on_mouse_enter_square(square):
 	hover_square.emit(square)
 	activate_hover_square(square, true)
-
 
 func on_mouse_exit_square(square):
 	hover_left.emit(square)
 	activate_hover_square(square, false)
 
 #do not use mouse enter, use colliders.
-
-

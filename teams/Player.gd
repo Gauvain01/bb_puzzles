@@ -3,15 +3,15 @@ class_name Player
 
 var player_team
 var type
-var stats
+var stats: PlayerStats
 
-@export var player_type_string:String
-@export var mySprite: Sprite2D
+@export var player_type_string: String
+@export var mySprite: PlayerSprite
 @export var myCollider: Area2D
 @export var myGridPosition: Vector2
 @export var isOpponent: bool = false
 @export var ball_texture: TextureRect
-@export var collider_component:ColliderComponent
+@export var collider_component: ColliderComponent
 var select_component: SelectComponent
 @export var ui_component: PlayerUiComponent
 @export var actionMenu: MenuButton
@@ -28,7 +28,7 @@ var util
 @export var has_ball = false
 @export var isMarked: bool = false
 
-var state_machine:PlayerStateMachine = null
+var state_machine: PlayerStateMachine = null
 
 signal request_move_event
 signal request_block_event
@@ -48,29 +48,22 @@ var game_state = GAME_STATE.SETUP
 
 var default_color = "#ffffff"
 
-
-
 func change_color(color: Color):
 	mySprite.set_modulate(color)
 
-
 func return_to_default_color():
 	mySprite.set_modulate(default_color)
-
 
 func end_turn():
 	mySprite.set_modulate(Color.GRAY)
 	isActive = false
 	ui_component.activate_ui_component(false)
 
-
 func show_menu():
 	actionMenu.show_popup()
 
-
 func get_my_field_square():
 	return my_field_square
-
 
 func _ready():
 	stats = get_node("Stats")
@@ -90,7 +83,6 @@ func _ready():
 	if has_ball:
 		ball_texture.visible = true
 
-
 func give_ball():
 	has_ball = true
 	ball_texture.visible = true
@@ -99,7 +91,6 @@ func activate_menu_for_player_state():
 	if player_state == PLAYER_STATE.ACTIVE_STATE:
 		return ui_component.activate_action_menu(true)
 	return null
-
 
 func set_player_action_menu_signals():
 
@@ -115,7 +106,6 @@ func set_player_action_menu_signals():
 		)
 	else:
 		ui_component.action_menu_component.blitz_button.disabled = true
-
 
 func unset_player_action_menu_signals():
 	var menu_comp = ui_component.action_menu_component
@@ -138,12 +128,10 @@ func on_move_action():
 	request_move_event.emit(self)
 	ui_component.action_menu_component.deactivate()
 
-
 func on_block_action():
 	state_machine.switch_state(PLAYER_STATE.BLOCK_STATE)
 	request_block_event.emit(self)
 	ui_component.action_menu_component.deactivate()
-
 
 func on_blitz_action():
 	state_machine.switch_state(PLAYER_STATE.BLITZ_STATE)
@@ -153,7 +141,6 @@ func on_blitz_action():
 func on_end_action():
 	state_machine.switch_state(PLAYER_STATE.FINISHED_STATE)
 	ui_component.action_menu_component.deactivate()
-
 
 func deactivate():
 	isActive = false
@@ -188,6 +175,7 @@ func setup_hover_color_activation():
 	select_component.mouse_entered.connect(on_mouse_entered_for_hover, CONNECT_ONE_SHOT)
 
 func on_mouse_entered_for_hover():
+	print("hovered")
 	change_color(hover_color)
 	select_component.mouse_exited.connect(on_mouse_exited_for_hover, CONNECT_ONE_SHOT)
 
@@ -200,14 +188,12 @@ func stop_select_color_activation():
 		select_component.selected.disconnect(_on_player_selected)
 	if select_component.deselected.is_connected(_on_player_deselected):
 		select_component.deselected.disconnect(_on_player_deselected)
-	
 
 func stop_hover_color_activation():
 	if select_component.mouse_entered.is_connected(on_mouse_entered_for_hover):
 		select_component.mouse_entered.disconnect(on_mouse_entered_for_hover)
 	if select_component.mouse_exited.is_connected(on_mouse_exited_for_hover):
 		select_component.mouse_exited.disconnect(on_mouse_exited_for_hover)
-
 
 func setup_action_menu_for_activation():
 	set_player_action_menu_signals()

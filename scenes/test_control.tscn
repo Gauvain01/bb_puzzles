@@ -38,10 +38,10 @@ field = NodePath("../Field")
 [node name="BlockActionObserver" parent="." node_paths=PackedStringArray("field") instance=ExtResource("4_6vpjk")]
 field = NodePath("../Field")
 
-[node name="MoveActionObserver" parent="." node_paths=PackedStringArray("field", "ui_controller", "selection_observer") instance=ExtResource("5_fv3wq")]
-field = NodePath("../Field")
-ui_controller = NodePath("../Ui")
-selection_observer = NodePath("../SelectionObserver")
+[node name="MoveActionObserver" parent="." instance=ExtResource("5_fv3wq")]
+field = null
+ui_controller = null
+selection_observer = null
 
 [node name="BlitzActionObserver" parent="." node_paths=PackedStringArray("field", "selectionObserver") instance=ExtResource("6_03183")]
 field = NodePath("../Field")

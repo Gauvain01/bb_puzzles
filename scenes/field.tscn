@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://field_scripts/grid.gd" id="2_xd0gj"]
 [ext_resource type="Script" path="res://field_scripts/tackle_zone_component.gd" id="3_hobj8"]
 [ext_resource type="PackedScene" uid="uid://bi6yt2brbqtb5" path="res://opponents/block_test/blockTest.tscn" id="4_vg8gc"]
-[ext_resource type="PackedScene" uid="uid://cjc0wmuq7nhnp" path="res://teams/SkavenTeam/skaven_team.tscn" id="5_s3a7d"]
+[ext_resource type="PackedScene" uid="uid://cjc0wmuq7nhnp" path="res://teams/skaven/skaven_team.tscn" id="5_s3a7d"]
 [ext_resource type="Script" path="res://field_scripts/side_board_controller.gd" id="6_srorn"]
 [ext_resource type="Script" path="res://debug_drawing_tool.gd" id="7_srw6y"]
 [ext_resource type="Script" path="res://field_scripts/sideboard_drawing_tool.gd" id="8_wki36"]
@@ -41,4 +41,5 @@ position = Vector2(589, 32)
 script = ExtResource("6_srorn")
 
 [node name="DebugDrawingTool" type="Node2D" parent="SideBoardController"]
+visible = false
 script = ExtResource("8_wki36")

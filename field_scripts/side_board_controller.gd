@@ -9,7 +9,7 @@ var players_on_sideboard = 0
 var side_board_map = {} #{Player:Square}
 var available_field_squares = []
 var field_squares = []
-
+var state_occupied = false
 
 
 func get_side_board_player_count() -> int:
@@ -36,14 +36,32 @@ func _generate_field_squares():
 			var zone = "sideboard"
 
 			var field_square = await field_square_script.FieldSquare.new(square_position, team, zone, square_color, size, Vector2(x,y) )
+			field_square.deoccupied.connect(on_deoccupy_field_square)
 			field_squares.append(field_square)
 			available_field_squares.append(field_square)
 			add_child(field_square)
 
-func request_to_place_on_sideboard(player:Player):
+func on_deoccupy_field_square(square, entity:Node):
+	if side_board_map.has(entity):
+		side_board_map.erase(entity)
+		available_field_squares.append(square)
+
+
+func request_to_place_on_sideboard(player:Player, specified_square = null):
 	if len(field_squares) == 0:
 		_generate_field_squares()
-
+	
+	if specified_square != null:
+		var selected_square:field_square_script.FieldSquare = specified_square
+		#check if selected square is occupied, throw error:
+		if selected_square.is_occupied():
+			assert(false)
+		# square must be available
+		player.global_position = selected_square.global_position
+		selected_square.occupy(player)
+		player.my_field_square = selected_square
+		return
+	
 	if not side_board_map.has(player):
 		side_board_map[player] = available_field_squares.pop_back()
 	

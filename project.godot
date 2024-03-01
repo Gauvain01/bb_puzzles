@@ -15,7 +15,7 @@ ruake/toggle_ruake_action="toggle_console"
 [application]
 
 config/name="bb_puzzles"
-run/main_scene="res://scenes/test_control.tscn"
+run/main_scene="res://scenes/test_puzzle_builder.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
 config/icon="res://ui/art/icon.svg"
 

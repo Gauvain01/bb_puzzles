@@ -54,6 +54,10 @@ func switch_state(new_state:int):
 	current_state = _state_map[new_state]
 	current_state.enter()
 	switched_states.emit(get_parent(),new_state)
+func get_current_state_enum():
+	for key in _state_map.keys():
+		if _state_map[key] == current_state:
+			return key
 
 class PlayerState extends Node:
 	var _player:Player

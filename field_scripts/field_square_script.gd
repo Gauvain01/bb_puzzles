@@ -19,7 +19,7 @@ class FieldSquare:
 	signal mouse_exited_field_square(fieldSquare)
 
 	signal mouse_entered_field_square(fieldSquare)
-
+	signal deoccupied(fieldSquare, occupied_entity:Node)
 	func color_to_default():
 		self.color = self.default_color
 		self.queue_redraw()
@@ -70,6 +70,8 @@ class FieldSquare:
 
 	
 	func occupy(entity:Node):
+		if self.occupied == null:
+			self.occupy_set_null()
 		self.occupied = entity
 		entity.global_position = global_position
 
@@ -77,6 +79,7 @@ class FieldSquare:
 			entity.my_field_square = self
 
 	func occupy_set_null():
+		deoccupied.emit(self, self.occupied)
 		self.occupied = null
 	func is_occupied() -> bool:
 		return self.occupied != null
@@ -84,7 +87,7 @@ class FieldSquare:
 	func get_occupied(deoccupy_set_null:bool = false):
 		var occupied_entity = self.occupied
 		if deoccupy_set_null:
-			self.occupied = null
+			occupy_set_null()
 		return occupied_entity
 		
 

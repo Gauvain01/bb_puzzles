@@ -1,0 +1,53 @@
+[gd_scene load_steps=11 format=3 uid="uid://byod2xq326ee2"]
+
+[ext_resource type="Script" path="res://field_scripts/puzzle_builder_field.gd" id="1_cl5wp"]
+[ext_resource type="Script" path="res://debug_drawing_tool.gd" id="2_goava"]
+[ext_resource type="Script" path="res://field_scripts/grid.gd" id="3_uoyon"]
+[ext_resource type="Script" path="res://field_scripts/tackle_zone_component.gd" id="4_j0ujp"]
+[ext_resource type="PackedScene" uid="uid://bi6yt2brbqtb5" path="res://opponents/block_test/blockTest.tscn" id="5_lp555"]
+[ext_resource type="PackedScene" uid="uid://cjc0wmuq7nhnp" path="res://teams/skaven/skaven_team.tscn" id="6_f0515"]
+[ext_resource type="Script" path="res://field_scripts/side_board_controller.gd" id="7_nkd7c"]
+[ext_resource type="Script" path="res://field_scripts/sideboard_drawing_tool.gd" id="8_5stv5"]
+[ext_resource type="Script" path="res://puzzle_builder/scripts/player_loader.gd" id="9_ttpb8"]
+[ext_resource type="Script" path="res://puzzle_builder/scripts/player_builder.gd" id="10_inrcb"]
+
+[node name="PuzzleBuilderField" type="Node2D"]
+z_index = 1
+position = Vector2(65, 46)
+script = ExtResource("1_cl5wp")
+
+[node name="DebugDrawingTool" type="Node2D" parent="."]
+position = Vector2(-1, 2)
+script = ExtResource("2_goava")
+
+[node name="grid" type="Node2D" parent="."]
+z_index = 2
+script = ExtResource("3_uoyon")
+
+[node name="TackleZoneComponent" type="Node2D" parent="." node_paths=PackedStringArray("grid", "field", "player_team", "opponent")]
+script = ExtResource("4_j0ujp")
+grid = NodePath("../grid")
+field = NodePath("..")
+player_team = NodePath("../PlayerTeam")
+opponent = NodePath("../Opponent")
+
+[node name="Opponent" parent="." instance=ExtResource("5_lp555")]
+z_index = 3
+
+[node name="PlayerTeam" parent="." instance=ExtResource("6_f0515")]
+z_index = 3
+
+[node name="SideBoardController" type="Node2D" parent="."]
+z_index = 2
+position = Vector2(626, 42)
+script = ExtResource("7_nkd7c")
+
+[node name="DebugDrawingTool" type="Node2D" parent="SideBoardController"]
+script = ExtResource("8_5stv5")
+
+[node name="PlayerLoader" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("9_ttpb8")
+
+[node name="PlayerBuilder" type="Node2D" parent="."]
+script = ExtResource("10_inrcb")

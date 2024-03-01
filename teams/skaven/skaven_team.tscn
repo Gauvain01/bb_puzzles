@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cjc0wmuq7nhnp"]
+
+[ext_resource type="Script" path="res://teams/team.gd" id="1_hmm4d"]
+
+[node name="skaven_team" type="Node2D"]
+script = ExtResource("1_hmm4d")

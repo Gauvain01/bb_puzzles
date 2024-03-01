@@ -68,11 +68,9 @@ func on_mouse_click_selector(_redundant):
 func listen_for_deselect():
 	if emit_deselected_on_next_mouse_release:
 		InputBus.subscribe_to_mouse_release_event(self, _mouse_deselect)
-		print("listening for deselect on " + str(self)) 
 	#deselect_on_next_click?
 	#deselect_on_next_release?
 func _mouse_deselect():
-	print("mouse deselected")
 	deselected.emit(node_emit_on_select)
 
 

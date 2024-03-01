@@ -18,7 +18,6 @@ var end_turn_for_player_after_block = true
 
 signal completed_block_event
 
-
 func get_possible_block_targets(gridPosition):
 	var gridCoordinate = gridPosition
 	var surroundingGridPositions = [
@@ -39,13 +38,11 @@ func get_possible_block_targets(gridPosition):
 			opponents.append(field_square.occupied)
 	return opponents
 
-
 func evaluate_player_has_block_targets(player) -> bool:
 	if typeof(player) == TYPE_VECTOR2:
 		return len(get_possible_block_targets(player)) > 0
 	else:
 		return len(get_possible_block_targets(player.my_field_square.gridCoordinate)) > 0
-
 
 func _ready():
 	for i in player_team.get_players():
@@ -55,7 +52,6 @@ func _ready():
 	_block_die_calculator.field = field
 	add_child(_block_die_calculator)
 	blockDieCalculator = _block_die_calculator
-
 
 func on_block_request(player: Player):
 	if !evaluate_player_has_block_targets(player):
@@ -71,7 +67,6 @@ func on_block_request(player: Player):
 		i.select_component.selected.connect(on_selected_opponent)
 		blockDieCalculator.evaluate_and_show_block_dice(currentBlocker, i)
 
-
 func on_selected_opponent(player: Player):
 	selected_opponent = player
 
@@ -82,7 +77,6 @@ func on_selected_opponent(player: Player):
 		var opponent: Player = i
 
 		opponent.blockDiceViewer.activate(false)
-
 
 func on_block_event_completed():
 #	active_block_event.blocker.deactivate()
@@ -95,13 +89,11 @@ func on_block_event_completed():
 	completed_block_event.emit()
 	field.tackle_zone_component.refresh_tackle_zones()
 
-
 func _on_player_team_block_event(player: Player):
 	if active_block_event == null:
 		var square: field_square_script.FieldSquare = player.my_field_square
 		currentBlocker = player
 		possible_block_targets = get_possible_block_targets(square.gridCoordinate)
-
 
 func on_opponent_selected_during_block():
 	var target = selected_opponent

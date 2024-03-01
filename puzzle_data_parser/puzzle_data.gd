@@ -1,7 +1,7 @@
 class_name PuzzleData
 extends Object
 
-var _game_version: int
+var _game_version: float
 var _puzzle_name: String
 var _creator_name: String
 var _puzzle_type: int  #ENUM
@@ -17,7 +17,7 @@ func set_game_version(game_version: int):
 	_game_version = game_version
 
 
-func get_game_version() -> int:
+func get_game_version() -> float:
 	return _game_version
 
 

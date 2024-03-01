@@ -50,6 +50,11 @@ func get_players() -> Array[Player]:
 			players.append(i)
 	return players
 
+func remove_all_players():
+	for i in get_children():
+		remove_child(i)
+	players = []
+
 func on_game_state_changed(new_game_state, old_game_state):
 	
 	if is_opponent:

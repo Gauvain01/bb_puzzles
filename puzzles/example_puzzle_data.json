@@ -1,155 +1,61 @@
 {
-	"game_version":0.1,
-	"puzzle_name": "skaven one turn",
+	"game_version": 0.01,
+	"puzzle_name": "example",
 	"creator_name": "gauvain",
-	"puzzle_type":"one_turn",
-	"player_team":"skaven",
-	"opponent_team":"skaven",
-	"player_team_placement":[],
-	"opponent_team_placement":[
+	"puzzle_type": 0,
+	"opponent_team_type": 0,
+	"player_team_type": 0,
+	"player_team": [
 		{
-			"player_type":"line_rat",
-			"extra_skills":[],
-			"board_position":{
-				"x":12,
-				"y":13
-			},
-			"has_ball":false
-
+			"type": "line_rat",
+			"number": 1,
+			"skills": [],
+			"has_ball": false,
+			"is_on_sideboard": false,
+			"grid_coordinate": [
+				1,
+				0
+			]
 		},
 		{
-			"player_type":"rat_ogre",
-			"extra_skills":[],
-			"board_position":{
-				"x":14,
-				"y":28
-			},
-			"has_ball":false
-
-		},
-		{
-			"player_type":"gutter_runner",
-			"extra_skills":["sprint"],
-			"board_position":{
-				"x":14,
-				"y":28
-			},
-			"has_ball":true
-
-
+			"type": "gutter_runner",
+			"number": 1,
+			"skills": [],
+			"has_ball": false,
+			"is_on_sideboard": false,
+			"grid_coordinate": [
+				2,
+				0
+			]
 		}
 	],
-	"is_ball_on_field":false,
-	"ball_position":{
-		"x": 0,
-		"y": 0
-	}
-}
-
-{
-	"game_version": 0.1,
-	"challenge_name": "skaven_break_out",
-	"creator_name": "gauvain",
-	"challenge_type":"break_out",
-	"player_team":"skaven",
-	"opponent_team":"skaven",
-	"player_team_placement":[
+	"opponent_team": [
 		{
-			"player_type":"line_rat",
-			"extra_skills":[],
-			"board_position":{
-				"x":12,
-				"y":13
-			},
-			"has_ball":true
-
+			"type": "line_rat",
+			"number": 1,
+			"skills": [],
+			"has_ball": false,
+			"is_on_sideboard": false,
+			"grid_coordinate": [
+				3,
+				0
+			]
+		},
+		{
+			"type": "gutter_runner",
+			"number": 1,
+			"skills": [],
+			"has_ball": false,
+			"is_on_sideboard": false,
+			"grid_coordinate": [
+				3,
+				1
+			]
 		}
 	],
-	"opponent_team_placement":[
-		{
-			"player_type":"line_rat",
-			"extra_skills":[],
-			"board_position":{
-				"x":12,
-				"y":13
-			},
-			"has_ball":false
-
-		},
-		{
-			"player_type":"rat_ogre",
-			"extra_skills":[],
-			"board_position":{
-				"x":14,
-				"y":28
-			},
-			"has_ball":false
-
-		},
-		{
-			"player_type":"gutter_runner",
-			"extra_skills":["sprint"],
-			"board_position":{
-				"x":14,
-				"y":28
-			},
-			"has_ball":true
-
-
-		}
-	],
-	"is_ball_on_field":false,
-	"ball_position":{
-		"x": 0,
-		"y": 0
-	}
-}
-
-
-{
-	"game_version":0.1,
-	"challenge_name": "skaven find the two die blocks",
-	"creator_name": "gauvain",
-	"challenge_type":"find_two_die_blocks",
-	"two_die_blocks": 5,
-	"player_team":"skaven",
-	"opponent_team":"skaven",
-	"opponent_team_placement":[
-		{
-			"player_type":"line_rat",
-			"extra_skills":[],
-			"board_position":{
-				"x":12,
-				"y":13
-			},
-			"has_ball":false
-
-		},
-		{
-			"player_type":"rat_ogre",
-			"extra_skills":[],
-			"board_position":{
-				"x":14,
-				"y":28
-			},
-			"has_ball":false
-
-		},
-		{
-			"player_type":"gutter_runner",
-			"extra_skills":["sprint"],
-			"board_position":{
-				"x":14,
-				"y":28
-			},
-			"has_ball":true
-
-
-		}
-	],
-	"is_ball_on_field":false,
-	"ball_position":{
-		"x": 0,
-		"y": 0
-	}
+	"is_ball_on_field": false,
+	"ball_position": [
+		0,
+		1
+	]
 }
