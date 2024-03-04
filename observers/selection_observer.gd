@@ -27,6 +27,9 @@ func _ready():
 	if field is PuzzleBuilderField:
 		var player_builder = field.get_node("PlayerBuilder")
 		player_builder.spawned_building_player.connect(on_new_player_spawn)
+		for square: field_square_script.FieldSquare in field.player_side_board_controller.get_field_squares():
+			NodeInspector.get_select_component(square).get_mouse_enter_signal().connect(on_mouse_enter_square)
+			NodeInspector.get_select_component(square).get_mouse_exited_signal().connect(on_mouse_exit_square)
 		
 #	input_component.mouseClick.connect(on_mouse_click)
 	for square in field.get_field_squares():
@@ -67,6 +70,8 @@ func on_new_player_spawn(_player: Player):
 		return
 	if _player.state_machine.get_current_state_enum() == PLAYER_STATE.SETUP_STATE:
 		listen_for_select_on_player(_player)
+		if !_player_selected.is_connected(on_selected_player_for_drag_and_drop):
+			_player_selected.connect(on_selected_player_for_drag_and_drop)
 
 func start_listening_for_selected_field_square():
 	for field_square: field_square_script.FieldSquare in field.grid.field_squares:
@@ -74,6 +79,13 @@ func start_listening_for_selected_field_square():
 			field_square.select_component._mouse_entered_release_selected.connect(on_mouse_enter_square)
 		if !field_square.select_component._mouse_exited_release_selected.is_connected(on_mouse_exit_square):
 			field_square.select_component._mouse_exited_release_selected.connect(on_mouse_exit_square)
+	if !field is PuzzleBuilderField:
+		return
+	for square: field_square_script.FieldSquare in field.player_side_board_controller.get_field_squares():
+		if !square.select_component._mouse_entered_release_selected.is_connected(on_mouse_enter_square):
+			square.select_component._mouse_entered_release_selected.connect(on_mouse_enter_square)
+		if !square.select_component._mouse_exited_release_selected.is_connected(on_mouse_exit_square):
+			square.select_component._mouse_exited_release_selected.connect(on_mouse_exit_square)
 
 func stop_listening_for_selected_field_square():
 	for field_square: field_square_script.FieldSquare in field.grid.field_squares:
@@ -81,6 +93,13 @@ func stop_listening_for_selected_field_square():
 			field_square.select_component._mouse_entered_release_selected.disconnect(on_mouse_enter_square)
 		if field_square.select_component._mouse_exited_release_selected.is_connected(on_mouse_exit_square):
 			field_square.select_component._mouse_exited_release_selected.disconnect(on_mouse_exit_square)
+	if !field is PuzzleBuilderField:
+		return
+	for square: field_square_script.FieldSquare in field.player_side_board_controller.get_field_squares():
+		if !square.select_component._mouse_entered_release_selected.is_connected(on_mouse_enter_square):
+			square.select_component._mouse_entered_release_selected.disconnect(on_mouse_enter_square)
+		if !square.select_component._mouse_exited_release_selected.is_connected(on_mouse_exit_square):
+			square.select_component._mouse_exited_release_selected.disconnect(on_mouse_exit_square)
 
 func on_player_state_changed(_player: Player, new_state):
 	match new_state:
@@ -131,11 +150,13 @@ func on_player_deselect_drop_player(_player: Player):
 	_player.select_component.emit_deselected_on_next_mouse_release = false
 
 func on_dropped_selected_player_for_field_placement():
-	if not field.is_mouse_inside_field():
+	if !field.is_mouse_inside_field() and !field.sideboard.is_mouse_inside_sideboard():
 		LogController.add_text("ERROR: MUST PLACE PLAYER ON FIELD OR SIDEBOARD DURING SETUP")
 		side_board.request_to_place_on_sideboard(selected_player)
 	else:
 		if free_placement:
+			if selected_field_square.zone == "sideboard":
+				field.player_side_board_controller.request_to_place_on_sideboard(selected_player, selected_field_square)
 			field.request_to_place_on_field(selected_player, selected_field_square)
 		elif selected_field_square.get_player_team() != "opponent" and not selected_player.isOpponent:
 			field.request_to_place_on_field(selected_player, selected_field_square)

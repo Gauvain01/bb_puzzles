@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://bmax1qf0v1c3w"]
+[gd_scene load_steps=6 format=3 uid="uid://bmax1qf0v1c3w"]
 
 [ext_resource type="PackedScene" uid="uid://byod2xq326ee2" path="res://scenes/puzzle_builder_field.tscn" id="1_he263"]
 [ext_resource type="PackedScene" uid="uid://d2a328eqwijrd" path="res://observers/scenes/selection_observer.tscn" id="3_g64xj"]
 [ext_resource type="PackedScene" uid="uid://on8wo6mbgo4k" path="res://ui/puzzle_builder_ui.tscn" id="5_ct0uv"]
+[ext_resource type="Script" path="res://puzzle_builder/scripts/PuzzleBuilder.gd" id="5_lo5lr"]
 [ext_resource type="PackedScene" uid="uid://cggqb75a8w8r" path="res://addons/debug_menu/debug_menu.tscn" id="7_8fi7g"]
 
 [node name="test_puzzle_builder" type="Control"]
@@ -38,3 +39,8 @@ unique_name_in_owner = true
 z_index = 0
 field = NodePath("../PuzzleBuilderField")
 selection_observer = NodePath("../SelectionObserver")
+
+[node name="PuzzleBuilder" type="Node2D" parent="." node_paths=PackedStringArray("puzzle_builder_field", "ui")]
+script = ExtResource("5_lo5lr")
+puzzle_builder_field = NodePath("../PuzzleBuilderField")
+ui = NodePath("../PuzzleBuilderUi")

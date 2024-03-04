@@ -6,7 +6,8 @@ extends Control
 
 @onready var player_team_drop_down: MenuButton = get_node("%TeamSelectDropDown")
 @onready var player_builder_panel: PlayerBuilderPanel = get_node("%PlayerBuilderPanel")
-
+@onready var puzzle_type_drop_down: MenuButton = get_node("PuzzleTypeMenu")
+@onready var puzzle_information_text: TextEdit = get_node("%PuzzleInformationTextEdit")
 signal player_team_selected(int)
 
 var current_selected_player_team

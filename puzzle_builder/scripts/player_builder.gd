@@ -29,6 +29,7 @@ func set_up_player_builder():
 
 func set_up_team_signals():
 	puzzle_builder_ui_controller.player_team_selected.connect(on_player_team_selected)
+	listen_player_placed_on_field()
 
 func on_player_team_selected(team_enum):
 	if _current_team_enum != null:
@@ -65,6 +66,15 @@ func on_player_select_id_pressed(id: int):
 	spawned_building_player.emit(_current_player)
 
 	start_listening_for_building_signals()
+
+func listen_player_placed_on_field():
+	field.placed_player_on_field.connect(on_player_placed_on_field)
+	field.sideboard.placed_player_on_sideboard.connect(on_player_placed_on_field)
+
+func on_player_placed_on_field(player: Player):
+	if player == _current_player:
+		stop_listening_for_building_signals()
+		_current_player = null
 
 func check_for_opponent_check_and_apply_to_player(player: Player):
 	if player_builder_panel.is_opponent_check_button.button_pressed:
@@ -113,6 +123,8 @@ func on_ball_button_toggled(is_toggled: bool):
 		_current_player.ball_texture.hide()
 
 func on_clear_button_pressed():
+	if _current_player == null:
+		return
 	load_player_stats_in_builder_panel(_current_player)
 
 func on_opponent_check_button(pressed: bool):

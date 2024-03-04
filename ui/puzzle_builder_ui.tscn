@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://on8wo6mbgo4k"]
+[gd_scene load_steps=10 format=3 uid="uid://on8wo6mbgo4k"]
 
 [ext_resource type="Theme" uid="uid://btrn53r4bnl4p" path="res://ui/themes/challenge_ui_theme.tres" id="1_3bdbs"]
 [ext_resource type="Script" path="res://ui/scripts/puzzle_builder_ui_controller.gd" id="2_3a0vk"]
@@ -6,20 +6,22 @@
 [ext_resource type="Script" path="res://ui/puzzle_builder_ui/player_builder_ui/team_select_drop_down.gd" id="5_fkxel"]
 [ext_resource type="Script" path="res://ui/puzzle_builder_ui/player_builder_ui/player_select_drop_down.gd" id="5_fyxwk"]
 [ext_resource type="Script" path="res://ui/puzzle_builder_ui/player_builder_ui/stat_buttons.gd" id="5_ii85r"]
+[ext_resource type="Script" path="res://ui/scripts/log.gd" id="8_bamuk"]
+[ext_resource type="StyleBox" uid="uid://6nxmq83pgbix" path="res://ui/themes/black_s_box.tres" id="9_msoiv"]
 [ext_resource type="Texture2D" uid="uid://bgupcleo51cf" path="res://assets/textures/player_sprites/line_rat.png" id="9_xtmr1"]
 
 [node name="PuzzleBuilderUi" type="Control"]
 z_index = 1
 layout_mode = 3
 anchors_preset = 0
-offset_top = 8.0
+offset_top = -2.0
 offset_right = 1920.0
-offset_bottom = 1092.0
+offset_bottom = 1082.0
 mouse_filter = 2
 theme = ExtResource("1_3bdbs")
 script = ExtResource("2_3a0vk")
 
-[node name="ChallengeInformation" type="PanelContainer" parent="."]
+[node name="PuzzleInformation" type="PanelContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -0.377929
@@ -35,12 +37,9 @@ grow_vertical = 2
 theme = ExtResource("1_3bdbs")
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="ChallengeInformation"]
+[node name="PuzzleInformationTextEdit" type="TextEdit" parent="PuzzleInformation"]
+unique_name_in_owner = true
 layout_mode = 2
-size_flags_vertical = 0
-text = "Challenge Information"
-horizontal_alignment = 1
-uppercase = true
 
 [node name="SideBoard" type="PanelContainer" parent="."]
 layout_mode = 1
@@ -364,8 +363,6 @@ layout_mode = 2
 [node name="BlockCheck" type="CheckButton" parent="PlayerBuilderPanel/VBoxContainer/HBoxContainer/SkillChecks"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
 size_flags_stretch_ratio = 0.0
 text = "block"
 
@@ -384,6 +381,11 @@ custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 text = "frenzy
 "
+
+[node name="StandFirmCheck" type="CheckButton" parent="PlayerBuilderPanel/VBoxContainer/HBoxContainer/SkillChecks"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+text = "stand firm"
 
 [node name="Button" type="Button" parent="PlayerBuilderPanel/VBoxContainer/HBoxContainer/SkillChecks"]
 custom_minimum_size = Vector2(0, 50)
@@ -494,3 +496,125 @@ text = "player builder
 "
 horizontal_alignment = 1
 uppercase = true
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 2
+offset_left = 94.0
+offset_top = 729.0
+offset_right = 542.0
+offset_bottom = 752.0
+size_flags_vertical = 0
+text = "Puzzle Information
+"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="PuzzleTypeMenu" type="MenuButton" parent="."]
+layout_mode = 0
+offset_left = 171.0
+offset_top = 6.0
+offset_right = 467.0
+offset_bottom = 55.0
+text = "select puzzle type
+"
+item_count = 1
+popup/item_0/text = "score"
+popup/item_0/id = 0
+
+[node name="BuildButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1252.0
+offset_top = 281.0
+offset_right = 1613.0
+offset_bottom = 424.0
+text = "Build
+"
+
+[node name="VersionLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 1875.0
+offset_top = 1055.0
+offset_right = 1915.0
+offset_bottom = 1078.0
+text = "0.01"
+
+[node name="GameLog" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+clip_contents = true
+layout_direction = 2
+offset_left = 1252.0
+offset_top = 643.0
+offset_right = 1824.0
+offset_bottom = 955.0
+tooltip_text = "logs all the actions you took"
+script = ExtResource("8_bamuk")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="GameLog"]
+layout_mode = 2
+follow_focus = true
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+
+[node name="Label" type="Label" parent="GameLog/ScrollContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+clip_text = true
+uppercase = true
+
+[node name="LogLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 1464.0
+offset_top = 603.0
+offset_right = 1600.0
+offset_bottom = 639.0
+text = "Log"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BuildDisplayPanel" type="Panel" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1084.0
+theme_override_styles/panel = ExtResource("9_msoiv")
+
+[node name="BuildLabel" type="Label" parent="BuildDisplayPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -800.0
+offset_top = -185.5
+offset_right = 800.0
+offset_bottom = 185.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Copy Button" type="Button" parent="BuildDisplayPanel"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 328.0
+offset_top = -314.0
+offset_right = 592.0
+offset_bottom = -122.0
+grow_vertical = 0
+text = "copy
+"
+
+[node name="Label" type="Label" parent="BuildDisplayPanel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -368.0
+offset_right = 368.0
+offset_bottom = 194.0
+grow_horizontal = 2
+text = "copy build"
+horizontal_alignment = 1
+vertical_alignment = 1

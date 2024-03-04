@@ -3,9 +3,9 @@ class_name Field
 @onready var sideboard: SideBoardController = get_node("SideBoardController")
 @onready var grid: Node2D = get_node("grid")
 @onready var player_team: TeamComponent = get_node("PlayerTeam")
-@onready var  tackle_zone_component: TackleZoneComponent = get_node("TackleZoneComponent")
+@onready var tackle_zone_component: TackleZoneComponent = get_node("TackleZoneComponent")
 @onready var opponent: TeamComponent = get_node("Opponent")
-var field_rect:Rect2
+var field_rect: Rect2
 var player_coordinate_position_map = {}
 var field_squares_draw_array = []
 var isDrawBox = true
@@ -21,11 +21,9 @@ signal moved_player(player_ref: Player, coord_from: Vector2, coord_to: Vector2)
 signal mouse_release_on_field_square
 
 signal placed_new_player_on_field(player, side_board_square)
-
-	
+signal placed_player_on_field(player)
 func on_mouse_release_square_select(square):
 	mouse_release_on_field_square.emit(square)
-
 
 func setup_field_square_mouse_release_signal():
 	for i in grid.field_squares:
@@ -33,14 +31,12 @@ func setup_field_square_mouse_release_signal():
 		var select_comp: SelectComponent = square.get_node("SelectComponent")
 		select_comp.mouse_release.connect(on_mouse_release_square_select)
 
-
 func get_field_map() -> Dictionary:
 	if field_map == null:
 		field_map = {}
 		for i in grid.field_squares:
 			field_map[i.gridCoordinate] = i
 	return field_map
-
 
 func get_not_obstacle_map() -> Dictionary:
 	var field_map = get_field_map()
@@ -53,7 +49,6 @@ func get_not_obstacle_map() -> Dictionary:
 		output[key] = is_not_obstacle
 
 	return output
-
 
 func move_player_to_coordinate(player: Player, coordinate: Vector2):
 	var player_square = player.my_field_square
@@ -75,20 +70,16 @@ func move_player_to_coordinate(player: Player, coordinate: Vector2):
 	if GameStateMachine.get_game_state() == GAME_STATE.PLAY:
 		moved_player_during_play.emit(player)
 
-
 func remove_player_from_field(player: Player):
 	var player_square = player.my_field_square
 	player_square.occupied = null
 	sideboard.request_to_place_on_sideboard(player)
 
-
 func get_field_squares():
 	return grid.field_squares
 
-
 func get_field_square_by_grid_position(coordinate) -> field_square_script.FieldSquare:
 	return player_coordinate_position_map[coordinate]
-
 
 func get_field_squares_by_grid_positions(gridPositions: Array) -> Array:
 	var output = []
@@ -98,7 +89,6 @@ func get_field_squares_by_grid_positions(gridPositions: Array) -> Array:
 				output.append(player_coordinate_position_map[coordinate])
 
 	return output
-
 
 func set_field_Squares_draw_flag():
 	for field_square in grid.field_squares:
@@ -112,20 +102,16 @@ func set_field_Squares_draw_flag():
 
 	queue_redraw()
 
-
 func set_redraw_single_square_flag(field_square):
 	singleSquareToRedraw = field_square
 	isRedrawSingleSquare = true
 	queue_redraw()
-
 
 func is_grid_coordinate_out_of_bounds(coordinate) -> bool:
 	if coordinate.x >= 0 and coordinate.y >= 0:
 		if coordinate.x < 15 and coordinate.y < 26:
 			return false
 	return true
-
-
 
 func request_to_place_opponent(player, gridCoordinate):
 	var field_square = player_coordinate_position_map[gridCoordinate]
@@ -136,8 +122,7 @@ func request_to_place_opponent(player, gridCoordinate):
 	field_square.disable_collision(true)
 	player.my_field_square.occupy(player)
 	player.global_position = field_square.global_position
-
-
+	placed_player_on_field.emit(player)
 func _ready():
 	set_z_index(1)
 	grid.draw_field_squares.connect(set_field_Squares_draw_flag)
@@ -153,35 +138,25 @@ func _ready():
 
 	tackle_zone_component.set_up_tackle_zones_component()
 
-
-
-func request_to_place_on_field(player:Player, requested_square:field_square_script.FieldSquare):
+func request_to_place_on_field(player: Player, requested_square: field_square_script.FieldSquare):
 	print(" got called")
 	var current_player_square = player.my_field_square
 
 	if requested_square.get_occupied() != null and requested_square.get_occupied() is Player:
 		_switch_players(player, requested_square.occupied)
 		return
-	
-	current_player_square.occupy_set_null()
-	requested_square.occupy(player) 
+	if current_player_square != null:
+		current_player_square.occupy_set_null()
+	requested_square.occupy(player)
 	placed_new_player_on_field.emit(player, current_player_square)
+	placed_player_on_field.emit(player)
 
-
-
-
-func _switch_players(player_one:Player, player_two:Player):
+func _switch_players(player_one: Player, player_two: Player):
 	var player_one_square = player_one.my_field_square
 	var player_two_square = player_two.my_field_square
 
-	player_one_square.occupy(player_two) 
+	player_one_square.occupy(player_two)
 	player_two_square.occupy(player_one)
-
-
-
-
-	
-
 
 func _draw():
 	if isDrawBox:
@@ -195,7 +170,6 @@ func _draw():
 			Color.BLACK
 		)
 
-
 func isOnTheField(point: Vector2) -> bool:
 	return field_rect.has_point(point)
 
@@ -208,13 +182,10 @@ func get_player_gridPositions(player_team):
 		squares.append([player.my_field_square.gridCoordinate, player])
 	return squares
 
-
 func evaluate_possible_block_for_players():
 	for player in player_team.get_active_players():
 		if BlockChecker.evaluate_player_has_block_targets(player, self):
 			player.ui_component.action_menu_component.block_button.disabled = false
-		
-
 
 func get_field_square_for_mouse_position(mouse_position: Vector2):
 	for i in grid.field_squares:
@@ -235,12 +206,10 @@ func get_field_square_for_mouse_position(mouse_position: Vector2):
 		if Util.isInsideSquare(coordA, coordB, coordC, coordD, eventPosition):
 			return square
 
-
 func _on_game_controller_game_state_changed(game_state):
 	if game_state == GAME_STATE.PLAY:
 		evaluate_possible_block_for_players()
 		tackle_zone_component.refresh_tackle_zones()
-
 
 func reset_field_state():
 	for i in grid.field_squares:
@@ -250,12 +219,10 @@ func reset_field_state():
 		square.color_to_default()
 		square.activate_label(false)
 
-
 func _on_save_button_toggled(button_pressed: bool):
 	if button_pressed:
 		opponent.store_position_data()
 		player_team.store_position_data()
-
 
 func place_opponent_team_on_field():
 	var players = opponent.get_players()
@@ -279,7 +246,6 @@ func place_player_team_on_field():
 	for player in player_team.get_players():
 		move_player_to_coordinate(player, position_data[player.name])
 
-
 func get_dodge_information(player_ag_value: int, from_coord: Vector2, target_coord: Vector2) -> int:
 	var tackle_zone_squares = tackle_zone_component.get_opponent_tackle_zone_squares_map()
 
@@ -295,7 +261,6 @@ func get_dodge_information(player_ag_value: int, from_coord: Vector2, target_coo
 		return output
 
 	return 0
-
 
 func disable_field():
 	#disable teams
