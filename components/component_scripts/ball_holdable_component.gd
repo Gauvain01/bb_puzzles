@@ -6,6 +6,8 @@ var _ball_container: Ball
 signal got_ball_parent_on_emit(parent)
 
 func set_ball(ball: Ball):
+	ball.get_parent().remove_child(ball)
+	add_sibling(ball)
 	_ball_container = ball
 	got_ball_parent_on_emit.emit(get_parent())
 
