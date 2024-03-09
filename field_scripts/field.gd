@@ -15,6 +15,7 @@ var singleSquareToRedraw
 var players_on_field = 0
 
 var field_map = null
+var _ball: Ball = null
 
 signal moved_player_during_play(player_ref: Player)
 signal moved_player(player_ref: Player, coord_from: Vector2, coord_to: Vector2)
@@ -269,3 +270,17 @@ func disable_field():
 	#disable field_squares
 	for field_square in grid.field_squares:
 		field_square.disable()
+
+func get_ball() -> Ball:
+	var output: Ball = _ball
+	_ball = null
+	return output
+
+func set_ball(ball: Ball, gridCoordinate: Vector2) -> void:
+	_ball = ball
+	_ball.position = field_map[gridCoordinate].position
+
+func is_ball_on_field() -> bool:
+	if _ball != null:
+		return true
+	return false

@@ -24,7 +24,6 @@ ui_component = NodePath("PlayerUiComponent")
 blockDiceViewer = NodePath("BlockDiceViewer")
 
 [node name="BallTexture" type="TextureRect" parent="."]
-visible = false
 z_index = 2
 anchors_preset = 2
 anchor_top = 1.0
