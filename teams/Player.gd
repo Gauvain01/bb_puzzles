@@ -74,15 +74,12 @@ func _ready():
 	select_component.node_emit_on_select = self
 	select_component.allow_emit_deselected = true
 
-	collider_component = NodeInspector.get_collider_component(self)
-
 	mySprite.is_opponent = isOpponent
 	mySprite.draw_team_overlay()
 	state_machine = PlayerStateMachine.new()
 	add_child(state_machine)
 	state_machine.setup_state_machine(self)
 	ball_holdable_component = NodeInspector.get_ball_holdable_component(self)
-	collider_component.area_shape_entered.connect(on_collision_enter)
 
 	if has_ball:
 		ball_texture.visible = true
@@ -202,15 +199,6 @@ func stop_hover_color_activation():
 func setup_action_menu_for_activation():
 	set_player_action_menu_signals()
 	ui_component.activate_action_menu(true)
-
-func on_collision_enter(RID, area: Area2D, area_shape_index: int, local_shape_index: int):
-	if area.get_parent() is Ball:
-		var ball = area.get_parent() as Ball
-
-		if ball_holdable_component.has_ball():
-			return
-		
-		ball_holdable_component.set_ball(ball)
 		
 func move_player(square: field_square_script.FieldSquare):
 	#check incoming if square is empty

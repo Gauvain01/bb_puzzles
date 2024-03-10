@@ -30,6 +30,7 @@ func _ready():
 		for square: field_square_script.FieldSquare in field.player_side_board_controller.get_field_squares():
 			NodeInspector.get_select_component(square).get_mouse_enter_signal().connect(on_mouse_enter_square)
 			NodeInspector.get_select_component(square).get_mouse_exited_signal().connect(on_mouse_exit_square)
+		#let's listen for ball on spawn
 		
 #	input_component.mouseClick.connect(on_mouse_click)
 	for square in field.get_field_squares():

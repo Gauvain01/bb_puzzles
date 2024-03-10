@@ -263,6 +263,17 @@ func get_dodge_information(player_ag_value: int, from_coord: Vector2, target_coo
 
 	return 0
 
+func spawn_ball(ball_holdable: BallHoldableComponent):
+	#check if there already is a ball
+	if _ball != null:
+		LogController.add_text("ERROR: Tried to spawn ball, already is a ball on the field")
+		return
+	
+	# create ball _node
+	var new_ball: Ball = load("res://teams/ball.tscn").instantiate()
+	new_ball.set_ball_owner(ball_holdable)
+	_ball = new_ball
+
 func disable_field():
 	#disable teams
 	player_team.disable()
@@ -272,15 +283,19 @@ func disable_field():
 		field_square.disable()
 
 func get_ball() -> Ball:
-	var output: Ball = _ball
-	_ball = null
-	return output
+	if _ball == null:
+		LogController.add_text("ERROR: tried to get ball, No Ball Found On Field")
+		return
+	return _ball
 
+## can only place if the ball has no owner defined, otherwise Call [method ball.force_nullify_ball_owner()] to clear current owner
 func set_ball(ball: Ball, gridCoordinate: Vector2) -> void:
 	_ball = ball
-	_ball.position = field_map[gridCoordinate].position
+	var field_square: field_square_script.FieldSquare = field_map[gridCoordinate]
+	_ball.set_ball_owner(NodeInspector.get_ball_holdable_component(field_square))
 
 func is_ball_on_field() -> bool:
-	if _ball != null:
+	var _owner: BallHoldableComponent = _ball.get_ball_owner()
+	if _owner.get_parent() is field_square_script.FieldSquare:
 		return true
 	return false

@@ -31,6 +31,7 @@ ComponentPool="*res://globals/component_pool.gd"
 InputBus="*res://globals/input_bus.gd"
 SceneController="*res://globals/scene_controller.gd"
 GameStateMachine="*res://globals/game_state_machine.gd"
+GameController="*res://globals/GameController.gd"
 
 [debug]
 

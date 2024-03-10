@@ -10,7 +10,6 @@ signal refreshed_player_team
 signal refreshed_opponent_team
 signal spawned_new_player(player)
 
-var _ball: Ball
 var opponent_player_pool = {}
 var player_team_player_pool = {}
 # Called when the node enters the scene tree for the first time.

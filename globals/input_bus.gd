@@ -5,10 +5,7 @@ signal mouseClick
 signal mouseRelease
 signal rightMouseClick
 
-var SUBSCRIBED_NODES = {}; #{node_ref: [{"signal":signal_ref, "callable":callable_ref},...]}
-
-
-
+var SUBSCRIBED_NODES = {}; # {node_ref: [{"signal":signal_ref, "callable":callable_ref},...]}
 
 func _input(event):
 	if event is InputEventKey:
@@ -22,14 +19,13 @@ func _input(event):
 		if event.button_index == MOUSE_BUTTON_RIGHT and event.is_pressed():
 			rightMouseClick.emit()
 
-
-func unsubscribe_from_all(callable:Variant):
+func unsubscribe_from_all(callable: Variant):
 	_unsubscribe_from_signal_array(spacePressed.get_connections(), callable)
 	_unsubscribe_from_signal_array(mouseClick.get_connections(), callable)
-	_unsubscribe_from_signal_array(mouseRelease.get_connections(),callable)
-	_unsubscribe_from_signal_array(rightMouseClick.get_connections(),callable)
+	_unsubscribe_from_signal_array(mouseRelease.get_connections(), callable)
+	_unsubscribe_from_signal_array(rightMouseClick.get_connections(), callable)
 
-func is_signal_connected_to_callable(node_to_observe:Node, signal_ref:Signal, callable:Callable) -> bool:
+func is_signal_connected_to_callable(node_to_observe: Node, signal_ref: Signal, callable: Callable) -> bool:
 	if !SUBSCRIBED_NODES.has(node_to_observe):
 		return false
 	if len(SUBSCRIBED_NODES[node_to_observe]) == 0:
@@ -40,24 +36,23 @@ func is_signal_connected_to_callable(node_to_observe:Node, signal_ref:Signal, ca
 			if signal_callable_map["callable"] == callable:
 				return true
 	return false
-func _unsubscribe_from_signal_array(signal_array:Array, callable:Callable)->void:
+func _unsubscribe_from_signal_array(signal_array: Array, callable: Callable) -> void:
 
-	for sig_dic:Dictionary in signal_array:
-		var sig:Signal =sig_dic["signal"]
-		var sig_call:Callable = sig_dic["callable"]
+	for sig_dic: Dictionary in signal_array:
+		var sig: Signal = sig_dic["signal"]
+		var sig_call: Callable = sig_dic["callable"]
 		if callable == sig_call:
 			sig.disconnect(sig_call)
 
-
-func _append_subscribed_node_to_signal(observing_node:Node, signal_ref:Signal, callable:Callable):
+func _append_subscribed_node_to_signal(observing_node: Node, signal_ref: Signal, callable: Callable):
 	if SUBSCRIBED_NODES.has(observing_node):
-		var signal_arr =SUBSCRIBED_NODES[observing_node]
-		signal_arr.append({"signal":signal_ref, "callable":callable})
+		var signal_arr = SUBSCRIBED_NODES[observing_node]
+		signal_arr.append({"signal": signal_ref, "callable": callable})
 		return
 
-	SUBSCRIBED_NODES[observing_node] = ([{"signal":signal_ref, "callable":callable}])
+	SUBSCRIBED_NODES[observing_node] = ([{"signal": signal_ref, "callable": callable}])
 	
-func disconnect_all_from_node(node:Node):
+func disconnect_all_from_node(node: Node):
 	if !SUBSCRIBED_NODES.has(node):
 		return
 	if len(SUBSCRIBED_NODES[node]) == 0:
@@ -66,7 +61,7 @@ func disconnect_all_from_node(node:Node):
 		signal_callable_map["signal"].disconnect(signal_callable_map["callable"])
 	SUBSCRIBED_NODES[node] = []
 
-func unsubscribe_from_signal(observing_node:Node, signal_ref:Signal, callable = null):
+func unsubscribe_from_signal(observing_node: Node, signal_ref: Signal, callable=null):
 	if !SUBSCRIBED_NODES.has(observing_node):
 		return
 	if len(SUBSCRIBED_NODES[observing_node]) == 0:
@@ -77,24 +72,17 @@ func unsubscribe_from_signal(observing_node:Node, signal_ref:Signal, callable = 
 		if signal_callable_map["callable"] or callable == null:
 				signal_callable_map["signal"].disconnect(signal_callable_map["callable"])
 
-func subscribe_to_signal(observing_node:Node, signal_ref:Signal, callable:Callable):
+func subscribe_to_signal(observing_node: Node, signal_ref: Signal, callable: Callable):
 	_append_subscribed_node_to_signal(observing_node, signal_ref, callable)
 	signal_ref.connect(callable)
-func subscribe_to_mouse_click_event(observing_node:Node, callable:Callable):
+func subscribe_to_mouse_click_event(observing_node: Node, callable: Callable):
 	subscribe_to_signal(observing_node, mouseClick, callable)
 
-func subscribe_to_mouse_release_event(observing_node:Node, callable:Callable):
+func subscribe_to_mouse_release_event(observing_node: Node, callable: Callable):
 	subscribe_to_signal(observing_node, mouseRelease, callable)
 
-func subscribe_to_space_pressed_event(observing_node:Node, callable:Callable):
+func subscribe_to_space_pressed_event(observing_node: Node, callable: Callable):
 	subscribe_to_signal(observing_node, spacePressed, callable)
 
-func subscribe_to_right_mouse_click_event(observing_node:Node, callable:Callable):
+func subscribe_to_right_mouse_click_event(observing_node: Node, callable: Callable):
 	subscribe_to_signal(observing_node, mouseClick, callable)
-
-
-
-
-
-
-

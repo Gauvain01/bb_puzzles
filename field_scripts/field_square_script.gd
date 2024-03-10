@@ -13,13 +13,14 @@ class FieldSquare:
 	var default_color = Color.OLIVE
 	var select_component: SelectComponent
 	var _field_color = Color.OLIVE
-	var collider_component:ColliderComponent
+	var collider_component: ColliderComponent
 	var force_label = false
 	var rollDisplayComponent: RollDisplayComponent
+	var ball_holdable_component: BallHoldableComponent
 	signal mouse_exited_field_square(fieldSquare)
 
 	signal mouse_entered_field_square(fieldSquare)
-	signal deoccupied(fieldSquare, occupied_entity:Node)
+	signal deoccupied(fieldSquare, occupied_entity: Node)
 	func color_to_default():
 		self.color = self.default_color
 		self.queue_redraw()
@@ -32,7 +33,7 @@ class FieldSquare:
 
 	func _draw():
 		draw_rect(
-			Rect2(Vector2(-35 / 2, -35 / 2), Vector2(self.size.x - 1, self.size.y - 1)), self.color
+			Rect2(Vector2( - 35 / 2, -35 / 2), Vector2(self.size.x - 1, self.size.y - 1)), self.color
 		)
 
 	func change_color(color: Color):
@@ -58,18 +59,18 @@ class FieldSquare:
 		self.collider_component = ComponentFactory.build_collider_component()
 		self.rollDisplayComponent = ComponentFactory.build_roll_display_component()
 		self.select_component = ComponentFactory.build_select_component()
+		self.ball_holdable_component = ComponentFactory.build_ball_holdable_component()
 		
 		self.select_component.ready.connect(on_select_component_ready)
 		add_child(self.collider_component)
 		add_child(self.rollDisplayComponent)
 		add_child(self.select_component)
+		add_child(ball_holdable_component)
 
 		self.rollDisplayComponent.position += Vector2(size.x / 2 - 3, -size.y / 2 + 3)
 		add_child(label)
-
-
 	
-	func occupy(entity:Node):
+	func occupy(entity: Node):
 		if self.occupied == null:
 			self.occupy_set_null()
 		self.occupied = entity
@@ -84,12 +85,11 @@ class FieldSquare:
 	func is_occupied() -> bool:
 		return self.occupied != null
 	
-	func get_occupied(deoccupy_set_null:bool = false):
+	func get_occupied(deoccupy_set_null: bool=false):
 		var occupied_entity = self.occupied
 		if deoccupy_set_null:
 			occupy_set_null()
 		return occupied_entity
-		
 
 	func on_select_component_ready():
 		var colliderRectangle = RectangleShape2D.new()
@@ -100,7 +100,6 @@ class FieldSquare:
 		var circle_shape = CircleShape2D.new()
 		circle_shape.set_radius(1)
 		self.collider_component.collision_shape.shape = circle_shape
-		
 
 	func disable_collision(isDisable: bool):
 		self.select_component.collision_component.disabled = !isDisable
@@ -136,7 +135,7 @@ class FieldSquare:
 	func _set_size(newSize: Vector2):
 		self.size = newSize
 
-	func activate_label(isActive: bool, text: String = "null"):
+	func activate_label(isActive: bool, text: String="null"):
 		if isActive:
 			self.label.visible = true
 			self.label.text = text
@@ -151,9 +150,6 @@ class FieldSquare:
 		self.rollDisplayComponent.disable()
 		#clear occupied state
 		self.occupied = null
-		
-
-
 
 		#var rigidbody = RigidBody2D.new()
 		#rigidbody.add_child(colliderShapeObj)

@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cuxw7v61kijx7"]
+[gd_scene load_steps=6 format=3 uid="uid://cuxw7v61kijx7"]
 
 [ext_resource type="Script" path="res://teams/ball.gd" id="1_bo6n2"]
 [ext_resource type="Texture2D" uid="uid://ntigctv0fom6" path="res://assets/textures/ball.png" id="1_wob52"]
 [ext_resource type="PackedScene" uid="uid://ch2683b76yi3b" path="res://components/component_scenes/drag_and_drop_component.tscn" id="2_m0u2s"]
 [ext_resource type="PackedScene" uid="uid://bnw5a3jcwwnh5" path="res://components/component_scenes/select_component.tscn" id="3_to4y6"]
+[ext_resource type="PackedScene" uid="uid://blr437bq866w7" path="res://components/component_scenes/collider_component.tscn" id="5_0rs1a"]
 
 [node name="Ball" type="Node2D"]
 z_index = 1
@@ -33,3 +34,6 @@ stretch_mode = 4
 [node name="SelectComponent" parent="." node_paths=PackedStringArray("node_emit_on_select") instance=ExtResource("3_to4y6")]
 scale = Vector2(1.32, 1.24)
 node_emit_on_select = NodePath("..")
+
+[node name="ColliderComponent" parent="." instance=ExtResource("5_0rs1a")]
+scale = Vector2(1.32, 1.2)
