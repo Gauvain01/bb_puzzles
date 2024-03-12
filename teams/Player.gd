@@ -1,5 +1,5 @@
-extends Node2D
 class_name Player
+extends Node2D
 
 var player_team
 var type
@@ -12,7 +12,6 @@ var stats: PlayerStats
 @export var isOpponent: bool = false
 @export var ball_texture: TextureRect
 @export var collider_component: ColliderComponent
-var select_component: SelectComponent
 @export var ui_component: PlayerUiComponent
 @export var actionMenu: MenuButton
 @export var blockDiceViewer: BlockDiceViewer
@@ -20,6 +19,7 @@ var select_component: SelectComponent
 @export var hover_color = Color.BLUE
 @export var blitz_color = Color.GREEN
 @export var block_color = Color.PURPLE
+var select_component: SelectComponent
 
 var ball_holdable_component: BallHoldableComponent
 
