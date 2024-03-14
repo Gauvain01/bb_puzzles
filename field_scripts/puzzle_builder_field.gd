@@ -22,9 +22,10 @@ func _ready():
 
 func _spawn_ball():
 	#load the _ball up
-	var new_ball: Ball = load("res://teams/_ball.tscn").instantiate()
+	var new_ball: Ball = load("res://teams/ball.tscn").instantiate()
 	add_child(new_ball)
 	_ball = new_ball
 
 	#set _ball position
-	_ball.position = field_map[Vector2(1, 1)].position
+	_ball.position = get_field_map()[Vector2(1, 1)].position
+

@@ -6,8 +6,8 @@ var collision_component: CollisionShape2D
 @export var allow_emit_deselected:bool = false
 @export var emit_deselected_on_next_mouse_click:bool = false
 @export var emit_deselected_on_next_mouse_release:bool = true
-signal selected
-signal deselected
+signal selected(node_emit_on_select)
+signal deselected(node_emit_on_select)
 signal mouse_release
 signal _mouse_entered_release_selected
 signal _mouse_exited_release_selected

@@ -5,6 +5,7 @@ var player_team
 var type
 var stats: PlayerStats
 
+
 @export var player_type_string: String
 @export var mySprite: PlayerSprite
 @export var myCollider: Area2D

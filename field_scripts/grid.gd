@@ -1,3 +1,4 @@
+class_name FieldGrid
 extends Node2D
 
 const COLUMNS = 15

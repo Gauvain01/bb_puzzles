@@ -17,17 +17,16 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -15.0
-offset_top = -3.0
-offset_right = 10.0
-offset_bottom = 17.0
+offset_left = -17.0
+offset_top = -19.0
+offset_right = 1903.0
+offset_bottom = 1901.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(0.0175669, 0.0240825)
 size_flags_horizontal = 4
 size_flags_vertical = 4
 texture = ExtResource("1_wob52")
-expand_mode = 3
-stretch_mode = 4
 
 [node name="DragAndDropComponent" parent="." instance=ExtResource("2_m0u2s")]
 

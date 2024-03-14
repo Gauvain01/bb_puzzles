@@ -22,6 +22,7 @@ func release_ball() -> Ball:
 func set_ball(ball: Ball):
 	ball.get_parent().remove_child(ball)
 	add_sibling(ball)
+	ball.position = self.position
 	_ball_container = ball
 
 func get_ball(is_set_null=false):

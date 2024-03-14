@@ -3,6 +3,7 @@ extends Node2D
 
 var node_to_drag_and_drop:Node = null
 signal dragging_node
+signal dropped_node
 
 func _ready():
 	set_process(false)
@@ -17,6 +18,7 @@ func drop():
 	node_to_drag_and_drop.z_index -= 100
 
 	node_to_drag_and_drop = null
+	dropped_node.emit()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
