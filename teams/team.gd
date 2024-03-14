@@ -6,10 +6,11 @@ extends Node2D
 
 var game_state = GAME_STATE.SETUP
 var players:Array[Player] = []
+var team_type:int
 
 signal _disable_select_component_for_all_players(is_disabled:bool)
 
-
+ 
 
 func _ready():
 	

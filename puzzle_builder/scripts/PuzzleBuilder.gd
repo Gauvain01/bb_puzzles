@@ -34,7 +34,12 @@ func build_puzzle_data() -> PuzzleData:
 	data.set_creator_name(ui.puzzle_creator_text.text)
 	data.set_description(ui.puzzle_information_text.text)
 	data.set_puzzle_type(_selected_puzzle_type)
-	data.set_opponent_team_type(
+	##TODO finish this
+	#subscribe to field data or fetch and check null
+	#data.set_opponent_team_type()
+	PuzzleData.PuzzleDataParser.stringify_to_json(data)
+
+	return data
 
 #validate 
 

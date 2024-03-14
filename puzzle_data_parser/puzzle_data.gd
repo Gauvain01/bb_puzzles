@@ -131,7 +131,7 @@ func get_ball_position() -> Array:
 	return _ball_position
 
 
-class PuzzleDataParser extends Object:
+static class PuzzleDataParser extends Object:
 	
 	static func stringify_to_json(puzzle_data:PuzzleData) -> String:
 		var output = {}	

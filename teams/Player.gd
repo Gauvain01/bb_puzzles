@@ -20,6 +20,7 @@ var stats: PlayerStats
 @export var hover_color = Color.BLUE
 @export var blitz_color = Color.GREEN
 @export var block_color = Color.PURPLE
+@export var team_type:int
 var select_component: SelectComponent
 
 var ball_holdable_component: BallHoldableComponent
