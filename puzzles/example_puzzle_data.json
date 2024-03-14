@@ -2,13 +2,13 @@
 	"game_version": 0.01,
 	"puzzle_name": "example",
 	"creator_name": "gauvain",
+	"puzzle_description":"blablabla",
 	"puzzle_type": 0,
 	"opponent_team_type": 0,
 	"player_team_type": 0,
 	"player_team": [
 		{
 			"type": "line_rat",
-			"number": 1,
 			"skills": [],
 			"has_ball": false,
 			"is_on_sideboard": false,
@@ -19,7 +19,6 @@
 		},
 		{
 			"type": "gutter_runner",
-			"number": 1,
 			"skills": [],
 			"has_ball": false,
 			"is_on_sideboard": false,
@@ -32,7 +31,6 @@
 	"opponent_team": [
 		{
 			"type": "line_rat",
-			"number": 1,
 			"skills": [],
 			"has_ball": false,
 			"is_on_sideboard": false,
@@ -43,7 +41,6 @@
 		},
 		{
 			"type": "gutter_runner",
-			"number": 1,
 			"skills": [],
 			"has_ball": false,
 			"is_on_sideboard": false,
