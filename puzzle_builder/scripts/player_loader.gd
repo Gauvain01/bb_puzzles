@@ -6,14 +6,8 @@ var TEAM_NAME = {
 	TEAM_ENUM.HUMANS: "humans",
 }
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 func open_team_dir_get_player_path(team_enum: int) -> Array:
+	
 	var output := []
 	var team_name = TEAM_NAME[team_enum]
 	var dir_str = "res://teams/" + team_name + "/players"

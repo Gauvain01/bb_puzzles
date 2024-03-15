@@ -6,10 +6,16 @@ extends Node2D
 
 var _selected_puzzle_type: int
 var _player_team_type:int
+var _opponent_team_type:int
 
 var _puzzle_type_drop_down_id_map = {
 	0: PUZZLE_TYPE.SCORE
 }
+
+func _ready():
+	puzzle_builder_field.refreshed_player_team.connect(func(x):_player_team_type = x)
+	puzzle_builder_field.refreshed_opponent_team.connect(func (x): _opponent_team_type = x)
+	ui.build_button.pressed.connect(on_build_press)
 
 #subscribe to puzzle_type drop_down
 func subscribe_puzzle_type_drop_down():
@@ -23,9 +29,12 @@ func on_build_press():
 	#validate
 	if	!validate_score_puzzle():
 		return
-	 
 	#build json
-	#show json in scene
+	var data:PuzzleData = build_puzzle_data()
+	var json_string = PuzzleData.PuzzleDataParser.stringify_to_json(data)
+	 
+	#call ui to show json_string 
+	ui.show_build_screen_with_json_data(json_string)
 
 func build_puzzle_data() -> PuzzleData:
 	var data = PuzzleData.new()
@@ -34,11 +43,20 @@ func build_puzzle_data() -> PuzzleData:
 	data.set_creator_name(ui.puzzle_creator_text.text)
 	data.set_description(ui.puzzle_information_text.text)
 	data.set_puzzle_type(_selected_puzzle_type)
-	##TODO finish this
-	#subscribe to field data or fetch and check null
-	#data.set_opponent_team_type()
-	PuzzleData.PuzzleDataParser.stringify_to_json(data)
+	data.set_opponent_team_type(_opponent_team_type)
+	data.set_player_team_type(_player_team_type)
+	data.set_opponent_team(puzzle_builder_field.opponent.get_players())
+	data.set_player_team(puzzle_builder_field.player_team.get_players())
+	data.set_is_ball_on_field(puzzle_builder_field.is_ball_on_field())
 
+	var ball_owner_parent = puzzle_builder_field.get_ball().get_ball_owner().get_parent()
+	var ballcoord:Vector2
+	if ball_owner_parent is Player:
+		ballcoord = ball_owner_parent.my_field_square.gridCoordinate
+	else:
+		ballcoord = ball_owner_parent.gridCoordinate
+		
+	data.set_ball_position(ballcoord)
 	return data
 
 #validate 
@@ -71,13 +89,13 @@ func validate_score_puzzle() -> bool:
 		return false
 
 	#check if puzzle_name has been filled in
-	var puzzle_name_text = ui.puzzle_name_text
+	var puzzle_name_text = ui.puzzle_name_text.text
 	if puzzle_name_text.is_empty():
 		LogController.add_text("ERROR: Fill in Puzzle Name Before building")
 		return false
 
 	#check creator_name is filled in
-	var creator_name_text = ui.puzzle_creator_text
+	var creator_name_text = ui.puzzle_creator_text.text
 	if creator_name_text.is_empty():
 		LogController.add_text("ERROR: Fill in Puzzle creator name Before building")
 		return false

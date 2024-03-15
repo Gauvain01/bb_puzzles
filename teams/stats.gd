@@ -6,3 +6,14 @@ extends Node2D
 @export var AG = 0
 @export var PA = 0
 @export var AV = 0
+
+func to_dict() -> Dictionary:
+	return {
+		"MA":MA,
+		"STR":STR,
+		"AG":AG,
+		"PA":AG,
+		"AV":AV
+		}
+
+			

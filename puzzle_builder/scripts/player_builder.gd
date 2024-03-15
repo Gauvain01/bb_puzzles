@@ -29,14 +29,14 @@ func set_up_player_builder():
 
 func set_up_team_signals():
 	puzzle_builder_ui_controller.player_team_selected.connect(on_player_team_selected)
-	listen_player_placed_on_field()
 
 func on_player_team_selected(team_enum):
+	print("selected a player team")
 	if _current_team_enum != null:
 		reset_player_builder()
-	
+
 	#load player_team
-	var _current_team_enum = team_enum
+	_current_team_enum = team_enum
 	var team_collection = player_loader.load_player_collection(team_enum)
 
 	#feed players into player_select
@@ -67,14 +67,6 @@ func on_player_select_id_pressed(id: int):
 
 	start_listening_for_building_signals()
 
-func listen_player_placed_on_field():
-	field.placed_player_on_field.connect(on_player_placed_on_field)
-	field.sideboard.placed_player_on_sideboard.connect(on_player_placed_on_field)
-
-func on_player_placed_on_field(player: Player):
-	if player == _current_player:
-		stop_listening_for_building_signals()
-		_current_player = null
 
 func check_for_opponent_check_and_apply_to_player(player: Player):
 	if player_builder_panel.is_opponent_check_button.button_pressed:
@@ -106,9 +98,14 @@ func start_listening_for_building_signals():
 	player_builder_panel.is_opponent_check_button.toggled.connect(on_opponent_check_button)
 	#connect clear button
 	player_builder_panel.clear_button.pressed.connect(on_clear_button_pressed)
-	#connect to ball button
-	player_builder_panel.ball_check_button.toggled.connect(on_ball_button_toggled)
 	#connect to skill buttons when implemented
+	player_builder_panel.block_check_button.toggled.connect(func(x):_current_player.skills.set_skill(SKILL_TYPE.BLOCK, x))
+	player_builder_panel.guard_check_button.toggled.connect(func(x):_current_player.skills.set_skill(SKILL_TYPE.GUARD, x))
+	player_builder_panel.stand_firm_check_button.toggled.connect(func(x):_current_player.skills.set_skill(SKILL_TYPE.STAND_FIRM, x))
+	player_builder_panel.dodge_check_button.toggled.connect(func(x):_current_player.skills.set_skill(SKILL_TYPE.DODGE, x))
+	player_builder_panel.frenzy_check_button.toggled.connect(func(x):_current_player.skills.set_skill(SKILL_TYPE.FRENZY, x))
+
+	NodeInspector.get_drag_and_drop_component(_current_player).dragging_node.connect(on_player_drag)
 
 func on_ball_button_toggled(is_toggled: bool):
 	if is_toggled:
@@ -135,9 +132,57 @@ func on_opponent_check_button(pressed: bool):
 func stop_listening_for_building_signals():
 	if player_builder_panel.is_opponent_check_button.toggled.is_connected(on_opponent_check_button):
 		player_builder_panel.is_opponent_check_button.toggled.disconnect(on_opponent_check_button)
-	if player_builder_panel.ball_check_button.toggled.is_connected(on_ball_button_toggled):
-		player_builder_panel.ball_check_button.toggled.disconnect(on_ball_button_toggled)
+	if _current_player == null:
+		return
+	Util.clear_callables_from_signal(player_builder_panel.block_check_button, player_builder_panel.block_check_button.toggled)
+	Util.clear_callables_from_signal(player_builder_panel.dodge_check_button, player_builder_panel.dodge_check_button.toggled)
+	Util.clear_callables_from_signal(player_builder_panel.frenzy_check_button, player_builder_panel.frenzy_check_button.toggled)
+	Util.clear_callables_from_signal(player_builder_panel.stand_firm_check_button, player_builder_panel.stand_firm_check_button.toggled)
+	Util.clear_callables_from_signal(player_builder_panel.guard_check_button, player_builder_panel.guard_check_button.toggled)
+	
+
+	
+
+	var player_dd:DragAndDropComponent = NodeInspector.get_drag_and_drop_component(_current_player)
+	if player_dd.dragging_node.is_connected(on_player_drag):
+		player_dd.dragging_node.disconnect(on_player_drag)
+		
+	
 
 func reset_player_builder():
 	despawn_building_player_if_exists()
-	stop_listening_for_building_signals()
+
+func on_player_drag():
+	var ui = field.ui
+	var av_stat_controller = ui.player_builder_panel.av_stat_controller
+	var pa_stat_controller = ui.player_builder_panel.pa_stat_controller
+	var str_stat_controller = ui.player_builder_panel.st_stat_controller 
+	var ag_stat_controller = ui.player_builder_panel.ag_stat_controller
+	var ma_stat_controller = ui.player_builder_panel.ma_stat_controller
+	
+	_current_player.stats.AV = av_stat_controller.get_current_stat_value() 
+	_current_player.stats.PA = pa_stat_controller.get_current_stat_value()
+	_current_player.stats.STR = str_stat_controller.get_current_stat_value()
+	_current_player.stats.AG = ag_stat_controller.get_current_stat_value()
+	_current_player.stats.MA = ma_stat_controller.get_current_stat_value()
+	
+	#set the correct node hierarchy
+	remove_child(_current_player)
+	if _current_player.isOpponent:
+		field.opponent.add_child(_current_player)
+	else:
+		field.player_team.add_child(_current_player)
+
+	reset_player_builder()
+	
+	
+	
+	
+
+
+
+
+
+
+
+

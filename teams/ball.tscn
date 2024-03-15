@@ -36,3 +36,4 @@ node_emit_on_select = NodePath("..")
 
 [node name="ColliderComponent" parent="." instance=ExtResource("5_0rs1a")]
 scale = Vector2(1.32, 1.2)
+collision_mask = 6

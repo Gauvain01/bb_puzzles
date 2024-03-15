@@ -39,3 +39,13 @@ static func clear_callables_from_signals_in_node(node: Node) -> void:
 			var sig: Signal = j["signal"]
 			var cal: Callable = j["callable"]
 			sig.disconnect(cal)
+
+static func clear_callables_from_signal(sig_owner:Node, sig:Signal) -> void:
+	for i in sig_owner.get_signal_list():
+		var sig_connections = sig_owner.get_signal_connection_list(i["name"])
+		for j in sig_connections:
+			var _sig: Signal = j["signal"]
+			var cal: Callable = j["callable"]
+			if _sig == sig:
+				_sig.disconnect(cal)
+	

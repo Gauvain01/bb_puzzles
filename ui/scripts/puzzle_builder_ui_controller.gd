@@ -10,7 +10,7 @@ extends Control
 @onready var puzzle_information_text: TextEdit = get_node("%PuzzleInformationTextEdit")
 @onready var puzzle_name_text:TextEdit = get_node("%PuzzleNameTextEdit")
 @onready var puzzle_creator_text:TextEdit = get_node("%CreatorNameText")
-
+@onready var build_button:Button = get_node("BuildButton")
 signal player_team_selected(int)
 signal puzzle_type_selected(int)
 
@@ -27,6 +27,17 @@ var puzzle_id_map = {
 3:PUZZLE_TYPE.SCORE,
 }
 
+func _ready() -> void:
+	player_team_drop_down.get_popup().id_pressed.connect(_on_player_team_drop_down_selected)
+
 func _on_player_team_drop_down_selected(id):
 	current_selected_player_team = team_id_map[id]
 	player_team_selected.emit(team_id_map[id])
+
+func show_build_screen_with_json_data(json_string:String):
+	var build_display:Panel = get_node("%BuildDisplayPanel")
+	var text_label:TextEdit = build_display.get_node("%BuildTextEdit")
+	
+	text_label.text = json_string
+	build_display.show()
+

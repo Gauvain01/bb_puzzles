@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cicenimchkmv1"]
+[gd_scene load_steps=13 format=3 uid="uid://cicenimchkmv1"]
 
 [ext_resource type="Script" path="res://teams/Player.gd" id="1_fecep"]
 [ext_resource type="Texture2D" uid="uid://ntigctv0fom6" path="res://assets/textures/ball.png" id="2_q7h3g"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" path="res://teams/block_dice_viewer.gd" id="7_qkdat"]
 [ext_resource type="PackedScene" uid="uid://blr437bq866w7" path="res://components/component_scenes/collider_component.tscn" id="10_de7nj"]
 [ext_resource type="PackedScene" uid="uid://ch2683b76yi3b" path="res://components/component_scenes/drag_and_drop_component.tscn" id="11_k36jo"]
+[ext_resource type="PackedScene" uid="uid://13716qogekjr" path="res://components/component_scenes/ball_holdable_component.tscn" id="12_gxw7x"]
 
 [node name="GutterRunner" type="Node2D" node_paths=PackedStringArray("mySprite", "myCollider", "ball_texture", "collider_component", "ui_component", "blockDiceViewer")]
 position = Vector2(1083, 210)
@@ -60,7 +61,9 @@ script = ExtResource("5_ip3vd")
 _skill_map = {
 "BLOCK": false,
 "DODGE": true,
-"FRENZY": false
+"FRENZY": false,
+"GUARD": false,
+"STAND_FIRM": false
 }
 
 [node name="SelectComponent" parent="." node_paths=PackedStringArray("node_emit_on_select") instance=ExtResource("5_7y36t")]
@@ -79,5 +82,9 @@ script = ExtResource("7_qkdat")
 
 [node name="ColliderComponent" parent="." instance=ExtResource("10_de7nj")]
 scale = Vector2(1.4, 1.4)
+collision_layer = 6
+collision_mask = 6
 
 [node name="DragAndDropComponent" parent="." instance=ExtResource("11_k36jo")]
+
+[node name="BallHoldableComponent" parent="." instance=ExtResource("12_gxw7x")]

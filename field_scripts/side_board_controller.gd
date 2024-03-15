@@ -70,6 +70,18 @@ func on_deoccupy_field_square(square, entity: Node):
 func request_to_place_on_sideboard(player: Player, specified_square=null):
 	if len(field_squares) == 0:
 		_generate_field_squares()
+
+	if get_parent() is PuzzleBuilderField:
+		if player.my_field_square == null:
+			if player.get_parent() is PlayerBuilder:
+				var _team_select
+				if player.isOpponent:
+					_team_select = get_parent().opponent
+				else:
+					_team_select = get_parent().player_team
+				get_parent().player_builder.remove_child(player)
+				_team_select.add_child(player)
+
 	
 	if specified_square != null:
 		var selected_square: field_square_script.FieldSquare = specified_square

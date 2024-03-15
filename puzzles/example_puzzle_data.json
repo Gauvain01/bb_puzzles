@@ -1,15 +1,16 @@
 {
-	"game_version": 0.01,
+	"game_version": "0.01",
 	"puzzle_name": "example",
-	"creator_name": "gauvain",
-	"puzzle_description":"blablabla",
+	"creator_name": "example",
+	"puzzle_description":"example",
 	"puzzle_type": 0,
 	"opponent_team_type": 0,
 	"player_team_type": 0,
 	"player_team": [
 		{
 			"type": "line_rat",
-			"skills": [],
+			"skills":{}, 
+			"stats":{},
 			"has_ball": false,
 			"is_on_sideboard": false,
 			"grid_coordinate": [
@@ -19,7 +20,8 @@
 		},
 		{
 			"type": "gutter_runner",
-			"skills": [],
+			"skills": {},
+			"stats":{},
 			"has_ball": false,
 			"is_on_sideboard": false,
 			"grid_coordinate": [
@@ -31,7 +33,8 @@
 	"opponent_team": [
 		{
 			"type": "line_rat",
-			"skills": [],
+			"skills": {},
+			"stats":{},
 			"has_ball": false,
 			"is_on_sideboard": false,
 			"grid_coordinate": [
@@ -41,7 +44,8 @@
 		},
 		{
 			"type": "gutter_runner",
-			"skills": [],
+			"skills": {},
+			"stats":{},
 			"has_ball": false,
 			"is_on_sideboard": false,
 			"grid_coordinate": [

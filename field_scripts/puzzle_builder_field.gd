@@ -40,10 +40,12 @@ func on_player_placed(player:Player):
 		
 func _spawn_ball():
 	#load the _ball up
-	var new_ball: Ball = load("res://teams/ball.tscn").instantiate()
+	var new_ball = Ball.new_ball(self)
 	add_child(new_ball)
 	_ball = new_ball
 
 	#set _ball position
 	_ball.position = get_field_map()[Vector2(1, 1)].position
+	_ball.set_ball_owner(NodeInspector.get_ball_holdable_component(get_field_map()[Vector2(1,1)]))
+
 

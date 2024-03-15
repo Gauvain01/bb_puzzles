@@ -1,7 +1,7 @@
 class_name PuzzleData
 extends Object
 
-var _game_version: float 
+var _game_version: String 
 var _puzzle_name: String
 var _creator_name: String
 var _puzzle_description:String
@@ -14,12 +14,13 @@ var _is_ball_on_field: bool
 var _ball_position: Array
 
 
-func set_game_version(game_version: int):
-	_game_version = game_version
+func set_game_version(game_version: float):
+	_game_version = str(game_version)
+
 
 
 func get_game_version() -> float:
-	return _game_version
+	return float(_game_version)
 
 func set_description(description:String):
 	_puzzle_description = description
@@ -78,7 +79,8 @@ func set_player_team(player_team: Array):
 func _wrap_player_object(player:Player) -> Dictionary:
 	var output = {}
 	output["type"] = player.player_type_string
-	output["skills"] = player.skills.get_skill_map()
+	output["skills"] = player.get_node("Skills").get_skill_map()
+	output["stats"] = player.stats.to_dict()
 
 	#check if player has ball
 	if NodeInspector.get_ball_holdable_component(player).has_ball():
@@ -131,11 +133,11 @@ func get_ball_position() -> Array:
 	return _ball_position
 
 
-static class PuzzleDataParser extends Object:
+class PuzzleDataParser extends Object:
 	
 	static func stringify_to_json(puzzle_data:PuzzleData) -> String:
 		var output = {}	
-		output["game_version"] = puzzle_data.get_game_version()
+		output["game_version"] = str(puzzle_data.get_game_version())
 		output["puzzle_name"] = puzzle_data.get_puzzle_name()
 		output["creator_name"] = puzzle_data.get_creator_name()
 		output["puzzle_description"] = puzzle_data.get_description()
@@ -148,6 +150,7 @@ static class PuzzleDataParser extends Object:
 		output["ball_position"] = puzzle_data.get_ball_position()
 		
 		return JSON.stringify(output)
+
 
 	static func parse_from_json(puzzle_data_json:String) -> PuzzleData:
 		var data:PuzzleData = PuzzleData.new()

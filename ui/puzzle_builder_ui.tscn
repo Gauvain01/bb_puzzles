@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://on8wo6mbgo4k"]
+[gd_scene load_steps=11 format=3 uid="uid://on8wo6mbgo4k"]
 
 [ext_resource type="Theme" uid="uid://btrn53r4bnl4p" path="res://ui/themes/challenge_ui_theme.tres" id="1_3bdbs"]
 [ext_resource type="Script" path="res://ui/scripts/puzzle_builder_ui_controller.gd" id="2_3a0vk"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://ui/scripts/log.gd" id="8_bamuk"]
 [ext_resource type="StyleBox" uid="uid://6nxmq83pgbix" path="res://ui/themes/black_s_box.tres" id="9_msoiv"]
 [ext_resource type="Texture2D" uid="uid://bgupcleo51cf" path="res://assets/textures/player_sprites/line_rat.png" id="9_xtmr1"]
+[ext_resource type="Script" path="res://ui/puzzle_builder_ui/copy_button.gd" id="10_5hw4d"]
 
 [node name="PuzzleBuilderUi" type="Control"]
 z_index = 1
@@ -78,6 +79,7 @@ theme = ExtResource("1_3bdbs")
 metadata/_edit_use_anchors_ = true
 
 [node name="CreatorNameText" type="TextEdit" parent="CreatorName"]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="SideBoard" type="PanelContainer" parent="."]
@@ -105,7 +107,7 @@ text = "SideBoard
 horizontal_alignment = 1
 uppercase = true
 
-[node name="PlayerBuilderPanel" type="PanelContainer" parent="." node_paths=PackedStringArray("ma_stat_controller", "av_stat_controller", "st_stat_controller", "ag_stat_controller", "pa_stat_controller", "team_select_dropdown", "player_select_dropdown", "place_holder_player", "is_opponent_check_button", "block_check_button", "guard_check_button", "ball_check_button", "frenzy_check_button", "clear_button")]
+[node name="PlayerBuilderPanel" type="PanelContainer" parent="." node_paths=PackedStringArray("ma_stat_controller", "av_stat_controller", "st_stat_controller", "ag_stat_controller", "pa_stat_controller", "team_select_dropdown", "player_select_dropdown", "place_holder_player", "is_opponent_check_button", "block_check_button", "guard_check_button", "stand_firm_check_button", "dodge_check_button", "frenzy_check_button", "clear_button")]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
@@ -134,7 +136,8 @@ place_holder_player = NodePath("VBoxContainer/VBoxContainer2/PlaceHolderPlayer")
 is_opponent_check_button = NodePath("VBoxContainer/VBoxContainer2/HBoxContainer/CheckButton")
 block_check_button = NodePath("VBoxContainer/HBoxContainer/SkillChecks/BlockCheck")
 guard_check_button = NodePath("VBoxContainer/HBoxContainer/SkillChecks/GuardCheck")
-ball_check_button = NodePath("VBoxContainer/HBoxContainer/SkillChecks/BallCheck")
+stand_firm_check_button = NodePath("VBoxContainer/HBoxContainer/SkillChecks/StandFirmCheck")
+dodge_check_button = NodePath("VBoxContainer/HBoxContainer/SkillChecks/DodgeCheck")
 frenzy_check_button = NodePath("VBoxContainer/HBoxContainer/SkillChecks/FrenzyCheck")
 clear_button = NodePath("VBoxContainer/HBoxContainer/SkillChecks/Button")
 metadata/_edit_use_anchors_ = true
@@ -410,11 +413,6 @@ custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 text = "guard"
 
-[node name="BallCheck" type="CheckButton" parent="PlayerBuilderPanel/VBoxContainer/HBoxContainer/SkillChecks"]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-text = "ball"
-
 [node name="FrenzyCheck" type="CheckButton" parent="PlayerBuilderPanel/VBoxContainer/HBoxContainer/SkillChecks"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
@@ -425,6 +423,12 @@ text = "frenzy
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 text = "stand firm"
+
+[node name="DodgeCheck" type="CheckButton" parent="PlayerBuilderPanel/VBoxContainer/HBoxContainer/SkillChecks"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+text = "dodge
+"
 
 [node name="Button" type="Button" parent="PlayerBuilderPanel/VBoxContainer/HBoxContainer/SkillChecks"]
 custom_minimum_size = Vector2(0, 50)
@@ -637,13 +641,17 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="BuildDisplayPanel" type="Panel" parent="."]
+unique_name_in_owner = true
 visible = false
+top_level = true
+z_index = 5
 layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 1084.0
 theme_override_styles/panel = ExtResource("9_msoiv")
 
-[node name="BuildLabel" type="Label" parent="BuildDisplayPanel"]
+[node name="BuildTextEdit" type="TextEdit" parent="BuildDisplayPanel"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -669,6 +677,7 @@ offset_bottom = -122.0
 grow_vertical = 0
 text = "copy
 "
+script = ExtResource("10_5hw4d")
 
 [node name="Label" type="Label" parent="BuildDisplayPanel"]
 layout_mode = 1

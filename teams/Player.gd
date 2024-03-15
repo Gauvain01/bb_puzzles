@@ -21,6 +21,7 @@ var stats: PlayerStats
 @export var blitz_color = Color.GREEN
 @export var block_color = Color.PURPLE
 @export var team_type:int
+@onready var skills:Skills = get_node("Skills")
 var select_component: SelectComponent
 
 var ball_holdable_component: BallHoldableComponent

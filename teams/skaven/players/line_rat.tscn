@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cwav44svuxn5l"]
+[gd_scene load_steps=13 format=3 uid="uid://cwav44svuxn5l"]
 
 [ext_resource type="Script" path="res://teams/Player.gd" id="1_u3j8e"]
 [ext_resource type="Texture2D" uid="uid://ntigctv0fom6" path="res://assets/textures/ball.png" id="2_b1a6i"]
@@ -11,19 +11,23 @@
 [ext_resource type="PackedScene" uid="uid://dmj4qqjic80ht" path="res://components/component_scenes/player_ui_component.tscn" id="9_yvb8g"]
 [ext_resource type="PackedScene" uid="uid://blr437bq866w7" path="res://components/component_scenes/collider_component.tscn" id="10_1rsev"]
 [ext_resource type="PackedScene" uid="uid://ch2683b76yi3b" path="res://components/component_scenes/drag_and_drop_component.tscn" id="11_5yq3r"]
+[ext_resource type="PackedScene" uid="uid://13716qogekjr" path="res://components/component_scenes/ball_holdable_component.tscn" id="12_mm71g"]
 
-[node name="line_rat" type="Node2D" node_paths=PackedStringArray("mySprite", "ball_texture", "ui_component", "blockDiceViewer")]
+[node name="line_rat" type="Node2D" node_paths=PackedStringArray("mySprite", "myCollider", "ball_texture", "collider_component", "ui_component", "blockDiceViewer")]
 position = Vector2(1083, 210)
 script = ExtResource("1_u3j8e")
 player_type_string = "line_rat"
 mySprite = NodePath("BoardSprite")
+myCollider = NodePath("ColliderComponent")
 myGridPosition = Vector2(6, 11)
 isOpponent = true
 ball_texture = NodePath("BallTexture")
+collider_component = NodePath("ColliderComponent")
 ui_component = NodePath("PlayerUiComponent")
 blockDiceViewer = NodePath("BlockDiceViewer")
 
 [node name="BallTexture" type="TextureRect" parent="."]
+visible = false
 z_index = 2
 anchors_preset = 2
 anchor_top = 1.0
@@ -72,5 +76,9 @@ position = Vector2(21, -28)
 
 [node name="ColliderComponent" parent="." instance=ExtResource("10_1rsev")]
 scale = Vector2(1.4, 1.4)
+collision_layer = 6
+collision_mask = 6
 
 [node name="DragAndDropComponent" parent="." instance=ExtResource("11_5yq3r")]
+
+[node name="BallHoldableComponent" parent="." instance=ExtResource("12_mm71g")]
