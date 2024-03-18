@@ -34,6 +34,7 @@ var util
 @export var isMarked: bool = false
 
 var state_machine: PlayerStateMachine = null
+var metadata:Dictionary = {}
 
 signal request_move_event
 signal request_block_event

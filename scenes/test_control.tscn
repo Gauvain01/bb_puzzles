@@ -31,17 +31,15 @@ editor_draw_limits = true
 [node name="Field" parent="." instance=ExtResource("2_ku2ml")]
 unique_name_in_owner = true
 
-[node name="SelectionObserver" parent="." node_paths=PackedStringArray("field") instance=ExtResource("3_4tbpm")]
+[node name="SelectionObserver" parent="." instance=ExtResource("3_4tbpm")]
 unique_name_in_owner = true
-field = NodePath("../Field")
+field = Object(Node2D,"_import_path":NodePath(""),"unique_name_in_owner":true,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":1,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(65, 46),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"script":Resource("res://field_scripts/field.gd"))
+
 
 [node name="BlockActionObserver" parent="." node_paths=PackedStringArray("field") instance=ExtResource("4_6vpjk")]
 field = NodePath("../Field")
 
 [node name="MoveActionObserver" parent="." instance=ExtResource("5_fv3wq")]
-field = null
-ui_controller = null
-selection_observer = null
 
 [node name="BlitzActionObserver" parent="." node_paths=PackedStringArray("field", "selectionObserver") instance=ExtResource("6_03183")]
 field = NodePath("../Field")

@@ -9,6 +9,7 @@ var players_on_sideboard = 0
 var side_board_map = {} # {Player:Square}
 var available_field_squares = []
 var field_squares = []
+var coord_square_map = {}
 var state_occupied = false
 var rect
 
@@ -60,6 +61,7 @@ func _generate_field_squares():
 			field_square.deoccupied.connect(on_deoccupy_field_square)
 			field_squares.append(field_square)
 			available_field_squares.append(field_square)
+			coord_square_map[field_square.gridCoordinate] = field_square
 			add_child(field_square)
 
 func on_deoccupy_field_square(square, entity: Node):
@@ -84,7 +86,13 @@ func request_to_place_on_sideboard(player: Player, specified_square=null):
 
 	
 	if specified_square != null:
-		var selected_square: field_square_script.FieldSquare = specified_square
+		var selected_square:field_square_script.FieldSquare
+
+		if specified_square is Vector2:
+			selected_square = coord_square_map[specified_square]
+		else:
+			selected_square = specified_square
+
 		#check if selected square is occupied, throw error:
 		if selected_square.is_occupied():
 			assert(false)

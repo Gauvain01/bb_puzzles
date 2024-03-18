@@ -23,6 +23,22 @@ signal mouse_release_on_field_square
 
 signal placed_new_player_on_field(player, side_board_square)
 signal placed_player_on_field(player)
+
+func _ready():
+	set_z_index(1)
+	grid.draw_field_squares.connect(set_field_Squares_draw_flag)
+	grid.redraw_single_square.connect(set_redraw_single_square_flag)
+	setup_field_square_mouse_release_signal()
+	queue_redraw()
+	field_rect = Rect2(
+				grid.X_FILL,
+				grid.Y_FILL,
+				grid.COLUMNS * grid.SQUARE_SIZE,
+				grid.ROWS * grid.SQUARE_SIZE
+			)
+
+	tackle_zone_component.set_up_tackle_zones_component()
+
 func on_mouse_release_square_select(square):
 	mouse_release_on_field_square.emit(square)
 
@@ -124,20 +140,6 @@ func request_to_place_opponent(player, gridCoordinate):
 	player.my_field_square.occupy(player)
 	player.global_position = field_square.global_position
 	placed_player_on_field.emit(player)
-func _ready():
-	set_z_index(1)
-	grid.draw_field_squares.connect(set_field_Squares_draw_flag)
-	grid.redraw_single_square.connect(set_redraw_single_square_flag)
-	setup_field_square_mouse_release_signal()
-	queue_redraw()
-	field_rect = Rect2(
-				grid.X_FILL,
-				grid.Y_FILL,
-				grid.COLUMNS * grid.SQUARE_SIZE,
-				grid.ROWS * grid.SQUARE_SIZE
-			)
-
-	tackle_zone_component.set_up_tackle_zones_component()
 
 func request_to_place_on_field(player: Player, requested_square: field_square_script.FieldSquare):
 	print(" got called")

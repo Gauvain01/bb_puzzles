@@ -43,7 +43,7 @@ text = "your players"
 horizontal_alignment = 1
 uppercase = true
 
-[node name="ChallengeInformation" type="PanelContainer" parent="."]
+[node name="Description" type="PanelContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.125717
@@ -59,7 +59,8 @@ grow_vertical = 2
 theme = ExtResource("1_mpcns")
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="ChallengeInformation"]
+[node name="DescriptionLabel" type="Label" parent="Description"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 0
 text = "Challenge Information"

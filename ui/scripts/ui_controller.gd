@@ -9,6 +9,7 @@ extends Control
 @export var opponent_tackle_check_button:CheckButton
 @export var field:Field
 @export var selection_observer:SelectionObserver
+@onready var description_label:Label = get_node("%DescriptionLabel")
 
 
 func _ready():

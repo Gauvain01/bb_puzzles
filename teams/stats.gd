@@ -16,4 +16,11 @@ func to_dict() -> Dictionary:
 		"AV":AV
 		}
 
+func from_dict(dict:Dictionary):
+	MA = dict["MA"]
+	STR = dict["STR"]
+	AG = dict["AG"]
+	PA = dict["PA"]
+	AV = dict["AV"]
+
 			

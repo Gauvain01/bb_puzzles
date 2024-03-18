@@ -28,10 +28,10 @@ editor_draw_limits = true
 [node name="PuzzleBuilderField" parent="." instance=ExtResource("1_he263")]
 position = Vector2(653, 64)
 
-[node name="SelectionObserver" parent="." node_paths=PackedStringArray("field") instance=ExtResource("3_g64xj")]
+[node name="SelectionObserver" parent="." instance=ExtResource("3_g64xj")]
 unique_name_in_owner = true
-field = NodePath("../PuzzleBuilderField")
 free_placement = true
+field = null
 
 [node name="CanvasLayer" parent="." instance=ExtResource("7_8fi7g")]
 

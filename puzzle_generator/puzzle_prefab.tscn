@@ -1,0 +1,63 @@
+[gd_scene load_steps=10 format=3 uid="uid://f1xl5d53lxu2"]
+
+[ext_resource type="Script" path="res://puzzles/puzzle_base.gd" id="1_tw77v"]
+[ext_resource type="PackedScene" uid="uid://csx5wklollko" path="res://scenes/field.tscn" id="2_ylgbd"]
+[ext_resource type="PackedScene" uid="uid://d2a328eqwijrd" path="res://observers/scenes/selection_observer.tscn" id="3_0jq8r"]
+[ext_resource type="PackedScene" uid="uid://u5ohwj4wuc1y" path="res://observers/scenes/block_action_observer.tscn" id="4_onoef"]
+[ext_resource type="PackedScene" uid="uid://cuor2c8jvphyl" path="res://observers/scenes/move_action_observer.tscn" id="5_esiyp"]
+[ext_resource type="PackedScene" uid="uid://c6chmpetsog1e" path="res://observers/scenes/blitz_action_observer.tscn" id="6_43ra8"]
+[ext_resource type="PackedScene" uid="uid://cggqb75a8w8r" path="res://addons/debug_menu/debug_menu.tscn" id="7_5mewi"]
+[ext_resource type="PackedScene" uid="uid://c4iqow675ts6d" path="res://ui/puzzle_ui.tscn" id="8_gucb0"]
+[ext_resource type="Script" path="res://observers/BallObserver.gd" id="9_23nhl"]
+
+[node name="TestControl" type="Control" node_paths=PackedStringArray("field", "ui")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+script = ExtResource("1_tw77v")
+field = NodePath("Field")
+ui = NodePath("Ui")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, 3)
+anchor_mode = 0
+editor_draw_limits = true
+
+[node name="Field" parent="." instance=ExtResource("2_ylgbd")]
+unique_name_in_owner = true
+
+[node name="SelectionObserver" parent="." instance=ExtResource("3_0jq8r")]
+unique_name_in_owner = true
+field = null
+
+[node name="BlockActionObserver" parent="." node_paths=PackedStringArray("field") instance=ExtResource("4_onoef")]
+field = NodePath("../Field")
+
+[node name="MoveActionObserver" parent="." node_paths=PackedStringArray("field", "ui_controller", "selection_observer") instance=ExtResource("5_esiyp")]
+field = NodePath("../Field")
+ui_controller = NodePath("../Ui")
+selection_observer = NodePath("../SelectionObserver")
+
+[node name="BlitzActionObserver" parent="." node_paths=PackedStringArray("field", "selectionObserver") instance=ExtResource("6_43ra8")]
+field = NodePath("../Field")
+selectionObserver = NodePath("../SelectionObserver")
+
+[node name="CanvasLayer" parent="." instance=ExtResource("7_5mewi")]
+
+[node name="Ui" parent="." node_paths=PackedStringArray("field", "selection_observer") instance=ExtResource("8_gucb0")]
+unique_name_in_owner = true
+field = NodePath("../Field")
+selection_observer = NodePath("../SelectionObserver")
+
+[node name="BallObserver" type="Node2D" parent="." node_paths=PackedStringArray("field")]
+unique_name_in_owner = true
+script = ExtResource("9_23nhl")
+field = NodePath("../Field")
