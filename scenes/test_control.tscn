@@ -31,17 +31,13 @@ editor_draw_limits = true
 [node name="Field" parent="." instance=ExtResource("2_ku2ml")]
 unique_name_in_owner = true
 
-[node name="SelectionObserver" parent="." node_paths=PackedStringArray("field") instance=ExtResource("3_4tbpm")]
+[node name="SelectionObserver" parent="." instance=ExtResource("3_4tbpm")]
 unique_name_in_owner = true
-field = NodePath("../Field")
 
 [node name="BlockActionObserver" parent="." node_paths=PackedStringArray("field") instance=ExtResource("4_6vpjk")]
 field = NodePath("../Field")
 
 [node name="MoveActionObserver" parent="." instance=ExtResource("5_fv3wq")]
-field = null
-ui_controller = null
-selection_observer = null
 
 [node name="BlitzActionObserver" parent="." node_paths=PackedStringArray("field", "selectionObserver") instance=ExtResource("6_03183")]
 field = NodePath("../Field")
