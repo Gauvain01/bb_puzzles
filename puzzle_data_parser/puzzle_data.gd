@@ -14,8 +14,8 @@ var _is_ball_on_field: bool
 var _ball_position: Array
 
 
-func set_game_version(game_version: float):
-	_game_version = str(game_version)
+func set_game_version(game_version: String):
+	_game_version = game_version
 
 
 
@@ -168,7 +168,7 @@ class PuzzleDataParser extends Object:
 		data.set_player_team(input_dict["player_team"])
 		data.set_opponent_team(input_dict["opponent_team"])
 		data.set_is_ball_on_field(input_dict["is_ball_on_field"])
-		data.set_ball_position(input_dict["ball_position"])
+		data.set_ball_position(Vector2(input_dict["ball_position"][0], input_dict["ball_position"][1]))
 		
 		return data
 		

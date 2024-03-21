@@ -13,7 +13,6 @@ signal draw_field_squares
 signal redraw_single_square(fieldSquare)
 var firstEmit = true
 
-
 func _generate_field_squares():
 	for x in range(COLUMNS):
 		for y in range(ROWS):

@@ -9,10 +9,14 @@ var ball_select_component:SelectComponent
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	pass
+func start_ball_observer():
 	_ball = field.get_ball()
 	ball_select_component = NodeInspector.get_select_component(_ball)
 	if field is PuzzleBuilderField:
 		start_listen_for_drag_and_drop()
+
+	
 
 func start_listen_for_drag_and_drop():
 	ball_select_component.selected.connect(on_ball_select)

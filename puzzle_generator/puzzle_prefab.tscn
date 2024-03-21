@@ -34,9 +34,9 @@ editor_draw_limits = true
 [node name="Field" parent="." instance=ExtResource("2_ylgbd")]
 unique_name_in_owner = true
 
-[node name="SelectionObserver" parent="." instance=ExtResource("3_0jq8r")]
+[node name="SelectionObserver" parent="." node_paths=PackedStringArray("field") instance=ExtResource("3_0jq8r")]
 unique_name_in_owner = true
-field = null
+field = NodePath("../Field")
 
 [node name="BlockActionObserver" parent="." node_paths=PackedStringArray("field") instance=ExtResource("4_onoef")]
 field = NodePath("../Field")

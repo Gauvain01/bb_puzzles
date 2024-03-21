@@ -10,26 +10,33 @@ var _puzzle_type_victory_observer_map = {
 func generate(puzzle_data:PuzzleData) -> PuzzleBase:
 	#instantiate empty puzzle 
 	var puzzle:PuzzleBase = load("res://puzzle_generator/puzzle_prefab.tscn").instantiate()
+	puzzle.get_node("Field").get_node("grid")._generate_field_squares()
 	#load players from file
 	var players:Dictionary = _load_players(puzzle_data, puzzle)
 	#load players in to team 
 	puzzle.set_teams(players)
 	#spawn ball if on field
 	if puzzle_data.is_ball_on_field():
-		var square = puzzle.field.get_field_square_by_grid_position(puzzle_data.get_ball_position())
+		var square = puzzle.field.get_field_square_by_grid_position(Vector2(puzzle_data.get_ball_position()[0], puzzle_data.get_ball_position()[1]))
 		var bhc = NodeInspector.get_ball_holdable_component(square)
 		puzzle.field.spawn_ball(bhc)
+	#start ball observer
+	puzzle.get_node("BallObserver").start_ball_observer()
 	#connect victory_observer
-	var victory_observer_path = _puzzle_type_victory_observer_map[puzzle_data.get_puzzle_type()]
-	var victory_observer:VictoryObserver = load(victory_observer_path).instantiate()
-	puzzle.add_child(victory_observer)
-	victory_observer.set_up()
+	#var victory_observer_path = _puzzle_type_victory_observer_map[puzzle_data.get_puzzle_type()]
+	#var victory_observer:VictoryObserver = load(victory_observer_path).instantiate()
+	#puzzle.add_child(victory_observer)
+	#victory_observer.set_up()
 	#set puzzle information
 	_load_puzzle_information(puzzle_data, puzzle)
 
 	return puzzle
+func change_to_generated_scene(puzzle:PuzzleBase):
+	pass
+	
 
 func _load_players(puzzle_data:PuzzleData, puzzle:PuzzleBase) -> Dictionary:
+
 	var output = {}
 	var player_data = puzzle_data.get_player_team()
 	var player_team_type = puzzle_data.get_player_team_type()
@@ -55,6 +62,7 @@ func _load_players(puzzle_data:PuzzleData, puzzle:PuzzleBase) -> Dictionary:
 		if opponent.has_ball:
 			var ball_holdable_component = NodeInspector.get_ball_holdable_component(opponent)
 			puzzle.field.spawn_ball(ball_holdable_component)
+
 	output["player_team"] = player_team_players
 	output["opponent_team"] = opponent_team_players
 	return output
@@ -73,5 +81,5 @@ func _set_up_player(player:Player, player_data:Dictionary, is_opponent:bool) ->P
 	return player
 		
 func _load_puzzle_information(puzzle_data:PuzzleData, puzzle:PuzzleBase):
-	puzzle.ui.description_label.text = puzzle_data.get_description()
+	puzzle.ui.get_node("%DescriptionLabel").text = puzzle_data.get_description()
 	

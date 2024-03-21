@@ -1,10 +1,7 @@
 class_name OneTurnPuzzle
 extends PuzzleBase
 
-@onready var ui:UiController = get_node("%Ui")
-@onready var field:Field = get_node("%Field")
 var sideboard:SideBoardController 
-
 
 func _ready():
 	sideboard = field.sideboard

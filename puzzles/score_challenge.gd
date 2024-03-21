@@ -1,6 +1,5 @@
 class_name ScorePuzzle
 extends PuzzleBase
-@onready var field: Field = get_node("%Field")
 
 
 func has_player_ball_and_is_in_endzone(player: Player, to_coord: Vector2) -> bool:
@@ -13,7 +12,7 @@ func has_player_ball_and_is_in_endzone(player: Player, to_coord: Vector2) -> boo
 
 func _on_player_moved(player: Player):
 	if has_player_ball_and_is_in_endzone(player, player.my_field_square.gridCoordinate):
-		super.victory_achieved()
+		super.start_victory()
 
 
 func _ready():

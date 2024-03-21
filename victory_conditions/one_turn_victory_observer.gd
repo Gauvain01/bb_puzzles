@@ -1,10 +1,6 @@
 class_name OneTurnVictoryObserver
 extends VictoryObserver
 
-func _ready():
-	field.moved_player_during_play.connect(on_movement_of_player)
-
-
 func on_movement_of_player(player:Player) -> void:
 	if !player.has_ball:
 		return
@@ -14,7 +10,6 @@ func on_movement_of_player(player:Player) -> void:
 		return
 	
 
-	victory_condition_achieved.emit()
 	
 
 

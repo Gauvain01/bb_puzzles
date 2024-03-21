@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://bwbyokl742uq1"]
 
-[ext_resource type="Script" path="res://puzzles/one_turn/one_turn_puzzle.gd" id="1_1ar4l"]
+[ext_resource type="Script" path="res://puzzles/puzzle_base.gd" id="1_fn5pl"]
 [ext_resource type="PackedScene" uid="uid://csx5wklollko" path="res://scenes/field.tscn" id="2_ku2ml"]
 [ext_resource type="PackedScene" uid="uid://d2a328eqwijrd" path="res://observers/scenes/selection_observer.tscn" id="3_4tbpm"]
 [ext_resource type="PackedScene" uid="uid://u5ohwj4wuc1y" path="res://observers/scenes/block_action_observer.tscn" id="4_6vpjk"]
@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://c4iqow675ts6d" path="res://ui/puzzle_ui.tscn" id="9_e5dxq"]
 [ext_resource type="PackedScene" uid="uid://cggqb75a8w8r" path="res://addons/debug_menu/debug_menu.tscn" id="21_lvlip"]
 
-[node name="TestControl" type="Control"]
+[node name="TestControl" type="Control" node_paths=PackedStringArray("field", "ui")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -21,7 +21,9 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 2
-script = ExtResource("1_1ar4l")
+script = ExtResource("1_fn5pl")
+field = NodePath("Field")
+ui = NodePath("Ui")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, 3)
@@ -31,15 +33,17 @@ editor_draw_limits = true
 [node name="Field" parent="." instance=ExtResource("2_ku2ml")]
 unique_name_in_owner = true
 
-[node name="SelectionObserver" parent="." instance=ExtResource("3_4tbpm")]
+[node name="SelectionObserver" parent="." node_paths=PackedStringArray("field") instance=ExtResource("3_4tbpm")]
 unique_name_in_owner = true
-field = Object(Node2D,"_import_path":NodePath(""),"unique_name_in_owner":true,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":1,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(65, 46),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"script":Resource("res://field_scripts/field.gd"))
-
+field = NodePath("../Field")
 
 [node name="BlockActionObserver" parent="." node_paths=PackedStringArray("field") instance=ExtResource("4_6vpjk")]
 field = NodePath("../Field")
 
-[node name="MoveActionObserver" parent="." instance=ExtResource("5_fv3wq")]
+[node name="MoveActionObserver" parent="." node_paths=PackedStringArray("field", "ui_controller", "selection_observer") instance=ExtResource("5_fv3wq")]
+field = NodePath("../Field")
+ui_controller = NodePath("../Ui")
+selection_observer = NodePath("../SelectionObserver")
 
 [node name="BlitzActionObserver" parent="." node_paths=PackedStringArray("field", "selectionObserver") instance=ExtResource("6_03183")]
 field = NodePath("../Field")

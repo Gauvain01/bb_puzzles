@@ -1,4 +1,5 @@
 extends Node2D
+	
 class_name Field
 @onready var sideboard: SideBoardController = get_node("SideBoardController")
 @onready var grid: Node2D = get_node("grid")

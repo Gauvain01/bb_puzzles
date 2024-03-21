@@ -4,7 +4,7 @@ extends Control
 @export var field:Field
 @export var ui:UiController
 
-func victory_achieved():
+func start_victory():
 	SceneController.change_scene(SCENE.VICTORY_SCREEN)
 
 func set_teams(teams:Dictionary):
