@@ -1,7 +1,7 @@
 extends Node
 #SceneController
 
-signal changed_scene(previous_scene, new_scene)
+signal changed_scene(new_scene:Dictionary)#{"scene_type":int, "puzzle_base":PuzzleBase}
 
 var _current_scene:int
 var _scene_scheduler = {}
@@ -37,16 +37,20 @@ func _process(_delta: float) -> void:
 func change_scene(new_scene:int) -> void:
 
 	get_tree().change_scene_to_file(SCENE_PATH_MAP[new_scene])
-		
-	changed_scene.emit(_current_scene, new_scene)
+
+	_emit_changed_scenes(new_scene)
 	_current_scene = new_scene
+
+func _emit_changed_scenes(new_scene:int, puzzle_base = null):
+		changed_scene.emit({"scene_type":new_scene, "puzzle_base":puzzle_base})
 
 func change_to_generated_scene(generated_scene:Node):
 	get_tree().root.get_node(scene_name_map[_current_scene]).free()
 	get_tree().root.add_child(generated_scene)
 	scene_name_map[SCENE.GENERATED] = generated_scene.name
-	changed_scene.emit(_current_scene, SCENE.GENERATED)
+	_emit_changed_scenes(SCENE.GENERATED, generated_scene)
 	_current_scene = SCENE.GENERATED
+
 
 func schedule_scene_change(scene_type, generated_scene = null):
 	if scene_type == SCENE.GENERATED:

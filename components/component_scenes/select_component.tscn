@@ -4,8 +4,9 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ouabo"]
 
-[node name="SelectComponent" type="Area2D"]
+[node name="SelectComponent" type="Area2D" node_paths=PackedStringArray("collision_component")]
 script = ExtResource("1_l13r6")
+collision_component = NodePath("CollisionShape2D")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ouabo")

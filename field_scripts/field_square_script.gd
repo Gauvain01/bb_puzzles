@@ -103,6 +103,7 @@ class FieldSquare:
 
 	func disable_collision(isDisable: bool):
 		self.select_component.collision_component.disabled = !isDisable
+		#NodeInspector.get_collider_component(self.select_component).disabled = !isDisable
 
 	func _get_square_position() -> Vector2:
 		return self.square_position

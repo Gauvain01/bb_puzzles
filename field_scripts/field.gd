@@ -143,7 +143,6 @@ func request_to_place_opponent(player, gridCoordinate):
 	placed_player_on_field.emit(player)
 
 func request_to_place_on_field(player: Player, requested_square: field_square_script.FieldSquare):
-	print(" got called")
 	var current_player_square = player.my_field_square
 
 	if requested_square.get_occupied() != null and requested_square.get_occupied() is Player:

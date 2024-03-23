@@ -2,7 +2,7 @@ extends Area2D
 
 class_name SelectComponent
 @export var node_emit_on_select: Node2D
-var collision_component: CollisionShape2D
+@export var collision_component: CollisionShape2D
 @export var allow_emit_deselected:bool = false
 @export var emit_deselected_on_next_mouse_click:bool = false
 @export var emit_deselected_on_next_mouse_release:bool = true
@@ -29,7 +29,6 @@ func enable():
 
 
 func _ready():
-	collision_component = get_node("CollisionShape2D")
 	InputBus.subscribe_to_mouse_click_event(self, on_mouse_click_selector)
 	InputBus.subscribe_to_mouse_release_event(self, on_mouse_release_selector)
 	mouse_entered.connect(_on_mouse_entered)

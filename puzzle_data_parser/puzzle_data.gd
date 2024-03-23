@@ -71,8 +71,11 @@ func get_opponent_team_type() -> int:
 
 func set_player_team(player_team: Array):
 	var	_team_arr = []
-	for player:Player in player_team:
-		_team_arr.append(_wrap_player_object(player))
+	for player in player_team:
+		if player is Player:
+			_team_arr.append(_wrap_player_object(player))
+		else:
+			_team_arr.append(player)
 
 	_player_team = _team_arr
 
@@ -107,8 +110,11 @@ func get_player_team() -> Array:
 
 func set_opponent_team(opponent_team: Array):
 	var	_team_arr = []
-	for player:Player in opponent_team:
-		_team_arr.append(_wrap_player_object(player))
+	for player in opponent_team:
+		if player is Player:
+			_team_arr.append(_wrap_player_object(player))
+		else:
+			_team_arr.append(player)
 
 	_opponent_team = _team_arr
 

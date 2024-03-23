@@ -12,6 +12,7 @@ var available_field_squares = []
 @export var field_squares = []
 
 
+
 func get_side_board_player_count() -> int:
 	var _count = 0
 	for key:Player in side_board_map.keys():

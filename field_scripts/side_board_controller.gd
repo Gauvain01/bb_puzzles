@@ -15,6 +15,14 @@ var rect
 
 signal placed_player_on_sideboard(player)
 
+func get_players() -> Array:
+	var output = []
+	for square:field_square_script.FieldSquare in field_squares:
+		var occupant = square.get_occupied()
+		if occupant != null:
+			output.append(occupant)
+	return output
+
 func set_rect():
 	rect = Rect2(
 					XFILL,

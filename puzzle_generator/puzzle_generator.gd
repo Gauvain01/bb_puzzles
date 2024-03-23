@@ -15,9 +15,15 @@ func generate(puzzle_data:PuzzleData) -> PuzzleBase:
 	var players:Dictionary = _load_players(puzzle_data, puzzle)
 	#load players in to team 
 	puzzle.set_teams(players)
+	puzzle.puzzle_type = puzzle_data.get_puzzle_type()
 	#spawn ball if on field
 	if puzzle_data.is_ball_on_field():
-		var square = puzzle.field.get_field_square_by_grid_position(Vector2(puzzle_data.get_ball_position()[0], puzzle_data.get_ball_position()[1]))
+		var square = puzzle.field.get_field_square_by_grid_position(
+			Vector2(
+				puzzle_data.get_ball_position()[0], puzzle_data.get_ball_position()[1]
+				)
+			)
+
 		var bhc = NodeInspector.get_ball_holdable_component(square)
 		puzzle.field.spawn_ball(bhc)
 	#start ball observer
@@ -75,8 +81,9 @@ func _set_up_player(player:Player, player_data:Dictionary, is_opponent:bool) ->P
 	player.metadata["is_on_sideboard"] = player_data["is_on_sideboard"]
 	player.metadata["coordinate_data"] = Vector2(player_data["grid_coordinate"][0],player_data["grid_coordinate"][1])
 
-	for skill:int in player_data["skills"].keys():
-		player.skills.set_skill(skill, player_data["skills"][skill])
+	for skill in player_data["skills"].keys():
+		skill = int(skill)
+		player.get_node("Skills").set_skill(skill, player_data["skills"][str(skill)])
 
 	return player
 		

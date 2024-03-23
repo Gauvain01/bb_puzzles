@@ -12,8 +12,8 @@ func add_test_dice_roll(dice: int, dice_type: int, amount: int = 1):
 		)
 		dice_rolls.append(dice_roll_data)
 
-func on_scene_changed(_old_scene:int, new_scene:int):
-	if new_scene != SCENE.VICTORY_SCREEN:
+func on_scene_changed(new_scene:Dictionary):
+	if new_scene["scene_type"] != SCENE.VICTORY_SCREEN:
 		dice_rolls = []
 
 
